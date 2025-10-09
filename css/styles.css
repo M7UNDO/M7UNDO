@@ -1,0 +1,115 @@
+/*Satoshi Font*/
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
+/*Neue Montreal Font*/
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+
+:root{
+    --primary-colour: rgba(56,51,99,1);
+    --secondary-colour: rgba(94,23,235,1);
+    --background-colour: rgba(246,246,246,1);
+    --typography-colour: rgba(44,44,44,1);
+    --black: rgb(0, 0, 0);
+    --white: rgb(255, 255, 255);
+}
+
+html{
+    font-size: 62.5%;
+}
+
+.darktheme{
+    --primary-colour: rgba(56,51,99,1);
+    --secondary-colour: rgba(94,23,235,1);
+    --background-colour: rgb(26, 26, 26);
+    --typography-colour: rgb(231, 231, 231);
+    --black: rgb(255, 255, 255);
+    --white: rgb(0, 0, 0);
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Satoshi', sans-serif; /* Body font */
+    background: var(--background-colour);
+    color: var(--typography-colour);
+
+
+}
+
+h1, h2 {
+  font-family: 'PP Neue Montreal', sans-serif; /* Heading font */
+}
+
+header{
+    height: 8rem;
+    width: 100%;
+    font-size: 1.3rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    display: flex;
+    align-items: flex-end;
+}
+
+.nav-container{
+    height: 6rem;
+    width: 100%;
+    border-bottom: 1.5px var(--typography-colour) solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-menu{
+    height: 100%;
+    width: 50%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.navlinks{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navlinks li{
+    display: block;
+}
+
+.navlinks a{
+    text-decoration: none;
+    color: var(--site-colour-05);
+}
+
+main{
+    height: 100%;
+    width: 100%;
+}
+
+section{
+    height: 100vh;
+    width: 100%;
+}
+
+footer{
+    height: 5rem;
+    width: 100%;
+    background-color: var(--typography-colour);
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+footer p{
+    font-size: 1.1rem;
+    line-height: 100%;
+    color: var(--background-colour);
+    text-transform: uppercase;
+}
