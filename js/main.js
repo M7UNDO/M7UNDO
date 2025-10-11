@@ -1,7 +1,5 @@
 gsap.registerPlugin(ScrollTrigger);
-const navlinks = document.querySelectorAll(".navlinks a");
-const activeLink = document.querySelectorAll(".navlinks a.active");
-const navContainer = document.querySelector(".nav-container");
+
 const currentPath = window.location.pathname.split("/").pop();
 
 const root = document.documentElement;
@@ -12,16 +10,62 @@ const backgroundColour = getComputedStyle(root).getPropertyValue('--background-c
 
 async function loadNav() {
     const navContainer = document.getElementById("nav-placeholder");
-    if(!navContainer){return};
+    if(!navContainer) return;
+
     try {
-        const response = await fetch("../nav.html");
-        const navHtml = await response.text();
-        navContainer.innerHTML = navHtml;
-        
+        // Load nav
+        const depth = window.location.pathname.split("/").length - 2;
+        const pathToNav = "../".repeat(depth) + "nav.html";
+        const response = await fetch(pathToNav);
+        navContainer.innerHTML = await response.text();
+
+        // ---- Initialize interactions AFTER nav is loaded ----
+        const navlinks = navContainer.querySelectorAll(".navlinks a");
+
+        // Highlight current page
+        navlinks.forEach(link => {
+            const linkPage = link.getAttribute("href").split("/").pop();
+            if(linkPage === currentPath){
+                link.classList.add("active");
+            }
+        });
+
+        // Hover animations
+        navlinks.forEach(link => {
+            link.addEventListener("mouseenter", () => {
+                gsap.to(link, {
+                    y: -5,
+                    scale: 1.2,
+                    color: secondaryColour,
+                    duration: 0.2,
+                    fontWeight: "bold",
+                    ease: "power1.inOut"
+                });
+            });
+            link.addEventListener("mouseleave", () => {
+                gsap.to(link, {
+                    y: 0,
+                    scale: 1,
+                    color: "",
+                    duration: 0.2,
+                    fontWeight: "",
+                    ease: "power2.inOut"
+                });
+            });
+        });
+
+        // ScrollTrigger
+        ScrollTrigger.create({
+            trigger: ".nav-container",
+            start: "top top",
+            endTrigger: "footer",
+            pin: true,
+            markers: true,
+        });
+
     } catch (error) {
-        console.error("error loading nav: " + error);
+        console.error("Error loading nav:", error);
     }
-    
 }
 
 window.addEventListener("DOMContentLoaded", loadNav);
@@ -44,32 +88,3 @@ async function getProducts(){
 }
 
 getProducts();
-
-navlinks.forEach((link) => {
-
-    const linkPath = link.getAttribute("href");
-    
-    link.addEventListener("mouseenter", ()=>{
-        gsap.to(link, {y: -300, scale: 1.5, duration: 0.2, color: secondaryColour, ease: "power1.inOut", fontWeight: "bold"})
-
-    })
-
-    link.addEventListener("mouseleave", ()=>{
-        gsap.to(link, {y: 0, scale: 1, duration: 0.2, color: "", ease: "power2.inOut", fontWeight: ""})
-
-    })
-
-    if(linkPath === currentPath){
-        link.classList.add("active");
-    }
-    else{
-        link.classList.remove("active");
-    }
-})
-
-ScrollTrigger.create({
-    trigger: navContainer,
-    start: "top top",
-    endTrigger: "footer",
-    pin: true,
-})
