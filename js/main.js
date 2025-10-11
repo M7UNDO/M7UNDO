@@ -13,7 +13,7 @@ function loadNav() {
   if (!navContainer) return;
   // Load nav
   const isGithub = window.location.hostname.includes("github.io");
-  const repoName = isGithub ? "/M7UNDO" : ""; // your repo folder name
+  const repoName = isGithub ? "/M7UNDO" : "";
 
   const navHTML = `
     <header>
@@ -26,7 +26,6 @@ function loadNav() {
             <li><a href="${repoName}/contact/contact.html">Contact</a></li>
           </ul>
         </div>
-        <div class="nav-elements"></div>
       </nav>
     </header>
   `;
