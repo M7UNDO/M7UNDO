@@ -12,18 +12,18 @@ function loadNav() {
   const navContainer = document.getElementById("nav-placeholder");
   if (!navContainer) return;
   // Load nav
-  const isGithub = window.location.hostname.includes("github.io");
-  const repoName = isGithub ? "/M7UNDO" : ""; // your repo folder name
+  //const isGithub = window.location.hostname.includes("github.io");
+  //const repoName = isGithub ? "/M7UNDO" : ""; // your repo folder name
 
   const navHTML = `
     <header>
       <nav class="nav-container">
         <div class="nav-menu">
           <ul class="navlinks">
-            <li><a href="${repoName}/index.html">Home</a></li>
-            <li><a href="${repoName}/shop/shop.html">Shop</a></li>
-            <li><a href="${repoName}/about/about.html">About</a></li>
-            <li><a href="${repoName}/contact/contact.html">Contact</a></li>
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="../shop/shop.html">Shop</a></li>
+            <li><a href="../about/about.html">About</a></li>
+            <li><a href="../contact/contact.html">Contact</a></li>
           </ul>
         </div>
         <div class="nav-elements"></div>
