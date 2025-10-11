@@ -17,7 +17,7 @@ function loadNav() {
         <nav class="nav-container">
           <div class="nav-menu">
             <ul class="navlinks">
-              <li><a href="/index.html">Home</a></li>
+              <li><a href="../M7UNDO/index.html">Home</a></li>
               <li><a href="/shop/shop.html">Shop</a></li>
               <li><a href="/about/about.html">About</a></li>
               <li><a href="/contact/contact.html">Contact</a></li>
