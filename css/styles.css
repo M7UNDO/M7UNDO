@@ -47,7 +47,9 @@ header{
     font-weight: 500;
     text-transform: uppercase;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .nav-container{
@@ -61,7 +63,8 @@ header{
 
 .nav-menu{
     height: 100%;
-    width: 50%;
+    width: fit-content;
+    margin: 0;
     background-color: white;
     display: flex;
     justify-content: center;
@@ -76,16 +79,23 @@ header{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    gap: 2rem;
+    padding:0;
 }
 
 .navlinks li{
-    display: block;
+    display: inline-block;
+    padding: 0 4rem;
 }
 
 .navlinks a{
     text-decoration: none;
-    color: var(--site-colour-05);
+    color: var(--typography-colour);
+    transition: all 0.1s ease;
+}
+
+a.active{
+    color: var(--secondary-colour);
+    font-weight: bold;
 }
 
 main{
