@@ -55,17 +55,18 @@ header{
 .nav-container{
     height: 6rem;
     width: 100%;
+    background-color: var(--background-colour);
     border-bottom: 1.5px var(--typography-colour) solid;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 99;
 }
 
 .nav-menu{
     height: 100%;
     width: fit-content;
     margin: 0;
-    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,10 +102,11 @@ a.active{
 main{
     height: 100%;
     width: 100%;
+    margin: 3rem;
 }
 
 section{
-    height: 100vh;
+    height: 100%;
     width: 100%;
 }
 
@@ -122,4 +124,48 @@ footer p{
     line-height: 100%;
     color: var(--background-colour);
     text-transform: uppercase;
+}
+
+#product-list{
+    margin: 15rem 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    gap: 1rem;
+}
+
+.product-item{
+    width: 30rem;
+    height: 30rem;
+    padding: 2rem;
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.105);
+    border-radius: 1.5rem;
+
+}
+
+.product-item img{
+    width: 17rem;
+    height: 17rem;
+}
+
+.product-title{
+    font-size: 1.3rem;
+    line-height: 1.4rem;
+
+
+}
+
+.product-price{
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    
 }

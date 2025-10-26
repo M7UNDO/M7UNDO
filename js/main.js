@@ -65,6 +65,7 @@ function loadNav() {
   ScrollTrigger.create({
     trigger: ".nav-container",
     start: "top top",
+    end: "top top",
     endTrigger: "footer",
     pin: true,
     markers: true,
@@ -79,6 +80,8 @@ async function getProducts() {
     if (response.ok) {
       const products = await response.json();
       console.log(products);
+
+      displayProducts(products);
     } else {
       throw new Error(`Error ${response.status}, ${response.statusText}`);
     }
@@ -88,3 +91,44 @@ async function getProducts() {
 }
 
 getProducts();
+
+/*
+function displayProducts(products){
+  const productList = document.getElementById("product-list");
+  productList.innerHTML = "";
+  productList.classList.remove("loading");
+
+  products.forEach(product =>{
+    const productItem = document.createElement("img");
+    productItem.className = "product-item";
+    productItem.src = product.image;
+    productList.appendChild(productItem);
+  })
+}*/
+
+function displayProducts(products){
+
+  const productList = document.getElementById("product-list");
+  productList.innerHTML = "";
+  productList.classList.remove("loading");
+
+  const productHTML = products.map(product => `
+    <div class= "product-item">
+         <img src="${product.image}" alt="${product.title}">
+         <h3 class= "product-title">${product.title}</h3>
+         <p class= "product-price">${"R " + product.price}</p>
+    </div>
+  `).join("");
+
+  productList.innerHTML = productHTML;
+
+  gsap.from(".product-item",{
+    y: 40,
+    opacity: 0,
+    duration: 0.5,
+    stagger: 0.08,
+    ease: "power2.out"
+
+  })
+
+}
