@@ -1,0 +1,25 @@
+/*Satoshi Font*/
+@import url('https://fonts.cdnfonts.com/css/satoshi');
+
+/*Neue Montreal Font*/
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-family: var(--primary-font);
+    font-size: 62.5%;
+    color: var(--typography-colour);
+    text-align: center;
+}
+
+body{
+    min-height: 100vh;
+    background: url(images/background);
+    background-size: cover;
+    background-position: right;
+    overflow: hidden;
+}
