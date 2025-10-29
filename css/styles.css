@@ -16,121 +16,16 @@
     --white: rgb(255, 255, 255);
 }
 
+
+
 *{
     margin: 0;
     padding: 0;
 }
 
 html{
-    font-family: var(--primary-font);
     font-size: 62.5%;
-    color: var(--typography-colour);
-    text-align: center;
 }
-
-body{
-    min-height: 100vh;
-    background: url("/images/background.jpg");
-    background-size: cover;
-    background-position: right;
-    overflow: hidden;
-}
-
-form{
-    width: min(400px, 100%);
-    margin-top: 20px;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-form > div{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-form label{
-    flex-shrink: 0;
-    height: 50px;
-    width: 50px;
-    background-color: var(--secondary-colour);
-    border-radius: 1rem 0 0 1rem;
-    fill: var(--background-colour);
-    color: var(--background-colour);
-    border-radius: 10px 0 0 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.6rem;
-    font-weight: 500;
-}
-
-form input{
-    box-sizing: border-box;
-    flex: 1;
-    min-width: 0;
-    height: 50px;
-    padding: 1em;
-    font: inherit;
-    border-radius: 0 10px 10px 0;
-    border: 2px solid var(--input-colour);
-    background-color: var(--input-colour);
-    transition: 150ms ease;
-}
-
-form input:hover{
-    border: 2px solid var(--secondary-colour);
-}
-
-form input:focus{
-    outline: none;
-    border-color: var(--typography-colour);
-}
-div:has(input:focus)> label{
-    background-color: var(--typography-colour);
-}
-
-form input::placeholder{
-    color: var(--typography-colour);
-    opacity: 0.7;
-}
-
-form button{
-    margin-top: 10px;
-    border: none;
-    border-radius: 1000px;
-    padding: 0.85em 4em;
-    background-color: var(--secondary-colour);
-    color: var(--background-colour);
-    font: inherit;
-    font-weight: 600;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: 150ms ease;
-}
-
-form button:hover{
-    background-color: var(--typography-colour);
-}
-
-form button:focus{
-    outline: none;
-    background-color: var(--typography-colour);
-}
-
-/*
-
-*{
-    margin: 0;
-}
-
-html{
-    font-size: 62.5%;
-}*/
 
 .darktheme{
     --primary-colour: rgba(56,51,99,1);
@@ -140,7 +35,7 @@ html{
     --black: rgb(255, 255, 255);
     --white: rgb(0, 0, 0);
 }
-   /*
+   
 body{
     margin: 0;
     padding: 0;
@@ -150,27 +45,7 @@ body{
 
 
 }
-*/
 
-.wrapper{
-    box-sizing: border-box;
-    background-color: var(--background-colour);
-    height: 100vh;
-    width: max(40%, 600px);
-    padding: 10px;
-    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    
-}
-
-h1{
-    font-size: 3rem;
-    font-weight: 900;
-    text-transform: uppercase;
-}
 h1, h2 {
   font-family: 'PP Neue Montreal', sans-serif; /* Heading font */
 }
