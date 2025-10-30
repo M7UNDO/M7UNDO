@@ -3,15 +3,121 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> About Page | M7UNDO</title>
+    <title>About Us</title>
+    <meta
+      name="description"
+      content="Learn about M7UNDO, a modern, customer-focused e-commerce brand. Discover our story, mission, products, and the team behind the brand."
+    />
+    <meta
+      name="keywords"
+      content="M7UNDO, e-commerce, online shopping, digital store, tech, fashion, lifestyle, home products"
+    />
+    <meta name="author" content="Mfundo Dhlamini" />
+    <meta property="og:title" content="About M7UNDO" />
+    <meta
+      property="og:description"
+      content="Explore M7UNDO's mission, story, and products. A modern e-commerce brand designed for a seamless online shopping experience."
+    />
     <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/about.css" />
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap" rel="stylesheet" />
   </head>
   <body>
     <div id="nav-placeholder"></div>
-
     <main>
-      <section></section>
+      <section id="hero" class="about-hero">
+        <div class="container">
+          <h1>About M7UNDO</h1>
+          <p>M7UNDO is your modern digital marketplace, built to make shopping simple, fast, and enjoyable.</p>
+          <a href="products.html" class="btn-primary">Explore Products</a>
+        </div>
+      </section>
+
+      <section id="mission" class="fade-in">
+        <div class="container">
+          <h2>Our Mission</h2>
+          <p>
+            At M7UNDO, our mission is simple, to redefine how people shop online. We combine design, quality, and
+            technology to create an experience thats not just fast and reliable, but meaningful. Every click, every
+            product, and every interaction is shaped around one thing, you
+          </p>
+        </div>
+      </section>
+
+      <section id="story" class="fade-in">
+        <div class="container">
+          <h2>Our Story</h2>
+          <div class="content">
+            <p>
+              Founded by <span class="name">Mfundo Dhlamini</span>, M7UNDO began as a vision to create a stress-free
+              online shopping space where high-quality products meet modern simplicity. Our brand embodies purpose,
+              efficiency, and thoughtful design in every aspect.
+            </p>
+            <img src="images/office-work.jpg" alt="Workspace representing M7UNDO's brand concept" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Customer Focus Section -->
+      <section id="why-us" class="fade-in">
+        <div class="container">
+          <h2>Why Choose M7UNDO?</h2>
+          <div class="content">
+            <p>
+              We're not just an online store, we're your shopping partner. Expect reliable delivery, clear product
+              details, and responsive support. Every product is carefully curated for quality, style, and value.
+            </p>
+            <img
+              src="images/pexels-ekaterina-bolovtsova-4049876.jpg"
+              alt="Happy customer browsing online"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- Products Section -->
+      <section id="products-overview" class="fade-in">
+        <div class="container">
+          <h2>Our Products</h2>
+          <p>
+            From tech gadgets to fashion and lifestyle essentials, M7UNDO offers a curated collection designed to
+            simplify and elevate your shopping experience.
+          </p>
+          <div class="product-gallery">
+            <img src="images/tech-gadgets.jpg" alt="Tech gadgets" loading="lazy" />
+            <img src="images/fashion-items.jpg" alt="Fashion items" loading="lazy" />
+            <img src="images/home-decor.jpg" alt="Home decor" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Team Section -->
+      <section id="team" class="fade-in">
+        <div class="container">
+          <h2>The Team Behind M7UNDO</h2>
+          <p>
+            M7UNDO was developed as part of a Digital Arts project by
+            <span class="name">Mfundo Dhlamini</span>, exploring how design, usability, and creativity merge to redefine online
+            shopping. Every element of M7UNDO reflects intention and thoughtful craftsmanship.
+          </p>
+          <div class="team-gallery">
+            <img src="images/team1.jpg" alt="Team member working" loading="lazy" />
+            <img src="images/team2.jpg" alt="Creative team collaborating" loading="lazy" />
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section id="cta" class="cta-section fade-in">
+        <div class="container">
+          <h2>Experience M7UNDO</h2>
+          <p>
+            Shop with purpose. Discover curated products and a seamless online experience built for the modern shopper.
+          </p>
+          <a href="products.html" class="btn-primary">Start Shopping</a>
+        </div>
+      </section>
     </main>
     <footer>
       <p>&copy; 2025 Mfundo Dhlamini. All Rights Reserved</p>
@@ -29,5 +135,6 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="../js/main.js"></script>
+    <script src="../js/about.js"></script>
   </body>
 </html>

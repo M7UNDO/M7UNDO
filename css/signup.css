@@ -60,7 +60,7 @@ form label{
     flex-shrink: 0;
     height: 50px;
     width: 50px;
-    background-color: var(--secondary-colour);
+    background-color: var(--accent-colour);
     border-radius: 1rem 0 0 1rem;
     fill: var(--background-colour);
     color: var(--background-colour);
@@ -86,7 +86,7 @@ form input{
 }
 
 form input:hover{
-    border: 2px solid var(--secondary-colour);
+    border: 2px solid var(--accent-colour);
 }
 
 form input:focus{
@@ -107,7 +107,7 @@ form button{
     border: none;
     border-radius: 1000px;
     padding: 0.85em 4em;
-    background-color: var(--secondary-colour);
+    background-color: var(--accent-colour);
     color: var(--background-colour);
     font: inherit;
     font-weight: 600;

@@ -1,180 +1,233 @@
 /*Satoshi Font*/
-@import url('https://fonts.cdnfonts.com/css/satoshi');
+@import url("https://fonts.cdnfonts.com/css/satoshi");
 
 /*Neue Montreal Font*/
-@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
+@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
 
-:root{
-    --primary-colour: rgba(56,51,99,1);
-    --secondary-colour: rgba(94,23,235,1);
-    --background-colour: rgba(246,246,246,1);
-    --input-colour: #e7e7e7;
-    --typography-colour: rgba(44,44,44,1);
-    --primary-font: 'Satoshi', sans-serif;
-    --secondary-font: 'PP Neue Montreal', sans-serif;
-    --black: rgb(0, 0, 0);
-    --white: rgb(255, 255, 255);
+:root {
+  --primary-colour: rgba(56, 51, 99, 1);
+  --accent-colour: rgba(94, 23, 235, 1);
+  --background-colour: rgba(246, 246, 246, 1);
+  --background-colour-2: #222;
+  --input-colour: #e7e7e7;
+  --typography-colour: rgba(44, 44, 44, 1);
+  --primary-font: "Satoshi", sans-serif;
+  --accent-font: "PP Neue Montreal", sans-serif;
 }
 
-
-
-*{
-    margin: 0;
-    padding: 0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-html{
-    font-size: 62.5%;
+html {
+  font-size: 62.5%;
+  font-family: var(--primary-font);
+  scroll-behavior: smooth;
 }
 
-.darktheme{
-    --primary-colour: rgba(56,51,99,1);
-    --secondary-colour: rgba(94,23,235,1);
-    --background-colour: rgb(26, 26, 26);
-    --typography-colour: rgb(231, 231, 231);
-    --black: rgb(255, 255, 255);
-    --white: rgb(0, 0, 0);
-}
-   
-body{
-    margin: 0;
-    padding: 0;
-    font-family: 'Satoshi', sans-serif;
-    background: var(--background-colour);
-    color: var(--typography-colour);
-
-
+.darktheme {
+  --primary-colour: rgba(56, 51, 99, 1);
+  --accent-colour: rgba(94, 23, 235, 1);
+  --background-colour: rgb(26, 26, 26);
+  --typography-colour: rgb(231, 231, 231);
 }
 
-h1, h2 {
-  font-family: 'PP Neue Montreal', sans-serif; /* Heading font */
-}
-
-header{
-    height: 8rem;
-    width: 100%;
-    font-size: 1.3rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.nav-container{
-    height: 6rem;
-    width: 100%;
-    background-color: var(--background-colour);
-    border-bottom: 1.5px var(--typography-colour) solid;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 99;
-}
-
-.nav-menu{
-    height: 100%;
-    width: fit-content;
-    margin: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-
-}
-
-.navlinks{
-    width: 100%;
-    list-style: none;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    padding:0;
-}
-
-.navlinks li{
-    display: inline-block;
-    padding: 0 4rem;
-}
-
-.navlinks a{
-    text-decoration: none;
-    color: var(--typography-colour);
-    transition: all 0.1s ease;
-}
-
-a.active{
-    color: var(--secondary-colour);
-    font-weight: bold;
+body {
+  /*min-height: 100vh;*/
+  background: var(--background-colour);
+  color: var(--typography-colour);
+  font-size: 1.6rem;
+  line-height: 1.6;
+  font-family: var(--primary-font);
 }
 
 main{
-    height: 100%;
-    width: 100%;
+  min-height: 100vh;
 }
 
-section{
-    height: 100%;
-    width: 100%;
+h1,
+h2 {
+  font-family: s "PP Neue Montreal", sans-serif; /* Heading font */
 }
 
-footer{
-    height: 5rem;
-    width: 100%;
-    background-color: var(--typography-colour);
-    display: flex;
-    justify-content: center;
-    align-items: center
+header {
+  height: 8rem;
+  width: 100%;
+  font-size: 1.3rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  /*background-color: aqua;*/
 }
 
-footer p{
-    font-size: 1.1rem;
-    line-height: 100%;
-    color: var(--background-colour);
-    text-transform: uppercase;
+.pin-spacer{
+  width: 100%;
 }
 
-#product-list{
-    margin: 15rem 0;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    align-content: center;
-    justify-content: center;
-    justify-items: center;
-    gap: 1rem;
+.nav-container {
+  height: 6rem;
+  width: 100%;
+  background-color: var(--background-colour);
+  border-bottom: 1.5px var(--typography-colour) solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 99;
+  /*background-color: red;*/
 }
 
-.product-item{
-    width: 30rem;
-    height: 30rem;
-    padding: 2rem;
-    display: flex;
-    cursor: pointer;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.105);
-    border-radius: 1.5rem;
-
+.nav-logo {
+  width: fit-content;
+  height: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /*background-color: green;*/
 }
 
-.product-item img{
-    width: 17rem;
-    height: 17rem;
+.nav-logo a{
+  color: var(--typography-colour);
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 700;
 }
 
-.product-title{
-    font-size: 1.3rem;
-    line-height: 1.4rem;
-
-
+.nav-menu {
+  height: 100%;
+  width: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*background-color: rgb(255, 0, 200);*/
 }
 
-.product-price{
-    font-size: 1.2rem;
-    line-height: 1.6rem;
-    
+.header-actions {
+  height: 100%;
+  width: 15rem;
+  /*background-color: yellow;*/
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  justify-self: flex-end;
+}
+
+a.cart-container{
+  text-decoration: none;
+}
+
+.search-wrapper{
+  display: flex;
+  flex-direction: column;
+}
+
+.navlinks {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 0;
+}
+
+.navlinks li {
+  display: inline-block;
+  padding: 0 4rem;
+}
+
+.navlinks a {
+  text-decoration: none;
+  color: var(--typography-colour);
+  transition: all 0.1s ease;
+}
+
+a.active {
+  color: var(--accent-colour);
+  font-weight: bold;
+}
+
+main {
+  height: 100%;
+  width: 100%;
+}
+
+section {
+  height: 100%;
+  width: 100%;
+}
+
+footer {
+  height: 5rem;
+  width: 100%;
+  background-color: var(--background-colour-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+footer p {
+  font-size: 1.1rem;
+  line-height: 100%;
+  color: var(--background-colour);
+  text-transform: uppercase;
+}
+
+#product-list {
+  padding: 10rem 10rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  align-content: center;
+  justify-content: start;
+  justify-items: center;
+  gap: 2rem;
+}
+
+.product {
+  width: 100%;
+  max-width: 30rem;
+  height: 40rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.image-holder {
+  width: fit-content;
+  height: fit-content;
+  border-radius: 10px;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.105);
+  padding: 5rem 4rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+}
+
+.product img {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 10px;
+}
+
+.product-title {
+  font-size: 1.3rem;
+  font-weight: 450;
+  line-height: 1.4rem;
+  padding: 1rem 0;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.6rem;
 }
