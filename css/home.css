@@ -1,5 +1,109 @@
 #hero{
     background-color: grey;
     width: 100%;
-    height: 50vh;
+    height: 70vh;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    
+}
+
+
+
+/* category section */
+
+.section-info {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 3rem;
+}
+
+section p{
+    max-width: 80rem;
+}
+
+
+.index-category {
+  width: 100%;
+  padding: 5rem 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+section p{
+}
+
+
+.index-category p {
+}
+
+.index-category a {
+  text-decoration: none;
+}
+
+.category-box {
+  width: 20rem;
+  height: 20rem;
+  border-radius: 0.5rem;
+  background-color: rgb(0, 0, 0);
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.category-box:nth-child(2) {
+  background-image: url(../images/blogs.jpg);
+}
+
+.category-box:nth-child(3) {
+  background-image: url(../images/Essyas.jpg);
+}
+
+.category-box:nth-child(4) {
+  background-image: url(../images/programming.jpg);
+}
+
+.category-box:nth-child(5) {
+  background-image: url(../images/design.jpg);
+}
+
+.dark-overlay {
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.6;
+  transition: all ease-in-out 200ms;
+}
+
+.category-box:hover .dark-overlay {
+  opacity: 0;
+}
+
+.category-box h3 {
+  color: white;
+  font-family: var(--secondary-font);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 2.8rem;
+  text-align: center;
+  text-shadow: -0.2rem 0.2rem 0.4rem #000;
+  text-transform: uppercase;
+  z-index: 1;
 }

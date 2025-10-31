@@ -12,7 +12,7 @@
   --input-colour: #e7e7e7;
   --typography-colour: rgba(44, 44, 44, 1);
   --primary-font: "Satoshi", sans-serif;
-  --accent-font: "PP Neue Montreal", sans-serif;
+  --secondary-font: "PP Neue Montreal", sans-serif;
 }
 
 * {
@@ -68,6 +68,7 @@ header {
   width: 100%;
 }
 
+/* Navigation Bar */
 .nav-container {
   height: 6rem;
   width: 100%;
@@ -116,8 +117,12 @@ header {
   justify-self: flex-end;
 }
 
-a.cart-container{
+.cart-holder{
   text-decoration: none;
+}
+
+.cart-holder svg{
+  fill: var(--typography-colour);
 }
 
 .search-wrapper{
@@ -158,6 +163,32 @@ main {
 section {
   height: 100%;
   width: 100%;
+}
+
+/*Back to top button*/
+
+.back-to-top {
+  position: fixed;
+  width: 4rem;
+  height: 5rem;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 0;
+  border: none;
+  outline: none;
+  background-color: var(--background-colour);
+  color: var(--typography-colour);
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50px;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.573);
+  font-size: 2rem;
+  transition: all 0.5s ease 0s;
+}
+
+.back-to-top:hover {
+  background-color: var(--accent-colour);
+  color: var(--background-colour);
 }
 
 footer {
