@@ -43,7 +43,7 @@ body {
   font-family: var(--primary-font);
 }
 
-main{
+main {
   min-height: 100vh;
 }
 
@@ -64,7 +64,7 @@ header {
   /*background-color: aqua;*/
 }
 
-.pin-spacer{
+.pin-spacer {
   width: 100%;
 }
 
@@ -91,7 +91,7 @@ header {
   /*background-color: green;*/
 }
 
-.nav-logo a{
+.nav-logo a {
   color: var(--typography-colour);
   text-decoration: none;
   font-size: 1.5rem;
@@ -117,15 +117,26 @@ header {
   justify-self: flex-end;
 }
 
-.cart-holder{
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 25rem;
+  z-index: 99;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-holder {
   text-decoration: none;
 }
 
-.cart-holder svg{
+.cart-holder svg {
   fill: var(--typography-colour);
 }
 
-.search-wrapper{
+.search-wrapper {
   display: flex;
   flex-direction: column;
 }
@@ -153,6 +164,34 @@ header {
 a.active {
   color: var(--accent-colour);
   font-weight: bold;
+}
+
+.overlay {
+  display: none;
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /*z-index: 5;*/
+  backdrop-filter: blur(4px);
+}
+
+.burgerbutton {
+  font-size: 2.8rem;
+  color: var(--accent-colour);
+  line-height: 2.8rem;
+  cursor: pointer;
+  display: none;
+}
+
+.closeBtn {
+  font-size: 4rem;
+  color: var(--site-color-1);
+  line-height: 4rem;
+  cursor: pointer;
+  display: none;
+  align-self: flex-start;
+  margin: 1rem 2rem;
 }
 
 main {
@@ -262,3 +301,164 @@ footer p {
   font-weight: 600;
   line-height: 1.6rem;
 }
+
+
+@media screen and (max-width: 768px) {
+  main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .navlinks li a {
+    padding: 1rem 0rem;
+    text-align: center;
+  }
+
+  .logo a {
+    font-size: 1.7rem;
+    line-height: 1.7rem;
+  }
+
+  .nav-logo {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header-actions a {
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+
+  .closeBtn {
+    display: block;
+    font-size: 3rem;
+    line-height: 3rem;
+  }
+
+  .burgerbutton {
+    display: block;
+    font-size: 2rem;
+    line-height: 2rem;
+  }
+
+  .navcontainer {
+    height: 100vh;
+    background-color: var(--background-colour);
+  }
+
+  .back-to-top {
+    width: 4rem;
+    height: 5rem;
+    font-size: 18px;
+  }
+
+  .nav-menu {
+    display: none;
+    position: fixed;
+    flex-direction: column;
+    height: 100vh;
+    width: 80%;
+    background: none;
+    background-color: var(--background-colour);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow-y: auto;
+    transition: all 0.5s;
+    z-index: 100;
+    box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.573);
+    opacity: 1;
+    transition: display 0.7s ease-in-out;
+  }
+
+  .navlinks {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+    top: 0;
+    bottom: 0;
+    padding: 1rem;
+  }
+
+  .navlinks li {
+    width: 10rem;
+    display: block;
+    padding: 2rem 0;
+  }
+
+  .navlinks li a {
+    font-family: var(--secondary-font);
+    font-size: 2rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .navlinks li a:after {
+    background: none;
+    content: "";
+    position: absolute;
+    height: 0.3rem;
+    width: 0;
+    left: 0;
+    bottom: -1.5rem;
+    transition: 0.3s;
+  }
+
+  .navlinks a {
+    position: relative;
+    display: block;
+    background: none;
+    padding: 0;
+    letter-spacing: 0.05rem;
+  }
+
+  .navlinks li a:hover {
+    transform: translateY(-0.6rem);
+  }
+
+  .navlinks a.active {
+    background: none;
+    padding: 0;
+  }
+
+  .navlinks a.active:hover {
+    color: var(--site-color-2);
+  }
+
+  .header-actions{
+    margin: 2rem 0;
+    display: none;
+    height: auto;
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .header-actions a {
+    width: 2.8rem;
+    height: 2.8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+
+
+}
+
+@media screen and (max-width: 600px) {
+
+}
+

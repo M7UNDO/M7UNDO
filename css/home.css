@@ -64,12 +64,16 @@ section p{
   position: relative;
 }
 
+.category-box:nth-child(1) {
+  background-image: url(../images/categories/pexels-karola-g-6276003.jpg);
+}
+
 .category-box:nth-child(2) {
-  background-image: url(../images/blogs.jpg);
+  background-image: url(../images/categories/pexels-tdcat-437037.jpg);
 }
 
 .category-box:nth-child(3) {
-  background-image: url(../images/Essyas.jpg);
+  background-image: url(../images/categories/rings-2150772_1280.jpg);
 }
 
 .category-box:nth-child(4) {

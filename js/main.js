@@ -19,8 +19,11 @@ function loadNav() {
       <nav class="nav-container">
        <div class="nav-logo">
           <div class="logo"><a href="${repoName}/index.html">M7UNDO</a></div>
+          <label class="burgerbutton" aria-label="burger button"
+           onclick="openNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></label>
         </div>
         <div class="nav-menu">
+          <a class="closeBtn" aria-label="close" onclick="closeNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
           <ul class="navlinks">
             <li><a href="${repoName}/index.html">Home</a></li>
             <li><a href="${repoName}/shop/shop.html">Shop</a></li>
@@ -97,10 +100,26 @@ function updateCartCounter() {
   cartCounter.textContent = totalItems;
 }
 
+/*Responsive Nav*/
+
+function openNav() {
+  document.getElementsByClassName("nav-menu")[0].style.display = "flex";
+  document.getElementsByClassName("overlay")[0].style.display = "block";
+  document.body.style.overflow = "hidden";
+  document.querySelector('.burgerbutton').style.display = "none"
+}
+
+function closeNav() {
+  document.getElementsByClassName("nav-menu")[0].style.display = "none";
+  document.getElementsByClassName("overlay")[0].style.display = "none";
+  document.body.style.overflow = "";
+  document.querySelector('.burgerbutton').style.display = "block"
+}
+
+//Back to top button logic
 const backToTopBtn = document.querySelector(".back-to-top");
 
 
-//Back to top button logic
 function scrollFunction() {
   if (document.body.scrollTop > 30 || document.documentElement.scrollTop > 30) {
     backToTopBtn.style.display = "block";
@@ -118,6 +137,6 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
-backToTopBtn.addEventListener("click", ()=>{
+backToTopBtn.addEventListener("click", () => {
   topFunction();
-})
+});
