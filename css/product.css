@@ -70,3 +70,56 @@ main{
   width: 2rem;
   height: 2rem;
 }
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.quantity-wrapper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--primary-colour);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.quantity-wrapper button {
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  background-color: var(--primary-colour);
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.quantity-wrapper button:hover {
+  background-color: var(--accent-colour);
+}
+
+.quantity-wrapper input[type="number"] {
+  width: 4rem;
+  height: 3rem;
+  text-align: center;
+  font-size: 1.6rem;
+  border: none;
+  outline: none;
+  color: var(--typography-colour);
+  background-color: var(--background-colour);
+}
+
+
+.quantity-wrapper input::-webkit-outer-spin-button,
+.quantity-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.quantity-wrapper input[type="number"] {
+  -moz-appearance: textfield;
+}

@@ -69,15 +69,15 @@ function displayProducts(products) {
   setupAddToCartButtons();
 }
 
-const userId = 1; // fake user ID for now
+const userId = 1; 
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function setupAddToCartButtons() {
   const buttons = document.querySelectorAll(".add-to-cart-btn");
   const cartCounter = document.querySelector(".header-actions span");
 
-  // Ensure counter is synced with localStorage
-  cartCounter.textContent = currentCart.length;
+ 
+  cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
@@ -95,17 +95,17 @@ function setupAddToCartButtons() {
         currentCart.push({productId, quantity: 1});
       }
 
-      // Update counter + save to localStorage
-      cartCounter.textContent = currentCart.length;
+      cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
       localStorage.setItem("cart", JSON.stringify(currentCart));
 
-      // Optional animation
       gsap.fromTo(
         productElement,
         {scale: 1},
         {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
       );
     });
+
+    updateCartCounter();
   });
 }
 
@@ -114,3 +114,4 @@ function clearCart() {
   localStorage.removeItem("cart");
   document.querySelector(".header-actions span").textContent = 0;
 }
+

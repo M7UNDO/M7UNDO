@@ -27,13 +27,13 @@
   min-width: 30rem;
   min-height: 30rem;
   border-radius: 10px;
-  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.105);
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.207);
   padding: 5rem 4rem;
   margin: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: var(--product-card-bg);
   /*background: radial-gradient(circle, rgba(212, 212, 212, 1) 0%, rgba(255, 255, 255, 1) 100%);*/
 }
 

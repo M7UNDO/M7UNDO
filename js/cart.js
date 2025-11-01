@@ -59,6 +59,8 @@ async function loadCart() {
 document.getElementById("clear-cart-btn").addEventListener("click", () => {
   localStorage.removeItem("cart");
   loadCart();
+  updateCartCounter();
+  
 });
 
 // Simulate Checkout

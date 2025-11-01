@@ -125,6 +125,16 @@ form button:focus{
     background-color: var(--typography-colour);
 }
 
+.text-link{
+    color: var(--accent-colour-light);
+    text-decoration: none;
+}
+
+.text-link:hover{
+    color: var(--accent-colour);
+    text-decoration: underline;
+}
+
 /*Phones and tablets*/
 @media(max-width: 1100px){
     .wrapper{

@@ -11,6 +11,7 @@
   --background-colour: rgba(246, 246, 246, 1);
   --background-colour-2: #222;
   --input-colour: #e7e7e7;
+  --product-card-bg: rgb(228, 228, 228);
   --typography-colour: rgba(44, 44, 44, 1);
   --primary-font: "Satoshi", sans-serif;
   --secondary-font: "PP Neue Montreal", sans-serif;
@@ -110,12 +111,13 @@ header {
 
 .header-actions {
   height: 100%;
-  width: 15rem;
+  width: fit-content;
   /*background-color: yellow;*/
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   justify-self: flex-end;
+  gap: 1rem;
 }
 
 .sidebar {
@@ -131,10 +133,18 @@ header {
 
 .cart-holder {
   text-decoration: none;
+  color: var(--background-colour);
+  background-color: var(--accent-colour);
+  font-weight: 700;
+  border-radius: 1.5rem;
+  padding: 0.5rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.cart-holder svg {
-  fill: var(--typography-colour);
+.cart-holder svg path{
+  fill: var(--background-colour);
 }
 
 .search-wrapper {
@@ -208,6 +218,7 @@ section {
 /*Back to top button*/
 
 .back-to-top {
+  display: none;
   position: fixed;
   width: 4rem;
   height: 5rem;
@@ -248,8 +259,53 @@ footer p {
   text-transform: uppercase;
 }
 
+#user-greeting {
+  display: none;
+  width: 25rem;
+  height: 5rem;
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--accent-colour);
+  color: var(--background-colour);
+  padding: 0rem 1rem;
+  border-radius: 5px;
+  font-size: 1.6rem;
+  line-height: 5rem;
+  text-align: center;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.573);
+  z-index: 100;
+}
 
 
+.login-container{
+  width: fit-content;
+  height: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  /*background-color: red;*/
+}
+
+
+
+.login-container a{
+  text-decoration: none;
+  color: var(--typography-colour);
+  transition: color 0.3s ease;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+  color: var(--accent-colour);
+}
+
+.login-container a:hover ~ svg path {
+  fill: var(--accent-colour);
+}
 
 @media screen and (max-width: 768px) {
   main {
@@ -383,7 +439,7 @@ footer p {
     color: var(--site-color-2);
   }
 
-  .header-actions{
+  .header-actions {
     margin: 2rem 0;
     display: none;
     height: auto;
@@ -399,12 +455,7 @@ footer p {
     height: 2.8rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
-
-
-
 }
 
 @media screen and (max-width: 600px) {
-
 }
-
