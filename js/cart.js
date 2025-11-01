@@ -5,7 +5,7 @@ async function loadCart() {
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
   if (cart.length === 0) {
-    cartContainer.innerHTML = `<p class="empty-cart">Your cart is empty 😢</p>`;
+    cartContainer.innerHTML = `<p class="empty-cart">Your cart is empty</p>`;
     totalDisplay.textContent = "R 0.00";
     return;
   }

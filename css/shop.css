@@ -1,11 +1,104 @@
+#product-list {
+  padding: 10rem 10rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  align-content: center;
+  justify-content: start;
+  justify-items: center;
+  gap: 2rem;
+}
+
+.product {
+  width: 100%;
+  max-width: 30rem;
+  height: 40rem;
+  padding: 2rem;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.image-holder {
+  position: relative;
+  min-width: 30rem;
+  min-height: 30rem;
+  border-radius: 10px;
+  box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.105);
+  padding: 5rem 4rem;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  /*background: radial-gradient(circle, rgba(212, 212, 212, 1) 0%, rgba(255, 255, 255, 1) 100%);*/
+}
+
+.product img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+
+.product-title {
+  font-size: 1.3rem;
+  font-weight: 450;
+  line-height: 1.4rem;
+  padding: 1rem 0;
+}
+
+.product-price {
+  font-size: 1.4rem;
+  font-weight: 600;
+  line-height: 1.6rem;
+}
+
 .add-to-cart-btn {
-    background-color: #000;
-    fill: #fff;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(0, 0, 0, 0.57);
+  border: none;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 5px;
+  transition: opacity 200ms ease, transform 200ms ease;
+  z-index: 5;
+}
+
+.add-to-cart-btn svg,
+.add-to-cart-btn path {
+  fill: #fff;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.image-holder:hover .add-to-cart-btn {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-4px);
+  background-color: var(--accent-colour);
+}
+
+.image-holder .add-to-cart-btn:hover {
+  background-color: var(--accent-colour-light);
+}
+
+.add-to-cart-btn:focus {
+  outline: 2px solid #fff8;
+  opacity: 1;
+  pointer-events: auto;
 }
