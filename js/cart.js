@@ -10,50 +10,71 @@ async function loadCart() {
     return;
   }
 
-  // Fetch product details for each productId in the cart
-  const productRequests = cart.map(item =>
-    fetch(`https://fakestoreapi.com/products/${item.productId}`).then(res => res.json())
+  // Fetch product details
+  const products = await Promise.all(
+    cart.map(item => fetch(`https://fakestoreapi.com/products/${item.productId}`).then(res => res.json()))
   );
 
-  const products = await Promise.all(productRequests);
-
-  // Combine API data with quantity info
   const cartDetails = products.map((product, index) => ({
     ...product,
     quantity: cart[index].quantity
   }));
 
-  // Display products
+  // Display cart items with editable quantity
   cartContainer.innerHTML = cartDetails
-    .map(
-      (item) => `
+    .map(item => `
       <div class="cart-item">
         <img src="${item.image}" alt="${item.title}" class="cart-item-img">
         <div class="cart-item-info">
           <p class="cart-item-title">${item.title}</p>
           <p class="cart-item-price">R ${item.price.toFixed(2)}</p>
-          <p class="cart-item-quantity">Qty: ${item.quantity}</p>
+          <div class="cart-item-quantity">
+            Qty: 
+            <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-quantity-input">
+          </div>
           <button class="remove-btn" data-id="${item.id}">Remove</button>
         </div>
       </div>
-    `
-    )
+    `)
     .join("");
 
-  // Calculate total
-  const total = cartDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  totalDisplay.textContent = `R ${total.toFixed(2)}`;
+  // Update total
+  function updateTotal() {
+    const total = cartDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    totalDisplay.textContent = `R ${total.toFixed(2)}`;
+  }
+  updateTotal();
+
+  // Quantity change logic
+  document.querySelectorAll(".cart-quantity-input").forEach(input => {
+    input.addEventListener("input", e => {
+      const productId = parseInt(e.target.dataset.id);
+      let newQty = parseInt(e.target.value);
+      if (isNaN(newQty) || newQty < 1) newQty = 1;
+      e.target.value = newQty;
+
+      // Update cart and cartDetails
+      cart = cart.map(item => item.productId === productId ? { ...item, quantity: newQty } : item);
+      cartDetails.forEach(item => { if (item.id === productId) item.quantity = newQty; });
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      updateTotal();
+      updateCartCounter(); // update header cart counter
+    });
+  });
 
   // Remove button logic
-  document.querySelectorAll(".remove-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+  document.querySelectorAll(".remove-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
       const productId = parseInt(e.target.dataset.id);
       cart = cart.filter(item => item.productId !== productId);
       localStorage.setItem("cart", JSON.stringify(cart));
-      loadCart(); // refresh display
+      loadCart();
+      updateCartCounter();
     });
   });
 }
+
 
 // Clear Cart
 document.getElementById("clear-cart-btn").addEventListener("click", () => {

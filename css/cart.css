@@ -61,3 +61,30 @@
 .cart-summary button:hover {
   background: var(--accent-colour);
 }
+
+.cart-item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.cart-item-quantity input[type="number"] {
+  width: 4rem;
+  height: 2.8rem;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
+  border: 2px solid var(--primary-colour);
+  border-radius: 0.5rem;
+  outline: none;
+  background-color: #fff;
+  color: var(--typography-colour);
+  transition: border 0.2s ease;
+}
+
+.cart-item-quantity input[type="number"]:focus {
+  border-color: var(--accent-colour);
+}
+
+
