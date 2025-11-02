@@ -9,7 +9,7 @@ form.addEventListener("submit", (e) => {
   let errors = [];
 
   if (firstname_input) {
-    //If we have a first name input then we are in the sign up
+
     errors = getSignupFormErrors(
       firstname_input.value,
       email_input.value,
@@ -17,7 +17,7 @@ form.addEventListener("submit", (e) => {
       repeat_password_input.value
     );
   } else {
-    //If we don't have firstname input we are in the login page
+    
     errors = getLoginFormErrors(email_input.value, password_input.value);
   }
 
@@ -31,7 +31,7 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
     error_message.innerText = errors.join(". ");
   } else {
-    // If there are no errors, proceed with saving or verifying user
+
     if (firstname_input) {
       // SIGN UP
       e.preventDefault();
@@ -104,10 +104,10 @@ function getLoginFormErrors(email, password) {
 }
 
 function saveUser(firstname, email, password) {
-  // get existing users or create empty array
+
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // check if user already exists
+  // Does the user exist??
   const userExists = users.some((user) => user.email === email);
   if (userExists) {
     error_message.innerText = "An account with this email already exists";
@@ -118,9 +118,9 @@ function saveUser(firstname, email, password) {
   // save new user
   users.push({firstname, email, password});
   localStorage.setItem("users", JSON.stringify(users));
-  
+
   localStorage.setItem('showGreeting', 'true');
-  window.location.href = 'index.html';
+  window.location.href = '../index.html';
   form.reset();
 }
 
@@ -134,7 +134,7 @@ function verifyUser(email, password, e) {
     localStorage.setItem('activeUser', JSON.stringify(user));
     localStorage.setItem('showGreeting', 'true');
     // /alert(`Welcome back, ${user.firstname}!`);
-    window.location.href = 'index.html';
+    window.location.href = '../index.html';
   } else {
     e.preventDefault();
     error_message.innerText = 'Invalid email or password';
