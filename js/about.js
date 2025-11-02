@@ -99,7 +99,7 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     } catch (error) {
       console.error(error);
-      // fallback to static images if API fails
+
       productGallery.innerHTML = `
         <img src="images/tech-gadgets.jpg" alt="Tech gadgets" loading="lazy" />
         <img src="images/fashion-items.jpg" alt="Fashion items" loading="lazy" />

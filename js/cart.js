@@ -10,19 +10,20 @@ async function loadCart() {
     return;
   }
 
-  // Fetch product details
+
   const products = await Promise.all(
-    cart.map(item => fetch(`https://fakestoreapi.com/products/${item.productId}`).then(res => res.json()))
+    cart.map((item) => fetch(`https://fakestoreapi.com/products/${item.productId}`).then((res) => res.json()))
   );
 
   const cartDetails = products.map((product, index) => ({
     ...product,
-    quantity: cart[index].quantity
+    quantity: cart[index].quantity,
   }));
 
-  // Display cart items with editable quantity
+
   cartContainer.innerHTML = cartDetails
-    .map(item => `
+    .map(
+      (item) => `
       <div class="cart-item">
         <img src="${item.image}" alt="${item.title}" class="cart-item-img">
         <div class="cart-item-info">
@@ -32,10 +33,13 @@ async function loadCart() {
             Qty: 
             <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-quantity-input">
           </div>
-          <button class="remove-btn" data-id="${item.id}">Remove</button>
+          <button class="remove-btn" data-id="${
+            item.id
+          }"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg></button>
         </div>
       </div>
-    `)
+    `
+    )
     .join("");
 
   // Update total
@@ -46,28 +50,32 @@ async function loadCart() {
   updateTotal();
 
   // Quantity change logic
-  document.querySelectorAll(".cart-quantity-input").forEach(input => {
-    input.addEventListener("input", e => {
+  document.querySelectorAll(".cart-quantity-input").forEach((input) => {
+    input.addEventListener("input", (e) => {
       const productId = parseInt(e.target.dataset.id);
       let newQty = parseInt(e.target.value);
       if (isNaN(newQty) || newQty < 1) newQty = 1;
       e.target.value = newQty;
 
-      // Update cart and cartDetails
-      cart = cart.map(item => item.productId === productId ? { ...item, quantity: newQty } : item);
-      cartDetails.forEach(item => { if (item.id === productId) item.quantity = newQty; });
+
+      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
+      cartDetails.forEach((item) => {
+        if (item.id === productId) item.quantity = newQty;
+      });
 
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
-      updateCartCounter(); // update header cart counter
+      updateCartCounter(); 
     });
   });
 
-  // Remove button logic
-  document.querySelectorAll(".remove-btn").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const productId = parseInt(e.target.dataset.id);
-      cart = cart.filter(item => item.productId !== productId);
+
+  document.querySelectorAll(".remove-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const button = e.target.closest(".remove-btn");
+      const productId = parseInt(button.dataset.id);
+
+      cart = cart.filter((item) => item.productId !== productId);
       localStorage.setItem("cart", JSON.stringify(cart));
       loadCart();
       updateCartCounter();
@@ -76,20 +84,17 @@ async function loadCart() {
 }
 
 
-// Clear Cart
 document.getElementById("clear-cart-btn").addEventListener("click", () => {
   localStorage.removeItem("cart");
   loadCart();
   updateCartCounter();
-  
 });
 
-// Simulate Checkout
+
 document.getElementById("checkout-btn").addEventListener("click", () => {
   alert("Checkout simulated! Your order would now be processed.");
   localStorage.removeItem("cart");
   loadCart();
 });
 
-// Run when page loads
 window.addEventListener("DOMContentLoaded", loadCart);
