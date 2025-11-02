@@ -111,3 +111,20 @@ section p{
   text-transform: uppercase;
   z-index: 1;
 }
+
+@media (max-width: 768px) {
+  .category-box {
+    width: 15rem;
+    height: 15rem;
+  }
+}
+
+@media (max-width: 600px)  {
+  .category-box {
+    width: 20rem;
+    height: 20rem;
+  }
+
+
+  
+}
