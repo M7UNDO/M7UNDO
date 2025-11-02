@@ -146,6 +146,7 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
+  transition: all 0.3s ease;
 }
 
 .cart-holder svg path{
@@ -298,6 +299,8 @@ footer p {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  font: var(--secondary-font);
+  text-transform: capitalize;
   /*background-color: red;*/
 }
 

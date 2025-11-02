@@ -1,3 +1,13 @@
+function mapCategory(product) {
+
+  if (product.title.toLowerCase().includes("backpack")) return "accessories";
+  if (product.category === "jewelery") return "jewellery";
+  if (product.category.includes("clothing")) return "clothing";
+  if (product.category === "electronics") return "electronics";
+
+  return product.category;
+}
+
 async function getProducts() {
   try {
     const response = await fetch("https://fakestoreapi.com/products");
@@ -5,7 +15,14 @@ async function getProducts() {
       const products = await response.json();
       console.log(products);
 
-      displayProducts(products);
+      allProducts = products.map((p) => ({
+        ...p,
+        category: mapCategory(p),
+      }));
+
+    
+      displayProducts(allProducts);
+      setupFilters();
     } else {
       throw new Error(`Error ${response.status}, ${response.statusText}`);
     }
@@ -15,6 +32,27 @@ async function getProducts() {
 }
 
 getProducts();
+
+let allProducts = [];
+
+function setupFilters() {
+  const buttons = document.querySelectorAll(".filter-btn");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const category = btn.dataset.category;
+      const filtered =
+        category === "all"
+          ? allProducts
+          : allProducts.filter((p) => p.category === category);
+
+      displayProducts(filtered);
+    });
+  });
+}
 
 /*
 function displayProducts(products){
@@ -69,25 +107,24 @@ function displayProducts(products) {
   setupAddToCartButtons();
 }
 
-const userId = 1; 
+const userId = 1;
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function setupAddToCartButtons() {
   const buttons = document.querySelectorAll(".add-to-cart-btn");
   const cartCounter = document.querySelector(".header-actions span");
 
- 
   cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
 
   buttons.forEach((btn) => {
     btn.addEventListener("click", (event) => {
-      event.stopPropagation(); 
+      event.stopPropagation();
       event.preventDefault();
 
       const productElement = event.target.closest(".product");
       const productId = parseInt(productElement.dataset.id);
 
-      // Check if item already in cart
+      //Is item already in cart
       const existingItem = currentCart.find((item) => item.productId === productId);
       if (existingItem) {
         existingItem.quantity += 1;
@@ -114,4 +151,3 @@ function clearCart() {
   localStorage.removeItem("cart");
   document.querySelector(".header-actions span").textContent = 0;
 }
-

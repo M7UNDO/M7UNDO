@@ -103,10 +103,33 @@
   pointer-events: auto;
 }
 
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.filter-btn {
+  background-color: var(--primary-colour);
+  color: var(--background-colour);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: var(--accent-colour);
+}
+
+
 @media (max-width: 768px) {
   #product-list {
     padding: 5rem 2rem;
-    grid-template-columns: repeat(2, 1fr); /* exactly 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.5rem;
   }
 
