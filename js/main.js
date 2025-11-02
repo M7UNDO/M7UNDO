@@ -63,6 +63,7 @@ function loadNav() {
         scale: 1.1,
         color: accentColour,
         duration: 0.1,
+        fontWeight: "bold",
         ease: "power1.inOut",
       });
     });
@@ -71,6 +72,7 @@ function loadNav() {
         scale: 1,
         color: "",
         duration: 0.1,
+        fontWeight: "",
         ease: "power2.inOut",
       });
     });
