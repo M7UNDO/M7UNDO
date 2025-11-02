@@ -104,7 +104,9 @@ function getLoginFormErrors(email, password) {
 }
 
 function saveUser(firstname, email, password) {
-
+  
+  const isGithub = window.location.hostname.includes("github.io");
+  const repoName = isGithub ? "/M7UNDO" : "";
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
   // Does the user exist??
@@ -120,11 +122,13 @@ function saveUser(firstname, email, password) {
   localStorage.setItem("users", JSON.stringify(users));
 
   localStorage.setItem('showGreeting', 'true');
-  window.location.href = '../index.html';
+  window.location.href = `${repoName}/index.html`;
   form.reset();
 }
 
 function verifyUser(email, password, e) {
+  const isGithub = window.location.hostname.includes("github.io");
+  const repoName = isGithub ? "/M7UNDO" : "";
   let users = JSON.parse(localStorage.getItem('users')) || [];
 
   const user = users.find(user => user.email === email && user.password === password);
@@ -134,7 +138,7 @@ function verifyUser(email, password, e) {
     localStorage.setItem('activeUser', JSON.stringify(user));
     localStorage.setItem('showGreeting', 'true');
     // /alert(`Welcome back, ${user.firstname}!`);
-    window.location.href = '../index.html';
+    window.location.href = `${repoName}/index.html`;
   } else {
     e.preventDefault();
     error_message.innerText = 'Invalid email or password';
