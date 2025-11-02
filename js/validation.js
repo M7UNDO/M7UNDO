@@ -104,12 +104,11 @@ function getLoginFormErrors(email, password) {
 }
 
 function saveUser(firstname, email, password) {
-  
   const isGithub = window.location.hostname.includes("github.io");
   const repoName = isGithub ? "/M7UNDO" : "";
   let users = JSON.parse(localStorage.getItem("users")) || [];
 
-  // Does the user exist??
+
   const userExists = users.some((user) => user.email === email);
   if (userExists) {
     error_message.innerText = "An account with this email already exists";
@@ -117,33 +116,56 @@ function saveUser(firstname, email, password) {
     return;
   }
 
-  // save new user
-  users.push({firstname, email, password});
+  // Create new user
+  const newUser = { firstname, email, password };
+  users.push(newUser);
   localStorage.setItem("users", JSON.stringify(users));
 
-  localStorage.setItem('showGreeting', 'true');
-  window.location.href = `${repoName}/index.html`;
+
+  localStorage.setItem("activeUser", JSON.stringify(newUser));
+  localStorage.setItem("showGreeting", "true");
+
+ 
+  window.location.href = `${repoName}/index.html`; // Redirect to the home page
   form.reset();
 }
 
-function verifyUser(email, password, e) {
+function verifyUser(email, password) {
   const isGithub = window.location.hostname.includes("github.io");
   const repoName = isGithub ? "/M7UNDO" : "";
-  let users = JSON.parse(localStorage.getItem('users')) || [];
 
-  const user = users.find(user => user.email === email && user.password === password);
 
-  if (user) {
-    // store active user session
-    localStorage.setItem('activeUser', JSON.stringify(user));
-    localStorage.setItem('showGreeting', 'true');
-    // /alert(`Welcome back, ${user.firstname}!`);
-    window.location.href = `${repoName}/index.html`;
-  } else {
-    e.preventDefault();
-    error_message.innerText = 'Invalid email or password';
-    email_input.parentElement.classList.add('incorrect');
-    password_input.parentElement.classList.add('incorrect');
+  const emailValue = (email || "").trim();
+  const passwordValue = (password || "").trim();
+
+  // reset previous error UI
+  error_message.innerText = "";
+  email_input.parentElement.classList.remove("incorrect");
+  password_input.parentElement.classList.remove("incorrect");
+
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
+
+  const user = users.find(u => u.email === emailValue);
+  if (!user) {
+    error_message.innerText = "No account found with this email";
+    if (email_input) email_input.parentElement.classList.add("incorrect");
+    return false;
   }
+
+  if (user.password !== passwordValue) {
+    error_message.innerText = "Incorrect password";
+    if (password_input) password_input.parentElement.classList.add("incorrect");
+    return false;
+  }
+
+  localStorage.setItem("activeUser", JSON.stringify(user));
+  localStorage.setItem("showGreeting", "true");
+  window.location.href = `${repoName}/index.html`;
+
+  return true;
 }
+
+
+
 
