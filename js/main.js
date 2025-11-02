@@ -154,6 +154,8 @@ function closeNav() {
 const backToTopBtn = document.querySelector(".back-to-top");
 
 function scrollFunction() {
+  if(!backToTopBtn) return;
+
   if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
     backToTopBtn.style.display = "block";
   } else {
@@ -170,6 +172,8 @@ function topFunction() {
   document.documentElement.scrollTop = 0;
 }
 
-backToTopBtn.addEventListener("click", () => {
-  topFunction();
-});
+if (backToTopBtn) {
+  backToTopBtn.addEventListener("click", () => {
+    topFunction();
+  });
+}

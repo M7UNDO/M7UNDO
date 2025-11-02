@@ -36,20 +36,17 @@ async function loadCart() {
             <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-quantity-input">
             <button class="qty-btn plus-btn" data-id="${item.id}">+</button>
           </div>
-          <button class="remove-btn" data-id="${item.id}">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-              <path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 
-              56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 
-              0h80v-360h-80v360Z"/>
-            </svg>
-          </button>
+          
         </div>
+        <button class="remove-btn" data-id="${item.id}">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M292.31-140q-29.92 0-51.12-21.19Q220-182.39 220-212.31V-720h-40v-60h180v-35.38h240V-780h180v60h-40v507.69Q740-182 719-161q-21 21-51.31 21H292.31ZM680-720H280v507.69q0 5.39 3.46 8.85t8.85 3.46h375.38q4.62 0 8.46-3.85 3.85-3.84 3.85-8.46V-720ZM376.16-280h59.99v-360h-59.99v360Zm147.69 0h59.99v-360h-59.99v360ZM280-720v520-520Z"/></svg>
+        </button>
       </div>
     `
     )
     .join("");
 
-  // --- Helper: Update total ---
+
   function updateTotal() {
     const total = cartDetails.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -59,7 +56,7 @@ async function loadCart() {
   }
   updateTotal();
 
-  // --- Quantity input change ---
+
   document.querySelectorAll(".cart-quantity-input").forEach((input) => {
     input.addEventListener("input", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -80,7 +77,7 @@ async function loadCart() {
     });
   });
 
-  // --- Plus button ---
+
   document.querySelectorAll(".plus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -103,7 +100,6 @@ async function loadCart() {
     });
   });
 
-  // --- Minus button ---
   document.querySelectorAll(".minus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -127,7 +123,6 @@ async function loadCart() {
     });
   });
 
-  // --- Remove item ---
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const button = e.target.closest(".remove-btn");
