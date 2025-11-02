@@ -60,21 +60,17 @@ function loadNav() {
   navlinks.forEach((link) => {
     link.addEventListener("mouseenter", () => {
       gsap.to(link, {
-        y: -5,
-        scale: 1.2,
+        scale: 1.1,
         color: accentColour,
-        duration: 0.2,
-        fontWeight: "bold",
+        duration: 0.1,
         ease: "power1.inOut",
       });
     });
     link.addEventListener("mouseleave", () => {
       gsap.to(link, {
-        y: 0,
         scale: 1,
         color: "",
-        duration: 0.2,
-        fontWeight: "",
+        duration: 0.1,
         ease: "power2.inOut",
       });
     });
