@@ -107,6 +107,25 @@ function displayProducts(products) {
   setupAddToCartButtons();
 }
 
+const searchInput_ = document.querySelector("[data-search]");
+
+if (searchInput_) {
+  searchInput_.addEventListener("input", (e) => {
+    const value = e.target.value.toLowerCase().trim();
+
+
+    const filteredProducts = allProducts.filter((product) => {
+      return (
+        product.title.toLowerCase().includes(value) ||
+        product.description.toLowerCase().includes(value)
+      );
+    });
+
+    
+    displayProducts(filteredProducts);
+  });
+}
+
 const userId = 1;
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 

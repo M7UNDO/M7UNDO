@@ -32,7 +32,13 @@ function loadNav() {
           </ul>
         </div>
         <div class="header-actions">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg>
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" height="24px" 
+                viewBox="0 -960 960 960" width="24px" fill="#000000">
+                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580
+                q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38
+                69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760
+                q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+           </svg>
             <a class="cart-holder" href="${repoName}/cart/cart.html">
                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg>
                <span>0</span>
@@ -119,6 +125,44 @@ function loadNav() {
 window.addEventListener("DOMContentLoaded", () => {
   loadNav();
   updateCartCounter();
+
+  const searchIcon = document.querySelector(".search-icon");
+  const searchOverlay = document.querySelector(".search-overlay");
+  const searchBox = document.querySelector(".search-box");
+  const searchClose = document.querySelector("#search-close");
+  const searchInput = document.querySelector("#search-input");
+
+  if (!searchIcon || !searchOverlay) return;
+
+  // Open search overlay
+  searchIcon.addEventListener("click", () => {
+    searchOverlay.style.display = "flex";
+
+    gsap.fromTo(searchOverlay, {opacity: 0}, {opacity: 1, duration: 0.4, ease: "power2.out"});
+
+    gsap.fromTo(searchBox, {y: -40, opacity: 0}, {y: 0, opacity: 1, duration: 0.4, delay: 0.1, ease: "power2.out"});
+
+    searchInput.focus();
+  });
+
+  // Close search overlay
+  function closeSearch() {
+    gsap.to(searchBox, {y: -40, opacity: 0, duration: 0.3});
+    gsap.to(searchOverlay, {
+      opacity: 0,
+      duration: 0.3,
+      onComplete: () => (searchOverlay.style.display = "none"),
+    });
+  }
+
+  searchClose.addEventListener("click", closeSearch);
+  searchOverlay.addEventListener("click", (e) => {
+    if (e.target === searchOverlay) closeSearch();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeSearch();
+  });
 });
 
 function updateCartCounter() {
@@ -132,7 +176,7 @@ function updateCartCounter() {
   cartCounter.textContent = totalItems;
 }
 
-/*Responsive Nav*/
+//Responsive Nav
 
 function openNav() {
   document.getElementsByClassName("nav-menu")[0].style.display = "flex";
@@ -152,7 +196,7 @@ function closeNav() {
 const backToTopBtn = document.querySelector(".back-to-top");
 
 function scrollFunction() {
-  if(!backToTopBtn) return;
+  if (!backToTopBtn) return;
 
   if (document.body.scrollTop > 400 || document.documentElement.scrollTop > 400) {
     backToTopBtn.style.display = "block";

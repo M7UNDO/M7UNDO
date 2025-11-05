@@ -13,6 +13,7 @@
   --background-colour-2: #222;
   --input-colour: #e7e7e7;
   --product-card-bg: rgb(228, 228, 228);
+  --grey-bg:  rgb(224, 224, 224);
   --typography-colour: rgba(44, 44, 44, 1);
   --primary-font: "Satoshi", sans-serif;
   --secondary-font: "PP Neue Montreal", sans-serif;
@@ -31,9 +32,11 @@ html {
 }
 
 .darktheme {
-  --primary-colour: rgba(56, 51, 99, 1);
+  --primary-colour: rgb(99, 86, 174);
   --accent-colour: rgba(94, 23, 235, 1);
   --background-colour: rgb(26, 26, 26);
+  --product-card-bg: rgb(44, 44, 44);
+  --grey-bg:  rgb(44, 44, 44);
   --typography-colour: rgb(231, 231, 231);
 }
 
@@ -64,13 +67,48 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  /*background-color: aqua;*/
 }
 
-.pin-spacer {
-  width: 100%;
+
+
+.theme-btn{
+  
+  position: fixed;
+  top: 9rem;
+  right: 2rem;
+  width: 4rem;
+  height: 4rem;
+  background-color: var(--grey-bg);
+  box-shadow: 0.1rem 0.3rem 1.2rem rgba(0, 0, 0, 0.573);
+  border: 1px solid gray;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  /*display: flex;*/
+  justify-content: center;
+  align-items: center;
+  display: none;
 }
 
+.theme-btn svg:last-child{
+  display: none;
+}
+
+.darktheme .theme-btn svg:first-child{
+  display: none;
+}
+
+.darktheme .theme-btn svg:last-child{
+  display: block;
+}
+
+.theme-btn svg {
+  width: 50%;
+  height: 50%;
+  color: var(--typography-colour);
+  transition: color 0.3s ease;
+  stroke-width: 1.5;
+}
 /* Navigation Bar */
 .nav-container {
   height: 6rem;
@@ -138,7 +176,7 @@ header {
 
 .cart-holder {
   text-decoration: none;
-  color: var(--background-colour);
+  color: white;
   background-color: var(--accent-colour);
   font-weight: 700;
   border-radius: 1.5rem;
@@ -150,17 +188,73 @@ header {
 }
 
 .cart-holder svg path{
-  fill: var(--background-colour);
+  fill: white;
 }
 
 .cart-holder:hover {
   background-color: var(--accent-colour-dark);
 }
 
-.search-wrapper {
-  display: flex;
-  flex-direction: column;
+.search-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: rgba(94, 23, 235, 0.8);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
+
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  padding: 12px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  width: 80%;
+  max-width: 600px;
+}
+
+#search-input {
+  flex: 1;
+  font-size: 1.4rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #333;
+}
+
+#search-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: white;
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  cursor: pointer;
+  color: black;
+  transition: 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#search-close:hover {
+  color: var(--accent-colour);
+  background-color: rgba(246, 246, 246, 1);
+}
+
 
 .navlinks {
   width: 100%;
@@ -171,11 +265,6 @@ header {
   padding: 0;
   gap: 5rem;
 }
-
-/*.navlinks li {
-  display: inline-block;
-  padding: 0 4rem;
-}*/
 
 .navlinks a {
   text-decoration: none;
@@ -227,7 +316,7 @@ section {
   width: 100%;
 }
 
-/*Back to top button*/
+
 
 .back-to-top {
   display: none;
@@ -239,7 +328,7 @@ section {
   z-index: 0;
   border: none;
   outline: none;
-  background-color: var(--background-colour);
+  background-color: var(--product-card-bg);
   color: var(--typography-colour);
   cursor: pointer;
   padding: 0;
@@ -258,6 +347,7 @@ footer {
   height: 5rem;
   width: 100%;
   background-color: var(--background-colour-2);
+  border-top: solid 1px rgba(246, 246, 246, 1);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -267,7 +357,7 @@ footer {
 footer p {
   font-size: 1.1rem;
   line-height: 100%;
-  color: var(--background-colour);
+  color: rgba(246, 246, 246, 1);
   text-transform: uppercase;
 }
 
@@ -301,10 +391,9 @@ footer p {
   gap: 1rem;
   font: var(--secondary-font);
   text-transform: capitalize;
+  transition: color 0.3s ease;
   /*background-color: red;*/
 }
-
-
 
 .login-container a{
   text-decoration: none;
@@ -315,6 +404,10 @@ footer p {
 .login-container a:hover {
   text-decoration: underline;
   color: var(--accent-colour);
+}
+
+.login-container svg{
+  fill: var(--typography-colour);
 }
 
 .login-container a:hover ~ svg path {
