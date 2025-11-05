@@ -122,9 +122,28 @@ function loadNav() {
   });
 }
 
+function loadSearch() {
+  const searchOverlay = document.querySelector(".search-overlay");
+  searchOverlay.innerHTML = "";
+  if (!searchOverlay) return;
+
+  const searchHTML = `
+     <form id="search-form" class="search-box" data-search-form>
+        <input type="text" id="search-input" placeholder="Search..." data-search />
+        <button type="submit" hidden>Search</button>
+        <!-- hidden submit for accessibility -->
+     </form>
+     <button id="search-close">&times;</button>
+  `
+  searchOverlay.innerHTML = searchHTML
+}
+
+
+
 window.addEventListener("DOMContentLoaded", () => {
   loadNav();
   updateCartCounter();
+  loadSearch();
 
   const searchIcon = document.querySelector(".search-icon");
   const searchOverlay = document.querySelector(".search-overlay");

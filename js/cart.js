@@ -32,7 +32,7 @@ async function loadCart() {
           <p class="cart-item-title">${item.title}</p>
           <p class="cart-item-price">R ${item.price.toFixed(2)}</p>
           <div class="cart-item-quantity">
-            <button class="qty-btn minus-btn" data-id="${item.id}">−</button>
+            <button class="qty-btn minus-btn" data-id="${item.id}">-</button>
             <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-quantity-input">
             <button class="qty-btn plus-btn" data-id="${item.id}">+</button>
           </div>
