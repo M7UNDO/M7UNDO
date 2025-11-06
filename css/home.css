@@ -65,23 +65,19 @@ section p{
 }
 
 .category-box:nth-child(1) {
-  background-image: url(../images/categories/pexels-karola-g-6276003.jpg);
+  background-image: url(../images/categories/Oversized\ Solid\ Color\ Pullover\ Hoodie\ Sweatshirt\ -\ Blue\ _\ M.jpeg);
 }
 
 .category-box:nth-child(2) {
-  background-image: url(../images/categories/pexels-tdcat-437037.jpg);
+  background-image: url(../images/categories/3888756_11873.jpg);
 }
 
 .category-box:nth-child(3) {
-  background-image: url(../images/categories/rings-2150772_1280.jpg);
+  background-image: url(../images/categories/pexels-leah-newhouse-50725-691046.jpg);
 }
 
 .category-box:nth-child(4) {
-  background-image: url(../images/programming.jpg);
-}
-
-.category-box:nth-child(5) {
-  background-image: url(../images/design.jpg);
+  background-image: url(../images/categories/bag.jpeg);
 }
 
 .dark-overlay {
@@ -97,7 +93,7 @@ section p{
 }
 
 .category-box:hover .dark-overlay {
-  opacity: 0;
+  opacity: 0.2;
 }
 
 .category-box h3 {

@@ -64,7 +64,7 @@ main{
     background: var(--accent-colour);
 }
 
-.add-to-cart-btn svg,
+
 .add-to-cart-btn path {
   fill: #fff;
   width: 2rem;

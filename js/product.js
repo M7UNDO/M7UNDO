@@ -1,4 +1,3 @@
-// product.js
 async function getProductDetails() {
   const params = new URLSearchParams(window.location.search);
   const productId = parseInt(params.get("id"));
@@ -12,13 +11,14 @@ async function getProductDetails() {
   let product = null;
 
   try {
-    // Try fetching from FakeStore API
     const response = await fetch(`https://fakestoreapi.com/products/${productId}`);
     if (!response.ok) throw new Error("Failed to fetch product");
     product = await response.json();
+
+    const EXCHANGE_RATE = 17;
+    product.price = parseFloat((product.price * EXCHANGE_RATE).toFixed(2));
   } catch (error) {
     console.warn("Falling back to local product data:", error);
-    // Fallback to local customProducts if API fails
     product = customProducts.find((p) => p.id === productId);
   }
 
@@ -40,7 +40,7 @@ function displayProductDetails(product) {
       <div class="details">
         <div>
           <h1>${product.title}</h1>
-          <p class="price">R ${product.price.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}</p>
+          <p class="price">R ${product.price.toLocaleString("en-ZA", {minimumFractionDigits: 2})}</p>
         </div>
         <p class="description">${product.description}</p>
 
@@ -54,7 +54,9 @@ function displayProductDetails(product) {
         </div>
 
         <div>
-          <button class="add-to-cart-btn">Add to Cart - R ${product.price.toLocaleString("en-ZA", { minimumFractionDigits: 2 })} 
+          <button class="add-to-cart-btn">Addd to Cart - R ${product.price.toLocaleString("en-ZA", {
+            minimumFractionDigits: 2,
+          })} 
             <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
               <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 
               0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 
@@ -85,12 +87,10 @@ function setupProductCartLogic(product) {
 
   const updateButtonPrice = () => {
     const quantity = parseInt(quantityInput.value);
-    const totalPrice = (product.price * quantity).toLocaleString("en-ZA", { minimumFractionDigits: 2 });
+    const totalPrice = (product.price * quantity).toLocaleString("en-ZA", {minimumFractionDigits: 2});
     addToCartBtn.innerHTML = `
       Add to Cart - R ${totalPrice} 
-      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
-        <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80Z"/>
-      </svg>
+      <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
     `;
   };
 
@@ -128,8 +128,7 @@ function setupProductCartLogic(product) {
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCounter();
 
-    // GSAP feedback animation
-    gsap.fromTo(addToCartBtn, { scale: 1 }, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
+    gsap.fromTo(addToCartBtn, {scale: 1}, {scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
   });
 }
 

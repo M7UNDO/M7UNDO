@@ -169,17 +169,10 @@ function loadSearch() {
   });
 
   searchClear.addEventListener("click", () => {
-    searchInput.value = "";
-    const isShopPage = window.location.pathname.includes("shop.html");
+    searchInput.value = ""; 
 
-    if (isShopPage) {
-      // Reload full product list
-      displayProducts(allProducts);
-    } else {
-      // Remove query from URL and redirect back to shop
-      const isGithub = window.location.hostname.includes("github.io");
-      const repoName = isGithub ? "/M7UNDO" : "";
-      window.location.href = `${repoName}/shop/shop.html`;
+    if (window.location.pathname.includes("shop.html")) {
+        displayProducts(allProducts);
     }
   });
 
@@ -216,6 +209,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const searchOverlay = document.querySelector(".search-overlay");
   const searchBox = document.querySelector(".search-box");
   const searchClose = document.querySelector("#search-close");
+  const searchClear = document.querySelector("#search-clear");
   const searchInput = document.querySelector("#search-input");
 
   if (!searchIcon || !searchOverlay) return;
@@ -226,6 +220,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
   searchIcon.addEventListener("mouseleave", () => {
     gsap.to(searchIcon, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
+  });
+
+  searchClose.addEventListener("mouseover", () => {
+    gsap.to(searchClose, {scale: 1.1, fill: accentColour, duration: 0.2, ease: "power2.out"});
+  });
+
+  searchClose.addEventListener("mouseleave", () => {
+    gsap.to(searchClose, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
+  });
+
+  searchClear.addEventListener("mouseover", () => {
+    gsap.to(searchClear, {scale: 1.1, fill: accentColour, duration: 0.2, ease: "power2.out"});
+  });
+
+  searchClear.addEventListener("mouseleave", () => {
+    gsap.to(searchClear, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
   });
 
   searchIcon.addEventListener("click", () => {

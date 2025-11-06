@@ -268,7 +268,7 @@ header {
 
 #search-close:hover {
   color: var(--accent-colour);
-  background-color: rgba(246, 246, 246, 1);
+  background-color: rgb(221, 221, 221);
 }
 
 

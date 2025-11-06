@@ -1,5 +1,6 @@
 const body = document.querySelector("body");
 const currentCategory = body.dataset.category || "all";
+const EXCHANGE_RATE = 17;
 
 function mapCategory(product) {
   if (product.title.toLowerCase().includes("backpack")) return "accessories";
@@ -20,10 +21,10 @@ async function getProducts() {
 
     const products = await response.json();
 
-    // Map API products with category normalization
     const apiProducts = products.map((p) => ({
       ...p,
       category: mapCategory(p),
+      price: parseFloat((p.price * EXCHANGE_RATE).toFixed(2)),
     }));
 
     allProducts = [...apiProducts, ...customProducts];
@@ -65,6 +66,8 @@ function displayProducts(products) {
 
   const isGithub = window.location.hostname.includes("github.io");
   const repoName = isGithub ? "/M7UNDO" : "";
+
+  
 
   const productHTML = products
     .map(
