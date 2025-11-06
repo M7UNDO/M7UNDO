@@ -11,7 +11,7 @@ const customProducts = [
   {
     id: 102,
     title: "Nomad Genuine Leather Backpack",
-    price: 649.0,
+    price: 649.99,
     description:
       "Crafted for those on the move, the Nomad Backpack combines premium leather with functional design. Spacious, durable, and refined — ideal for daily commutes or weekend adventures.",
     category: "accessories",
@@ -20,7 +20,7 @@ const customProducts = [
   {
     id: 103,
     title: "Luna Square Frame Shades",
-    price: 499.0,
+    price: 499.99,
     description:
       "A bold geometric silhouette that elevates any look. The Luna Shades combine UV400 protection with sleek black lenses and a modern frame.",
     category: "accessories",
@@ -38,7 +38,7 @@ const customProducts = [
   {
     id: 105,
     title: "Rogue Mesh Trucker Cap",
-    price: 259.0,
+    price: 259.99,
     description:
       "Sleek and breathable, the Rogue Cap features mesh back panels and a structured black front — a classic essential for everyday wear.",
     category: "accessories",
@@ -47,16 +47,16 @@ const customProducts = [
   {
     id: 106,
     title: "Aura Gold Hoop Earrings",
-    price: 449.0,
+    price: 449.99,
     description:
       "Bold yet elegant, the Aura Hoops bring timeless sophistication with a thick, polished gold design that catches the light beautifully.",
-    category: "accessories",
+    category: "jewellery",
     image: "../images/products/chunkygoldearings.png"
   },
   {
     id: 107,
     title: "Vero Cuban Link Chain",
-    price: 799.0,
+    price: 799.99,
     description:
       "Iconic, bold, and versatile. The Vero Chain's interlocking design and high-shine finish make it a staple accessory for any outfit.",
     category: "jewellery",
@@ -65,7 +65,7 @@ const customProducts = [
   {
     id: 108,
     title: "EarthTone Classic Tee",
-    price: 379.0,
+    price: 379.99,
     description:
       "Crafted for comfort and simplicity, the EarthTone Tee features a rich brown hue and soft cotton blend for an effortlessly clean fit.",
     category: "clothing",
@@ -74,7 +74,7 @@ const customProducts = [
   {
     id: 109,
     title: "Strider Leather Jacket",
-    price: 1399.0,
+    price: 1399.99,
     description:
       "A timeless classic reinvented. The Strider Jacket offers sleek tailoring, premium faux leather, and a bold attitude that never fades.",
     category: "clothing",
@@ -83,7 +83,7 @@ const customProducts = [
   {
     id: 110,
     title: "Slate Essential Shorts",
-    price: 459.0,
+    price: 459.99,
     description:
       "Casual comfort meets clean design. The Slate Shorts feature a soft, breathable fabric perfect for relaxed everyday wear.",
     category: "clothing",
@@ -92,7 +92,7 @@ const customProducts = [
   {
     id: 111,
     title: "Core Regular Fit Jeans",
-    price: 599.0,
+    price: 599.99,
     description:
       "The Core Jeans deliver a balanced fit and durable denim — built for daily wear with a versatile mid-wash tone.",
     category: "clothing",
@@ -101,7 +101,7 @@ const customProducts = [
   {
     id: 112,
     title: "Frost Oversized Hoodie",
-    price: 749.0,
+    price: 749.99,
     description:
       "Ultra-soft and heavyweight, the Frost Hoodie provides premium comfort with a relaxed fit and clean minimalist aesthetic.",
     category: "clothing",
@@ -110,7 +110,7 @@ const customProducts = [
   {
     id: 113,
     title: "Azure Oversized Hoodie",
-    price: 749.0,
+    price: 749.99,
     description:
       "Cozy meets cool. The Azure Hoodie brings a pop of deep blue to your wardrobe, crafted from thick, plush cotton for everyday warmth.",
     category: "clothing",
@@ -119,7 +119,7 @@ const customProducts = [
   {
     id: 114,
     title: "Shadow Oversized Hoodie",
-    price: 749.0,
+    price: 749.99,
     description:
       "The ultimate wardrobe staple. The Shadow Hoodie combines minimalist design with a relaxed fit and all-black versatility.",
     category: "clothing",
@@ -128,7 +128,7 @@ const customProducts = [
   {
     id: 115,
     title: "Forest Oversized Hoodie",
-    price: 749.0,
+    price: 749.99,
     description:
       "Designed for comfort with natural tones, the Forest Hoodie's earthy green shade pairs perfectly with a laid-back style.",
     category: "clothing",
@@ -137,7 +137,7 @@ const customProducts = [
   {
     id: 116,
     title: "Nova Silver Band",
-    price: 299.0,
+    price: 299.99,
     description:
       "Minimalist and refined. The Nova Band's solid silver design is perfect for stacking or wearing solo — subtle sophistication for every day.",
     category: "jewellery",
@@ -146,7 +146,7 @@ const customProducts = [
   {
     id: 117,
     title: "Eclipse Long Sleeve Top",
-    price: 489.0,
+    price: 489.99,
     description:
       "Effortless layering starts here. The Eclipse Top features a soft, fitted silhouette ideal for both basics and button-down pairings.",
     category: "clothing",
@@ -155,7 +155,7 @@ const customProducts = [
   {
     id: 118,
     title: "Drift Baggy Fit Jeans",
-    price: 679.0,
+    price: 679.99,
     description:
       "A relaxed essential with vintage charm. The Drift Jeans feature a loose fit and light wash for an authentic laid-back feel.",
     category: "clothing",
@@ -164,7 +164,7 @@ const customProducts = [
   {
     id: 119,
     title: "Onyx Baggy Fit Jeans",
-    price: 679.0,
+    price: 679.99,
     description:
       "The perfect blend of comfort and edge. The Onyx Jeans offer a wide-leg design with deep black denim for a bold streetwear finish.",
     category: "clothing",
