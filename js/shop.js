@@ -19,32 +19,35 @@ async function getProducts() {
     if (!response.ok) throw new Error(`Error ${response.status}`);
 
     const products = await response.json();
-    allProducts = products.map((p) => ({
+
+    // Map API products with category normalization
+    const apiProducts = products.map((p) => ({
       ...p,
       category: mapCategory(p),
     }));
+
+    allProducts = [...apiProducts, ...customProducts];
+
 
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get("search");
 
     let productsToDisplay = allProducts;
 
-    // ✅ If a search query exists, filter products
     if (searchQuery) {
+ 
       const query = searchQuery.toLowerCase();
       productsToDisplay = allProducts.filter(
         (product) =>
           product.title.toLowerCase().includes(query) ||
           product.description.toLowerCase().includes(query)
       );
-    } 
-    // ✅ Otherwise, check if we’re on a category page
-    else if (currentCategory.toLowerCase() !== "all") {
+    } else if (currentCategory.toLowerCase() !== "all") {
+
       productsToDisplay = allProducts.filter(
         (p) => p.category.toLowerCase() === currentCategory.toLowerCase()
       );
     }
-
 
     displayProducts(productsToDisplay);
   } catch (error) {
