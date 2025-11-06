@@ -1,5 +1,12 @@
 gsap.registerPlugin(ScrollTrigger);
 
+const categories = [
+  {name: "Clothing", slug: "clothing"},
+  {name: "Electronics", slug: "electronics"},
+  {name: "Accessories", slug: "accessories"},
+  {name: "Jewellery", slug: "jewellery"},
+];
+
 const currentPath = window.location.pathname.split("/").pop();
 
 const root = document.documentElement;
@@ -26,7 +33,15 @@ function loadNav() {
           <a class="closeBtn" aria-label="close" onclick="closeNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
           <ul class="navlinks">
             <li><a href="${repoName}/index.html">Home</a></li>
-            <li><a href="${repoName}/shop/shop.html">Shop</a></li>
+            <li class="dropdown">
+                <a href="${repoName}/shop/shop.html">Shop<svg id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-357.85 253.85-584 296-626.15l184 184 184-184L706.15-584 480-357.85Z"/></svg></a>
+            
+                <ul class="dropdown-menu">
+                   ${categories
+                     .map((cat) => `<li><a href="${repoName}/shop/${cat.slug}.html">${cat.name}</a></li>`)
+                     .join("")}
+                </ul>
+            </li>
             <li><a href="${repoName}/about/about.html">About</a></li>
             <li><a href="${repoName}/contact/contact.html">Contact</a></li>
           </ul>
@@ -57,6 +72,16 @@ function loadNav() {
 
   navContainer.innerHTML = navHTML;
 
+  const dropdownLinks = navContainer.querySelectorAll(".dropdown-menu a");
+  dropdownLinks.forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      gsap.to(link, {color: "white", duration: 0.1});
+    });
+    link.addEventListener("mouseleave", () => {
+      gsap.to(link, {color: "", duration: 0.1});
+    });
+  });
+
   const navlinks = navContainer.querySelectorAll(".navlinks a");
   navlinks.forEach((link) => {
     const linkPage = link.getAttribute("href").split("/").pop();
@@ -66,7 +91,7 @@ function loadNav() {
   navlinks.forEach((link) => {
     link.addEventListener("mouseenter", () => {
       gsap.to(link, {
-        scale: 1.1,
+        //scale: 1.1,
         color: accentColour,
         duration: 0.1,
         fontWeight: "bold",
@@ -75,7 +100,7 @@ function loadNav() {
     });
     link.addEventListener("mouseleave", () => {
       gsap.to(link, {
-        scale: 1,
+        //scale: 1,
         color: "",
         duration: 0.1,
         fontWeight: "",
@@ -111,7 +136,6 @@ function loadNav() {
     });
   }
 
-  // ScrollTrigger
   ScrollTrigger.create({
     trigger: ".nav-container",
     start: "top top",
@@ -124,21 +148,64 @@ function loadNav() {
 
 function loadSearch() {
   const searchOverlay = document.querySelector(".search-overlay");
-  searchOverlay.innerHTML = "";
   if (!searchOverlay) return;
 
-  const searchHTML = `
+  searchOverlay.innerHTML = `
      <form id="search-form" class="search-box" data-search-form>
         <input type="text" id="search-input" placeholder="Search..." data-search />
+        <button type="button" id="search-clear" title="Clear Search">&times;</button>
         <button type="submit" hidden>Search</button>
-        <!-- hidden submit for accessibility -->
      </form>
      <button id="search-close">&times;</button>
-  `
-  searchOverlay.innerHTML = searchHTML
+  `;
+
+  const searchForm = document.querySelector("[data-search-form]");
+  const searchInput = document.querySelector("[data-search]");
+  const searchClose = document.getElementById("search-close");
+  const searchClear = document.getElementById("search-clear");
+
+  searchClose.addEventListener("click", () => {
+    searchOverlay.classList.remove("active");
+  });
+
+  searchClear.addEventListener("click", () => {
+    searchInput.value = "";
+    const isShopPage = window.location.pathname.includes("shop.html");
+
+    if (isShopPage) {
+      // Reload full product list
+      displayProducts(allProducts);
+    } else {
+      // Remove query from URL and redirect back to shop
+      const isGithub = window.location.hostname.includes("github.io");
+      const repoName = isGithub ? "/M7UNDO" : "";
+      window.location.href = `${repoName}/shop/shop.html`;
+    }
+  });
+
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const query = searchInput.value.trim();
+    if (!query) return;
+
+    const isShopPage = window.location.pathname.includes("shop.html");
+
+    if (isShopPage) {
+      //Direct filter
+      const filteredProducts = allProducts.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query.toLowerCase()) ||
+          product.description.toLowerCase().includes(query.toLowerCase())
+      );
+      displayProducts(filteredProducts);
+    } else {
+      // Redirect to shop page with a query
+      const isGithub = window.location.hostname.includes("github.io");
+      const repoName = isGithub ? "/M7UNDO" : "";
+      window.location.href = `${repoName}/shop/shop.html?search=${encodeURIComponent(query)}`;
+    }
+  });
 }
-
-
 
 window.addEventListener("DOMContentLoaded", () => {
   loadNav();
@@ -153,7 +220,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   if (!searchIcon || !searchOverlay) return;
 
-  // Open search overlay
+  searchIcon.addEventListener("mouseover", () => {
+    gsap.to(searchIcon, {scale: 1.1, fill: accentColour, duration: 0.2, ease: "power2.out"});
+  });
+
+  searchIcon.addEventListener("mouseleave", () => {
+    gsap.to(searchIcon, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
+  });
+
   searchIcon.addEventListener("click", () => {
     searchOverlay.style.display = "flex";
 
@@ -194,8 +268,6 @@ function updateCartCounter() {
 
   cartCounter.textContent = totalItems;
 }
-
-//Responsive Nav
 
 function openNav() {
   document.getElementsByClassName("nav-menu")[0].style.display = "flex";

@@ -3,49 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shop</title>
+    <title>Jewellery | M7UNDO Shop</title>
+    <meta name="description" content="Explore the latest clothing collection at M7UNDO. Trendy and stylish apparel for everyone.">
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/shop.css" />
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@1,2&display=swap" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-straight/css/uicons-regular-straight.css"
-    />
-    
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/3.0.0/uicons-regular-straight/css/uicons-regular-straight.css" />
+
+
     <script src="../js/darkmode.js" defer></script>
   </head>
-  <body>
-    <div class="search-overlay">
-    </div>
+  <body data-category="jewellery">
+
+    <div class="search-overlay"></div>
+
+
     <header>
       <div id="nav-placeholder"></div>
+
       <button class="theme-btn">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-moon"
-        >
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
         </svg>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="feather feather-sun"
-        >
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun">
           <circle cx="12" cy="12" r="5"></circle>
           <line x1="12" y1="1" x2="12" y2="3"></line>
           <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -58,18 +40,32 @@
         </svg>
       </button>
     </header>
+
     <main>
+      <section class="category-banner">
+        <h1>Jewellery Collection</h1>
+        <p>Discover the latest styles and trends in apparel. Quality clothing for all seasons.</p>
+      </section>
+
+
       <section>
         <div id="product-list" class="loading">Loading...</div>
       </section>
+
+
       <button class="back-to-top"><i class="fi fi-rs-arrow-to-top"></i></button>
     </main>
+
     <footer>
       <p>&copy; 2025 Mfundo Dhlamini. All Rights Reserved</p>
     </footer>
+
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
+
+
     <script src="../js/main.js"></script>
     <script src="../js/shop.js"></script>
   </body>

@@ -1,75 +1,62 @@
-function mapCategory(product) {
+const body = document.querySelector("body");
+const currentCategory = body.dataset.category || "all";
 
+function mapCategory(product) {
   if (product.title.toLowerCase().includes("backpack")) return "accessories";
   if (product.category === "jewelery") return "jewellery";
   if (product.category.includes("clothing")) return "clothing";
   if (product.category === "electronics") return "electronics";
-
   return product.category;
 }
+
+let allProducts = [];
+const userId = 1;
+let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 async function getProducts() {
   try {
     const response = await fetch("https://fakestoreapi.com/products");
-    if (response.ok) {
-      const products = await response.json();
-      console.log(products);
+    if (!response.ok) throw new Error(`Error ${response.status}`);
 
-      allProducts = products.map((p) => ({
-        ...p,
-        category: mapCategory(p),
-      }));
+    const products = await response.json();
+    allProducts = products.map((p) => ({
+      ...p,
+      category: mapCategory(p),
+    }));
 
-    
-      displayProducts(allProducts);
-      setupFilters();
-    } else {
-      throw new Error(`Error ${response.status}, ${response.statusText}`);
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchQuery = urlParams.get("search");
+
+    let productsToDisplay = allProducts;
+
+    // ✅ If a search query exists, filter products
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      productsToDisplay = allProducts.filter(
+        (product) =>
+          product.title.toLowerCase().includes(query) ||
+          product.description.toLowerCase().includes(query)
+      );
+    } 
+    // ✅ Otherwise, check if we’re on a category page
+    else if (currentCategory.toLowerCase() !== "all") {
+      productsToDisplay = allProducts.filter(
+        (p) => p.category.toLowerCase() === currentCategory.toLowerCase()
+      );
     }
+
+
+    displayProducts(productsToDisplay);
   } catch (error) {
-    console.log(error);
+    console.error("Error loading products:", error);
   }
 }
 
-getProducts();
-
-let allProducts = [];
-
-function setupFilters() {
-  const buttons = document.querySelectorAll(".filter-btn");
-
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      buttons.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const category = btn.dataset.category;
-      const filtered =
-        category === "all"
-          ? allProducts
-          : allProducts.filter((p) => p.category === category);
-
-      displayProducts(filtered);
-    });
-  });
-}
-
-/*
-function displayProducts(products){
-  const productList = document.getElementById("product-list");
-  productList.innerHTML = "";
-  productList.classList.remove("loading");
-
-  products.forEach(product =>{
-    const productItem = document.createElement("img");
-    productItem.className = "product-item";
-    productItem.src = product.image;
-    productList.appendChild(productItem);
-  })
-}*/
 
 function displayProducts(products) {
   const productList = document.getElementById("product-list");
+  if (!productList) return;
+
   productList.innerHTML = "";
   productList.classList.remove("loading");
 
@@ -80,15 +67,27 @@ function displayProducts(products) {
     .map(
       (product) => `
     <div class="product" data-id="${product.id}">
-         <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
-            <img src="${product.image}" alt="${product.title}">
-            <button class="add-to-cart-btn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg></button>
-         </a>
-         <p class= "product-title">${product.title}</p>
-         <span class="product-price">
-            R ${product.price.toLocaleString("en-ZA", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
-         </span>
-         
+      <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
+        <img src="${product.image}" alt="${product.title}">
+        <button class="add-to-cart-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" 
+               viewBox="0 -960 960 960" width="24px" fill="#000000">
+            <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5T200-160
+            q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 
+            0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 
+            56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 
+            360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 
+            80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
+          </svg>
+        </button>
+      </a>
+      <p class="product-title">${product.title}</p>
+      <span class="product-price">
+        R ${product.price.toLocaleString("en-ZA", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        })}
+      </span>
     </div>
   `
     )
@@ -107,31 +106,22 @@ function displayProducts(products) {
   setupAddToCartButtons();
 }
 
-const searchInput_ = document.querySelector("[data-search]");
+/*const searchInput_ = document.querySelector("[data-search]");
 
 if (searchInput_) {
   searchInput_.addEventListener("input", (e) => {
     const value = e.target.value.toLowerCase().trim();
-
-
-    const filteredProducts = allProducts.filter((product) => {
-      return (
-        product.title.toLowerCase().includes(value) ||
-        product.description.toLowerCase().includes(value)
-      );
-    });
-
-    
+    const filteredProducts = allProducts.filter(
+      (product) => product.title.toLowerCase().includes(value) || product.description.toLowerCase().includes(value)
+    );
     displayProducts(filteredProducts);
   });
-}
-
-const userId = 1;
-let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
+}*/
 
 function setupAddToCartButtons() {
   const buttons = document.querySelectorAll(".add-to-cart-btn");
   const cartCounter = document.querySelector(".header-actions span");
+  if (!cartCounter) return;
 
   cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
 
@@ -143,7 +133,6 @@ function setupAddToCartButtons() {
       const productElement = event.target.closest(".product");
       const productId = parseInt(productElement.dataset.id);
 
-      //Is item already in cart
       const existingItem = currentCart.find((item) => item.productId === productId);
       if (existingItem) {
         existingItem.quantity += 1;
@@ -160,13 +149,14 @@ function setupAddToCartButtons() {
         {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
       );
     });
-
-    updateCartCounter();
   });
 }
 
 function clearCart() {
   currentCart = [];
   localStorage.removeItem("cart");
-  document.querySelector(".header-actions span").textContent = 0;
+  const counter = document.querySelector(".header-actions span");
+  if (counter) counter.textContent = 0;
 }
+
+getProducts()
