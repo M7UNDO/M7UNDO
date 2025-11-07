@@ -156,7 +156,6 @@ function clearCart() {
   if (counter) counter.textContent = 0;
 }
 
-// --- FAVOURITES SYSTEM ---
 
 function setupFavouriteButtons() {
   const products = document.querySelectorAll(".product");
@@ -164,7 +163,7 @@ function setupFavouriteButtons() {
   products.forEach((product) => {
     const productId = parseInt(product.dataset.id);
 
-    // Create favourite button if it doesn't exist
+   
     let favBtn = product.querySelector(".fav-btn");
     if (!favBtn) {
       favBtn = document.createElement("button");
@@ -179,7 +178,7 @@ function setupFavouriteButtons() {
 
     const svg = favBtn.querySelector("svg");
 
-    // Initialize based on favourites
+
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
     if (favourites.includes(productId)) {
       svg.classList.add("filled");
@@ -187,7 +186,7 @@ function setupFavouriteButtons() {
       svg.classList.remove("filled");
     }
 
-    // Click toggle
+    
     favBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();

@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Auto-slide every 6 seconds
   setInterval(nextSlide, 6000);
-  showSlide(current); // Initial animation
+  showSlide(current); 
 
   const featuredContainer = document.getElementById("featured-product-list");
   if (featuredContainer) loadFeaturedProducts();
@@ -129,15 +129,14 @@ document.addEventListener("DOMContentLoaded", () => {
     setupAddToCartButtons();
   }
 
-  // ===========================
-  // LATEST ARRIVALS (CUSTOM PRODUCTS)
-  // ===========================
+
   const latestArrivalsContainer = document.getElementById("latest-arrivals");
 
   if (latestArrivalsContainer && typeof customProducts !== "undefined") {
-    displayLatestArrivals(customProducts.slice(-8)); // show last 8
+    displayLatestArrivals(customProducts.slice(-8)); 
     setupScrollButtons();
   }
+  
 
   function displayLatestArrivals(products) {
     const isGithub = window.location.hostname.includes("github.io");
@@ -177,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
       )
       .join("");
 
-    setupAddToCartButtons(); // Reuse same cart logic from above
+    setupAddToCartButtons(); 
   }
 
   function setupScrollButtons() {

@@ -405,7 +405,7 @@ section p {
 
 .scroll-container .add-to-cart-btn {
   opacity: 0;
-  pointer-events: none;
+  pointer-events: auto;
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
@@ -422,16 +422,28 @@ section p {
   transition: opacity 200ms ease, transform 200ms ease;
   z-index: 5;
 }
+
 .scroll-container .image-holder:hover .add-to-cart-btn {
   opacity: 1;
   transform: translateY(0);
+  background-color: var(--accent-colour);
 }
+
+.scroll-container .image-holder .add-to-cart-btn:hover {
+  background-color: var(--accent-colour-light);
+}
+
 .scroll-container .add-to-cart-btn svg {
   fill: #fff;
   width: 2rem;
   height: 2rem;
 }
 
+.scroll-container .add-to-cart-btn:focus {
+  outline: 2px solid #fff8;
+  opacity: 1;
+  pointer-events: auto;
+}
 .scroll-container .product-title {
   font-size: 1.5rem;
   margin: 1.2rem 0 0.6rem;

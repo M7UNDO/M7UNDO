@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const EXCHANGE_RATE = 17;
   const favouritesData = products.filter((p) => favourites.includes(p.id));
 
-  // --- Display favourite products ---
+
   productList.innerHTML = favouritesData
     .map((product) => {
       product.price = parseFloat((product.price * EXCHANGE_RATE).toFixed(2));
@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
     .join("");
 
-  // --- Add to Cart functionality ---
+-
   document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.currentTarget.dataset.id);
@@ -86,7 +86,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   });
 
-  // --- Toggle Favourites ---
+
   document.querySelectorAll(".fav-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
@@ -97,12 +97,12 @@ document.addEventListener("DOMContentLoaded", async () => {
       const svg = btn.querySelector("svg");
 
       if (favs.includes(id)) {
-        // Remove from favourites
+     
         favs = favs.filter((favId) => favId !== id);
         svg.classList.remove("filled");
         e.currentTarget.closest(".product").remove();
       } else {
-        // Add to favourites
+
         favs.push(id);
         svg.classList.add("filled");
         gsap.fromTo(svg, { scale: 1 }, { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1 });
@@ -110,7 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       localStorage.setItem("favourites", JSON.stringify(favs));
 
-      // Show message if no favourites left
+
       if (favs.length === 0) {
         productList.innerHTML = `<p style="grid-column: 1 / -1;">You have no favourite items yet 💔</p>`;
       }
