@@ -58,7 +58,7 @@ function loadNav() {
           <a id="logo" href="${repoName}/index.html">M7UNDO</a>
           <a class="closeBtn" aria-label="close" onclick="closeNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
         </div>
-        <div class="nav-menu">
+        <div class="nav-menu" id="main-nav">
           <ul class="navlinks">
             <li><a href="${repoName}/index.html">Home</a></li>
             
@@ -71,8 +71,18 @@ function loadNav() {
                      .join("")}
                 </ul>
             </li>
+            <li id="category-parent"><span>Shop<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M647-440H160v-80h487L423-744l57-56 320 320-320 320-57-56 224-224Z"/></svg></span></li>
             <li><a href="${repoName}/wishlist/wishlist.html">Wishlist</a></li>
             <li><a href="${repoName}/about/about.html">About</a></li>
+          </ul>
+        </div>
+        <div class="nav-menu sub">
+          <button id="back-to-nav"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z"/></svg>Back</button>
+          <ul class="navlinks">
+            <li><a href="${repoName}/shop/shop.html">All Products</a></li>
+            <li><a href="${repoName}/shop/clothing.html">Clothing</a></li>
+            <li><a href="${repoName}/shop/jewellery.html">Jewellery</a></li>
+            <li><a href="${repoName}/shop/accessories.html">Accessories</a></li>
           </ul>
         </div>
         <div class="header-actions">
@@ -134,6 +144,27 @@ function loadNav() {
       gsap.to(link, {color: "", duration: 0.1});
     });
   });
+
+  const categoryParent = document.getElementById("category-parent")
+  const backToNavBtn = document.getElementById("back-to-nav")
+
+  categoryParent.addEventListener("click", ()=>{
+    const categoryMenu = document.querySelector(".nav-menu.sub")
+    const mainNav = document.getElementById("main-nav")
+
+    mainNav.style.display = "none"
+    categoryMenu.style.display = "flex";
+
+  })
+
+  backToNavBtn.addEventListener("click", ()=>{
+    const categoryMenu = document.querySelector(".nav-menu.sub")
+    const mainNav = document.getElementById("main-nav")
+
+    mainNav.style.display = "flex"
+    categoryMenu.style.display = "none";
+
+  })
 
   const navlinks = navContainer.querySelectorAll(".navlinks a");
   navlinks.forEach((link) => {
