@@ -36,14 +36,16 @@ body {
   align-content: center;
   justify-content: start;
   justify-items: center;
-  gap: 2rem;
+  column-gap: 2rem;
+  row-gap: 4rem;
 }
 
 .product {
   width: 100%;
   max-width: 30rem;
-  height: 40rem;
-  padding: 2rem;
+  min-height: 30rem;
+  height: 35rem;
+  padding: 0;
   cursor: pointer;
   display: flex;
   flex-direction: column;
@@ -58,8 +60,7 @@ body {
   min-height: 30rem;
   border-radius: 10px;
   box-shadow: 0 0.4rem 1.2rem rgba(0, 0, 0, 0.207);
-  padding: 5rem 4rem;
-  margin: 1rem;
+  padding: 5rem 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
