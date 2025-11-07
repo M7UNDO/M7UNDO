@@ -2,8 +2,35 @@ body{
   text-align: center;
 }
 
+.heading {
+  text-align: center;
+  margin: 4rem auto 3rem;
+  max-width: 800px;
+  padding: 0 1rem;
+}
+
+.heading h1 {
+  font-family: "PP Neue Montreal", "Satoshi", sans-serif;
+  font-size: clamp(3rem, 10vw, 4rem);
+  font-weight: 700;
+  color: var(--typography-colour);
+  letter-spacing: -0.5px;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.heading h3 {
+  font-family: "Satoshi", sans-serif;
+  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-weight: 400;
+  color: var(--typography-colour);
+  line-height: 1.6;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
 #product-list {
-  padding: 10rem 10rem;
+  padding: 5rem 10rem;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
