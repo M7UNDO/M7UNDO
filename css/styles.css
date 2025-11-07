@@ -14,6 +14,7 @@
   --background-colour-2: #222;
   --input-colour: #e7e7e7;
   --product-card-bg: rgb(228, 228, 228);
+  --product-card-bg-light: rgb(228, 228, 228);
   --grey-bg: rgb(224, 224, 224);
   --typography-colour: rgba(44, 44, 44, 1);
   --primary-font: "Satoshi", sans-serif;
@@ -37,6 +38,7 @@ html {
   --accent-colour: rgba(94, 23, 235, 1);
   --background-colour: rgb(26, 26, 26);
   --product-card-bg: rgb(44, 44, 44);
+  --product-card-bg-light: rgb(97, 97, 97);
   --grey-bg: rgb(44, 44, 44);
   --typography-colour: rgb(231, 231, 231);
 }
