@@ -27,7 +27,7 @@ h2 {
 }
 
 section p{
-    max-width: 80rem;
+    max-width: 100rem;
 }
 
 
@@ -121,6 +121,4 @@ section p{
     height: 20rem;
   }
 
-
-  
 }

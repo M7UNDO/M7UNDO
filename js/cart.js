@@ -131,4 +131,8 @@ document.getElementById("checkout-btn").addEventListener("click", () => {
   updateCartCounter();
 });
 
-window.addEventListener("DOMContentLoaded", loadCart);
+window.addEventListener("DOMContentLoaded", ()=>{
+  loadCart()
+  updateCartCounter();
+
+});

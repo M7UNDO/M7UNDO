@@ -14,9 +14,11 @@ const primaryColour = getComputedStyle(root).getPropertyValue("--primary-colour"
 const accentColour = getComputedStyle(root).getPropertyValue("--accent-colour");
 const typographyColour = getComputedStyle(root).getPropertyValue("--typography-colour");
 const backgroundColour = getComputedStyle(root).getPropertyValue("--background-colour");
+const transparentColour = getComputedStyle(root).getPropertyValue("--transparent-colour");
 
 function loadNav() {
   const navContainer = document.querySelector("#nav-placeholder");
+
   if (!navContainer) return;
 
   const isGithub = window.location.hostname.includes("github.io");
@@ -25,12 +27,10 @@ function loadNav() {
   const navHTML = `
       <nav class="nav-container">
        <div class="nav-logo">
-          <div class="logo"><a href="${repoName}/index.html">M7UNDO</a></div>
-          <label class="burgerbutton" aria-label="burger button"
-           onclick="openNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></label>
+          <a id="logo" href="${repoName}/index.html">M7UNDO</a>
+          <a class="closeBtn" aria-label="close" onclick="closeNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
         </div>
         <div class="nav-menu">
-          <a class="closeBtn" aria-label="close" onclick="closeNav()"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
           <ul class="navlinks">
             <li><a href="${repoName}/index.html">Home</a></li>
             <li class="dropdown">
@@ -42,8 +42,8 @@ function loadNav() {
                      .join("")}
                 </ul>
             </li>
+            <li><a href="${repoName}/favourites/favourites.html">Favourites</a></li>
             <li><a href="${repoName}/about/about.html">About</a></li>
-            <li><a href="${repoName}/contact/contact.html">Contact</a></li>
           </ul>
         </div>
         <div class="header-actions">
@@ -71,6 +71,30 @@ function loadNav() {
   `;
 
   navContainer.innerHTML = navHTML;
+
+  const mobileNavActions = document.querySelector(".nav-actions");
+  mobileNavActions.innerHTML = "";
+
+  navActionsHTML = `
+       <svg class="search-icon mobile" xmlns="http://www.w3.org/2000/svg" height="24px" 
+                viewBox="0 -960 960 960" width="24px" fill="#000000">
+                <path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580
+                q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38
+                69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760
+                q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
+        </svg>
+        <a href="cart/cart.html" class="mobile-cart-container">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
+            <path
+              d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
+            />
+          </svg>
+          <span>0</span>
+        </a>
+  
+  `;
+
+  mobileNavActions.innerHTML = navActionsHTML;
 
   const dropdownLinks = navContainer.querySelectorAll(".dropdown-menu a");
   dropdownLinks.forEach((link) => {
@@ -109,7 +133,6 @@ function loadNav() {
     });
   });
 
-  // Login/Logout logic
   const user = JSON.parse(localStorage.getItem("activeUser"));
   const loggedOutContainer = navContainer.querySelector(".login-container.loggedout");
   const loggedInContainer = navContainer.querySelector(".login-container.loggedin");
@@ -135,15 +158,6 @@ function loadNav() {
       window.location.href = "login.html";
     });
   }
-
-  ScrollTrigger.create({
-    trigger: ".nav-container",
-    start: "top top",
-    end: "top top",
-    endTrigger: "footer",
-    pin: true,
-    pinSpacing: false,
-  });
 }
 
 function loadSearch() {
@@ -169,10 +183,10 @@ function loadSearch() {
   });
 
   searchClear.addEventListener("click", () => {
-    searchInput.value = ""; 
+    searchInput.value = "";
 
     if (window.location.pathname.includes("shop.html")) {
-        displayProducts(allProducts);
+      displayProducts(allProducts);
     }
   });
 
@@ -200,26 +214,54 @@ function loadSearch() {
   });
 }
 
+function loadThemeButton() {
+  const themeBtnContainer = document.getElementById("theme-btn-container");
+  themeBtnContainer.innerHTML = "";
+
+  const BtnContainerHTML = `
+      <button class="theme-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+      </button>
+        
+  `;
+
+  themeBtnContainer.innerHTML = BtnContainerHTML;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   loadNav();
+  loadThemeButton();
   updateCartCounter();
   loadSearch();
 
-  const searchIcon = document.querySelector(".search-icon");
+  const searchIcons = document.querySelectorAll(".search-icon");
   const searchOverlay = document.querySelector(".search-overlay");
   const searchBox = document.querySelector(".search-box");
   const searchClose = document.querySelector("#search-close");
   const searchClear = document.querySelector("#search-clear");
   const searchInput = document.querySelector("#search-input");
 
-  if (!searchIcon || !searchOverlay) return;
+  if (!searchIcons || !searchOverlay) return;
 
-  searchIcon.addEventListener("mouseover", () => {
-    gsap.to(searchIcon, {scale: 1.1, fill: accentColour, duration: 0.2, ease: "power2.out"});
-  });
+  searchIcons.forEach((searchIcon) => {
+    searchIcon.addEventListener("mouseover", () => {
+      gsap.to(searchIcon, {scale: 1.1, fill: accentColour, duration: 0.2, ease: "power2.out"});
+    });
 
-  searchIcon.addEventListener("mouseleave", () => {
-    gsap.to(searchIcon, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
+    searchIcon.addEventListener("mouseleave", () => {
+      gsap.to(searchIcon, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
+    });
+
+    searchIcon.addEventListener("click", () => {
+      searchOverlay.style.display = "flex";
+
+      gsap.fromTo(searchOverlay, {opacity: 0}, {opacity: 1, duration: 0.4, ease: "power2.out"});
+
+      gsap.fromTo(searchBox, {y: -40, opacity: 0}, {y: 0, opacity: 1, duration: 0.4, delay: 0.1, ease: "power2.out"});
+
+      searchInput.focus();
+    });
   });
 
   searchClose.addEventListener("mouseover", () => {
@@ -236,16 +278,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
   searchClear.addEventListener("mouseleave", () => {
     gsap.to(searchClear, {scale: 1, fill: "", duration: 0.2, ease: "power2.out"});
-  });
-
-  searchIcon.addEventListener("click", () => {
-    searchOverlay.style.display = "flex";
-
-    gsap.fromTo(searchOverlay, {opacity: 0}, {opacity: 1, duration: 0.4, ease: "power2.out"});
-
-    gsap.fromTo(searchBox, {y: -40, opacity: 0}, {y: 0, opacity: 1, duration: 0.4, delay: 0.1, ease: "power2.out"});
-
-    searchInput.focus();
   });
 
   // Close search overlay
@@ -270,6 +302,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function updateCartCounter() {
   const cartCounter = document.querySelector(".header-actions span");
+  const cartCounterMobile = document.querySelector(".mobile-cart-container span");
   if (!cartCounter) return;
 
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -277,20 +310,25 @@ function updateCartCounter() {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   cartCounter.textContent = totalItems;
+  cartCounterMobile.textContent = totalItems;
 }
 
 function openNav() {
-  document.getElementsByClassName("nav-menu")[0].style.display = "flex";
-  document.getElementsByClassName("overlay")[0].style.display = "block";
+  document.getElementsByClassName("nav-container")[0].style.display = "flex";
+  document.querySelector(".overlay").style.display = "block";
   document.body.style.overflow = "hidden";
-  document.querySelector(".burgerbutton").style.display = "none";
+  document.querySelector("header").style.backgroundColor = transparentColour;
+  document.querySelector(".burger-container").style.display = "none";
+  document.querySelector(".nav-actions").style.display = "none";
 }
 
 function closeNav() {
-  document.getElementsByClassName("nav-menu")[0].style.display = "none";
-  document.getElementsByClassName("overlay")[0].style.display = "none";
+  document.getElementsByClassName("nav-container")[0].style.display = "none";
+  document.querySelector(".overlay").style.display = "none";
   document.body.style.overflow = "";
-  document.querySelector(".burgerbutton").style.display = "block";
+  document.querySelector("header").style.backgroundColor = "";
+  document.querySelector(".burger-container").style.display = "block";
+  document.querySelector(".nav-actions").style.display = "flex";
 }
 
 //Back to top button logic

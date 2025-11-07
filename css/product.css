@@ -106,6 +106,7 @@ main{
   width: 4rem;
   height: 3rem;
   text-align: center;
+  font-family: var(--primary-font);
   font-size: 1.6rem;
   border: none;
   outline: none;
