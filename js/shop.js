@@ -91,13 +91,8 @@ function displayProducts(products) {
 
   productList.innerHTML = productHTML;
 
-  gsap.from(".product", {
-    y: 40,
-    opacity: 0,
-    duration: 0.5,
-    stagger: 0.08,
-    ease: "power2.out",
-  });
+  const imageHolder = document.querySelector(".image-holder");
+  gsap.fromTo(imageHolder, {scale: 1}, {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
 
   setupAddToCartButtons();
   setupFavouriteButtons();
@@ -156,14 +151,12 @@ function clearCart() {
   if (counter) counter.textContent = 0;
 }
 
-
 function setupFavouriteButtons() {
   const products = document.querySelectorAll(".product");
 
   products.forEach((product) => {
     const productId = parseInt(product.dataset.id);
 
-   
     let favBtn = product.querySelector(".fav-btn");
     if (!favBtn) {
       favBtn = document.createElement("button");
@@ -178,7 +171,6 @@ function setupFavouriteButtons() {
 
     const svg = favBtn.querySelector("svg");
 
-
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
     if (favourites.includes(productId)) {
       svg.classList.add("filled");
@@ -186,7 +178,6 @@ function setupFavouriteButtons() {
       svg.classList.remove("filled");
     }
 
-    
     favBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
