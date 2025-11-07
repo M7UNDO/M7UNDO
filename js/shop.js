@@ -29,25 +29,18 @@ async function getProducts() {
 
     allProducts = [...apiProducts, ...customProducts];
 
-
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get("search");
 
     let productsToDisplay = allProducts;
 
     if (searchQuery) {
- 
       const query = searchQuery.toLowerCase();
       productsToDisplay = allProducts.filter(
-        (product) =>
-          product.title.toLowerCase().includes(query) ||
-          product.description.toLowerCase().includes(query)
+        (product) => product.title.toLowerCase().includes(query) || product.description.toLowerCase().includes(query)
       );
     } else if (currentCategory.toLowerCase() !== "all") {
-
-      productsToDisplay = allProducts.filter(
-        (p) => p.category.toLowerCase() === currentCategory.toLowerCase()
-      );
+      productsToDisplay = allProducts.filter((p) => p.category.toLowerCase() === currentCategory.toLowerCase());
     }
 
     displayProducts(productsToDisplay);
@@ -55,7 +48,6 @@ async function getProducts() {
     console.error("Error loading products:", error);
   }
 }
-
 
 function displayProducts(products) {
   const productList = document.getElementById("product-list");
@@ -66,8 +58,6 @@ function displayProducts(products) {
 
   const isGithub = window.location.hostname.includes("github.io");
   const repoName = isGithub ? "/M7UNDO" : "";
-
-  
 
   const productHTML = products
     .map(
@@ -110,6 +100,7 @@ function displayProducts(products) {
   });
 
   setupAddToCartButtons();
+  setupFavouriteButtons();
 }
 
 /*const searchInput_ = document.querySelector("[data-search]");
@@ -165,4 +156,57 @@ function clearCart() {
   if (counter) counter.textContent = 0;
 }
 
-getProducts()
+// --- FAVOURITES SYSTEM ---
+
+function setupFavouriteButtons() {
+  const products = document.querySelectorAll(".product");
+
+  products.forEach((product) => {
+    const productId = parseInt(product.dataset.id);
+
+    // Create favourite button if it doesn't exist
+    let favBtn = product.querySelector(".fav-btn");
+    if (!favBtn) {
+      favBtn = document.createElement("button");
+      favBtn.classList.add("fav-btn");
+      favBtn.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="none" stroke="#000">
+          <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
+        </svg>
+      `;
+      product.querySelector(".image-holder").appendChild(favBtn);
+    }
+
+    const svg = favBtn.querySelector("svg");
+
+    // Initialize based on favourites
+    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    if (favourites.includes(productId)) {
+      svg.classList.add("filled");
+    } else {
+      svg.classList.remove("filled");
+    }
+
+    // Click toggle
+    favBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+
+      if (favourites.includes(productId)) {
+        favourites = favourites.filter((id) => id !== productId); // remove
+        svg.classList.remove("filled");
+      } else {
+        favourites.push(productId); // add
+        svg.classList.add("filled");
+
+        gsap.fromTo(svg, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+      }
+
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+    });
+  });
+}
+
+getProducts();

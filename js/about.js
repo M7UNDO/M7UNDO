@@ -110,3 +110,5 @@ window.addEventListener("DOMContentLoaded", () => {
 
   loadFeaturedProducts();
 });
+
+

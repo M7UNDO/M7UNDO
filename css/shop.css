@@ -1,4 +1,4 @@
-body{
+body {
   text-align: center;
 }
 
@@ -10,7 +10,7 @@ body{
 }
 
 .heading h1 {
-  font-family: "PP Neue Montreal", "Satoshi", sans-serif;
+  font-family: var(--secondary-font);
   font-size: clamp(3rem, 10vw, 4rem);
   font-weight: 700;
   color: var(--typography-colour);
@@ -20,7 +20,6 @@ body{
 }
 
 .heading h3 {
-  font-family: "Satoshi", sans-serif;
   font-size: clamp(1rem, 2vw, 1.6rem);
   font-weight: 400;
   color: var(--typography-colour);
@@ -73,7 +72,6 @@ body{
   object-fit: contain;
   border-radius: 10px;
 }
-
 
 .product-title {
   font-size: 1.3rem;
@@ -133,6 +131,47 @@ body{
   pointer-events: auto;
 }
 
+.fav-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: transparent;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.fav-btn svg {
+  stroke: #000;      /* solid black outline */
+  stroke-width: 80;   /* make the outline thicker */
+  fill: none;        /* ensure it’s empty */
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.fav-btn svg.filled {
+  fill: red;
+  stroke: none;
+}
+
+
+.product:hover .fav-btn {
+  opacity: 1;
+}
+
+.remove-fav-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1rem;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.remove-fav-btn:hover {
+  background-color: #333;
+}
+
 @media (max-width: 768px) {
   #product-list {
     padding: 5rem 2rem;
@@ -153,4 +192,3 @@ body{
     margin: 0.5rem;
   }
 }
-
