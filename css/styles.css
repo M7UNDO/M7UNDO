@@ -306,11 +306,13 @@ header {
 
 #search-clear:hover {
   color: var(--accent-colour);
+  
 }
 
 #search-close:hover {
   color: var(--accent-colour);
   background-color: rgb(221, 221, 221);
+  border: 1px solid var(--background-colour-2);
 }
 
 .navlinks {

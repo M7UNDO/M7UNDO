@@ -33,6 +33,7 @@ function loadNav() {
         <div class="nav-menu">
           <ul class="navlinks">
             <li><a href="${repoName}/index.html">Home</a></li>
+            
             <li class="dropdown">
                 <a href="${repoName}/shop/shop.html">Shop<svg id="dropdown-arrow" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M480-357.85 253.85-584 296-626.15l184 184 184-184L706.15-584 480-357.85Z"/></svg></a>
             
