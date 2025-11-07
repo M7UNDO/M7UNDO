@@ -37,11 +37,7 @@
     padding: 1rem 2rem;
     border: 2px solid white;
     border-radius: 8px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
+    
     transition: transform 0.3s ease, background-color 0.3s ease;
     
 }

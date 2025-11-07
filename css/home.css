@@ -1,35 +1,49 @@
-#hero{
-    background-color: grey;
-    width: 100%;
-    height: 70vh;
+#hero {
+  position: relative;
+  background-color: grey;
+  width: 100%;
+  height: 70vh;
+}
+
+.cta-btn {
+  position: absolute;
+  width: 20rem;
+  height: 5rem;
+  border: 2px solid white;
+  border-radius: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 }
 
 h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1.5rem;
-    text-align: center;
-    
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
-
-
 
 /* category section */
 
 .section-info {
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    padding: 3rem;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 3rem;
 }
 
-section p{
-    max-width: 100rem;
+section p {
+  max-width: 100rem;
 }
-
 
 .index-category {
   width: 100%;
@@ -40,9 +54,8 @@ section p{
   flex-wrap: wrap;
 }
 
-section p{
+section p {
 }
-
 
 .index-category p {
 }
@@ -115,10 +128,9 @@ section p{
   }
 }
 
-@media (max-width: 600px)  {
+@media (max-width: 600px) {
   .category-box {
     width: 20rem;
     height: 20rem;
   }
-
 }

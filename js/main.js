@@ -1,4 +1,32 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);gsap.registerPlugin(DrawSVGPlugin);
+
+window.addEventListener("load", () => {
+  const progressCircle = document.querySelector(".progress-circle");
+  const loaderText = document.querySelector(".loader-text");
+  const loader = document.querySelector(".loader");
+
+
+  gsap.set(progressCircle, { drawSVG: "0% 0%" });
+
+  gsap.to(progressCircle, {
+    duration: 1,
+    drawSVG: "0% 100%",
+    ease: "power2.inOut",
+    onUpdate: function () {
+
+      const progress = Math.round(this.progress() * 100);
+      loaderText.textContent = `${progress}%`;
+    },
+    onComplete: function () {
+      gsap.to(loader, {
+        opacity: 0,
+        duration: 0.3,
+        onComplete: () => loader.remove(),
+      });
+    },
+  });
+});
+
 
 const categories = [
   {name: "Clothing", slug: "clothing"},
