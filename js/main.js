@@ -71,7 +71,7 @@ function loadNav() {
                      .join("")}
                 </ul>
             </li>
-            <li><a href="${repoName}/favourites/favourites.html">Favourites</a></li>
+            <li><a href="${repoName}/wishlist/wishlist.html">Wishlist</a></li>
             <li><a href="${repoName}/about/about.html">About</a></li>
           </ul>
         </div>
