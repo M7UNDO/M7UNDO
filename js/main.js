@@ -205,13 +205,15 @@ function loadNav() {
     if (loggedInContainer) loggedInContainer.style.display = "none";
   }
 
-  // Logout click
   const logoutLink = loggedInContainer?.querySelector("a");
   if (logoutLink) {
     logoutLink.addEventListener("click", (e) => {
       e.preventDefault();
       localStorage.removeItem("activeUser");
-      window.location.href = "login.html";
+      const isGithub = window.location.hostname.includes("github.io");
+      const repoName = isGithub ? "/M7UNDO" : "";
+
+      window.location.href = `${repoName}/index.html`;
     });
   }
 }
@@ -368,7 +370,6 @@ function updateCartCounter() {
   cartCounterMobile.textContent = totalItems;
 }
 
-
 function openNav() {
   const nav = document.querySelector(".nav-container");
   const overlay = document.querySelector(".overlay");
@@ -381,11 +382,9 @@ function openNav() {
   gsap.set(nav, {x: "-100%", display: "flex"});
   gsap.set(overlay, {opacity: 0, display: "block"});
 
-
   gsap.to(nav, {x: "0%", duration: 0.5, ease: "power3.out"});
   gsap.to(overlay, {opacity: 1, duration: 0.5, ease: "power2.out"});
 
-  
   document.body.style.overflow = "hidden";
   header.style.backgroundColor = transparentColour;
   header.style.boxShadow = "none";
@@ -416,7 +415,6 @@ function closeNav() {
     onComplete: () => (overlay.style.display = "none"),
   });
 
-
   document.body.style.overflow = "";
   header.style.backgroundColor = "";
   header.style.boxShadow = "";
@@ -424,7 +422,6 @@ function closeNav() {
   if (burger) burger.style.display = "block";
   if (navActions) navActions.style.display = "flex";
 }
-
 
 const backToTopBtn = document.querySelector(".back-to-top");
 
