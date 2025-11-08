@@ -222,7 +222,7 @@ h1 {
   border-radius: 0.5rem;
   border: 1px solid #ccc;
   background-color: #fff;
-  color: var(--typography-colour);
+  color: black;
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
