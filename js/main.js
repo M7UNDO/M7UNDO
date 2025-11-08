@@ -122,7 +122,7 @@ function loadNav() {
                 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760
                 q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/>
         </svg>
-        <a href="cart/cart.html" class="mobile-cart-container">
+        <a href="${repoName}/cart/cart.html" class="mobile-cart-container">
           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
             <path
               d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"
@@ -378,6 +378,7 @@ function openNav() {
   document.querySelector(".overlay").style.display = "block";
   document.body.style.overflow = "hidden";
   document.querySelector("header").style.backgroundColor = transparentColour;
+  document.querySelector("header").style.boxShadow = "none";
   document.querySelector(".burger-container").style.display = "none";
   document.querySelector(".nav-actions").style.display = "none";
 }
@@ -387,6 +388,7 @@ function closeNav() {
   document.querySelector(".overlay").style.display = "none";
   document.body.style.overflow = "";
   document.querySelector("header").style.backgroundColor = "";
+  document.querySelector("header").style.boxShadow = "";
   document.querySelector(".burger-container").style.display = "block";
   document.querySelector(".nav-actions").style.display = "flex";
 }

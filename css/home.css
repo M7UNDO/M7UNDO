@@ -308,11 +308,13 @@ section p {
   background-color: var(--accent-colour);
 }
 
-#featured-products-section .image-holder .add-to-cart-btn:hover, .featured-products-grid .image-holder .add-to-cart-btn:hover {
+#featured-products-section .image-holder .add-to-cart-btn:hover,
+.featured-products-grid .image-holder .add-to-cart-btn:hover {
   background-color: var(--accent-colour-light);
 }
 
-#featured-products-section .add-to-cart-btn:focus, .featured-products-grid .add-to-cart-btn:focus{
+#featured-products-section .add-to-cart-btn:focus,
+.featured-products-grid .add-to-cart-btn:focus {
   outline: 2px solid #fff8;
   opacity: 1;
   pointer-events: auto;
@@ -331,16 +333,17 @@ section p {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 5rem;
+  padding: 2rem 5%;
+  overflow: hidden;
 }
 
 .scroll-container {
-  width: 90%;
   display: flex;
   overflow-x: auto;
   scroll-behavior: smooth;
-  gap: 2.4rem;
-  padding: 3rem 2rem;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  width: 100%;
   scrollbar-width: none;
 }
 .scroll-container::-webkit-scrollbar {
@@ -387,6 +390,7 @@ section p {
   position: relative;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 .scroll-container .product:hover {
   transform: translateY(-0.6rem);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
@@ -495,11 +499,57 @@ section p {
     padding: 3rem 2rem;
     margin: 0.5rem;
   }
+
+  .scroll-wrapper {
+    padding: 2rem 2%;
+  }
+
+  .scroll-container {
+    gap: 1rem;
+  }
+
+  .scroll-container .product {
+    flex: 0 0 clamp(14rem, 40%, 18rem); /* scales between min and max width */
+  }
+
+  .scroll-container .image-holder {
+    height: clamp(16rem, 35vw, 20rem); /* scales down proportionally */
+  }
+
+  .scroll-btn {
+    width: 3.5rem;
+    height: 3.5rem;
+    font-size: 1.6rem;
+  }
 }
 
 @media (max-width: 600px) {
   .category-box {
     width: 20rem;
     height: 20rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .scroll-wrapper {
+    padding: 1rem 2%;
+  }
+
+  .scroll-container {
+    gap: 0.8rem;
+  }
+
+  .scroll-container .product {
+    flex: 0 0 80%; 
+  }
+
+  .scroll-container .image-holder {
+    height: 14rem;
+  }
+
+  .scroll-btn {
+    width: 3rem;
+    height: 3rem;
+    font-size: 1.4rem;
   }
 }
