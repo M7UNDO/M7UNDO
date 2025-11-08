@@ -509,11 +509,11 @@ section p {
   }
 
   .scroll-container .product {
-    flex: 0 0 clamp(14rem, 40%, 18rem); /* scales between min and max width */
+    flex: 0 0 clamp(14rem, 40%, 18rem); 
   }
 
   .scroll-container .image-holder {
-    height: clamp(16rem, 35vw, 20rem); /* scales down proportionally */
+    height: clamp(16rem, 35vw, 20rem); 
   }
 
   .scroll-btn {
