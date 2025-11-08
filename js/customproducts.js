@@ -94,7 +94,7 @@ const customProducts = [
     title: "Core Regular Fit Jeans",
     price: 599.99,
     description:
-      "The Core Jeans deliver a balanced fit and durable denim — built for daily wear with a versatile mid-wash tone.",
+      "The Core Jeans deliver a balanced fit and durable denim, built for daily wear with a versatile mid-wash tone.",
     category: "clothing",
     image: "../images/products/mensregularfitjeans.png"
   },
@@ -139,7 +139,7 @@ const customProducts = [
     title: "Nova Silver Band",
     price: 299.99,
     description:
-      "Minimalist and refined. The Nova Band's solid silver design is perfect for stacking or wearing solo — subtle sophistication for every day.",
+      "Minimalist and refined. The Nova Band's solid silver design is perfect for stacking or wearing solo, subtle sophistication for every day.",
     category: "jewellery",
     image: "../images/products/solidsilverring.png"
   },

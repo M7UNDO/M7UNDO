@@ -63,7 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Auto-slide every 6 seconds
   setInterval(nextSlide, 6000);
   showSlide(current);
 
@@ -145,7 +144,8 @@ document.addEventListener("DOMContentLoaded", () => {
         (product) => `
       <div class="product" data-id="${product.id}">
         <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
-          <img src="${product.image}" alt="${product.title}">
+          <img src="${repoName}/${product.image}" alt="${product.title}">
+
           <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                  viewBox="0 -960 960 960" width="24px" fill="#000000">
@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupAddToCartButtons() {
     const buttons = document.querySelectorAll(".add-to-cart-btn");
     const cartCounter = document.querySelector(".header-actions span");
-    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); 
+    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
 
     if (!cartCounter) return;
 
@@ -218,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
         cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
         localStorage.setItem("cart", JSON.stringify(currentCart));
 
-        
         gsap.fromTo(
           productElement,
           {scale: 1},
