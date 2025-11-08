@@ -55,16 +55,18 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  const isGithub = window.location.hostname.includes("github.io");
+  const repoName = isGithub ? "/M7UNDO" : "";
 
   const productGallery = document.getElementById("about-products");
   if (productGallery && typeof customProducts !== "undefined") {
-    const productsToShow = customProducts.slice(1, 4); 
+    const productsToShow = customProducts.slice(1, 4);
 
     productGallery.innerHTML = productsToShow
       .map(
         (product) => `
       <div class="product" data-id="${product.id}">
-        <div class="image-holder">
+        <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
           <img src="${product.image}" alt="${product.title}" loading="lazy" />
           <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
@@ -80,7 +82,7 @@ window.addEventListener("DOMContentLoaded", () => {
               0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
             </svg>
           </button>
-        </div>
+        </a>
         <p class="product-title">${product.title}</p>
         <span class="product-price">
           R ${product.price.toLocaleString("en-ZA", {
@@ -92,7 +94,6 @@ window.addEventListener("DOMContentLoaded", () => {
     `
       )
       .join("");
-
 
     gsap.utils.toArray("#about-products .product").forEach((prod) => {
       gsap.from(prod, {
@@ -128,7 +129,7 @@ window.addEventListener("DOMContentLoaded", () => {
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        currentCart.push({ productId, quantity: 1 });
+        currentCart.push({productId, quantity: 1});
       }
 
       localStorage.setItem("cart", JSON.stringify(currentCart));
@@ -138,16 +139,18 @@ window.addEventListener("DOMContentLoaded", () => {
         cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
       }
 
-     
-      gsap.fromTo(productElement, { scale: 1 }, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
+      gsap.fromTo(
+        productElement,
+        {scale: 1},
+        {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
+      );
 
       const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
       if (cartIconSVG) {
-        gsap.fromTo(cartIconSVG, { scale: 1 }, { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
+        gsap.fromTo(cartIconSVG, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
       }
     });
 
-    
     const cartCounter = document.querySelector(".header-actions span");
     if (cartCounter) {
       cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
