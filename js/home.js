@@ -98,9 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     container.innerHTML = products.map(product => `
       <div class="product" data-id="${product.id}">
-        <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
-          <img src="${product.image}" alt="${product.title}">
-          <button class="add-to-cart-btn">
+        <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                  viewBox="0 -960 960 960" width="24px" fill="#000000">
               <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5
@@ -113,7 +111,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 31T622-440H324l-44 80h480v80H280q-45 
                 0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
             </svg>
-          </button>
+        </button>
+        <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
+          <img src="${product.image}" alt="${product.title}">
         </a>
         <p class="product-title">${product.title}</p>
         <span class="product-price">
