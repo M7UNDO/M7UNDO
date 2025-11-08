@@ -655,7 +655,7 @@ footer p {
     top: 0;
     left: 0;
     height: 100vh;
-    width: 50vw;
+    width: 60vw;
     flex-direction: column;
     background-color: var(--product-card-bg);
     justify-content: flex-start;

@@ -28,6 +28,29 @@ async function getProductDetails() {
   }
 
   displayProductDetails(product);
+
+  const wishlistBtn = document.querySelector('.fav-btn')
+
+  wishlistBtn.addEventListener("mouseenter", ()=>{
+    gsap.to(wishlistBtn, {
+      duration: 0.5,
+      scale: 1.1,
+    })
+  })
+
+  wishlistBtn.addEventListener("mouseleave", ()=>{
+    gsap.to(wishlistBtn, {
+      duration: 0.5,
+      scale: 1,
+    })
+  })
+  
+  wishlistBtn.addEventListener("click", ()=>{
+    gsap.fromTo(wishlistBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+
+  })
+  
+
 }
 
 function displayProductDetails(product) {
@@ -53,7 +76,7 @@ function displayProductDetails(product) {
           </div>
         </div>
 
-        <div>
+        <div id= "product-actions">
           <button class="add-to-cart-btn">Add to Cart - R ${product.price.toLocaleString("en-ZA", {
             minimumFractionDigits: 2,
           })} 
