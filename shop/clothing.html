@@ -50,6 +50,16 @@
       </div>
 
       <section>
+        <div class="sort-container">
+          <label for="sort-products" class="sort-label">Sort by:</label>
+          <select id="sort-products" class="sort-dropdown">
+            <option value="default">No filter applied</option>
+            <option value="price-low-high">Price: Low → High</option>
+            <option value="price-high-low">Price: High → Low</option>
+            <option value="alpha-a-z">Alphabet: A → Z</option>
+            <option value="alpha-z-a">Alphabet: Z → A</option>
+          </select>
+        </div>
         <div id="product-list" class="loading">Loading...</div>
       </section>
 

@@ -173,6 +173,25 @@ body {
   background-color: #333;
 }
 
+.sort-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+
+#sort-products {
+  padding: 0.5rem 1rem;
+  font-family: var(--secondary-font);
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ccc;
+}
+
+
 @media (max-width: 768px) {
   #product-list {
     padding: 5rem 2rem;

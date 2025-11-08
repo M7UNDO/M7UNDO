@@ -11,6 +11,7 @@ function mapCategory(product) {
 }
 
 let allProducts = [];
+originalProductsOrder = [...allProducts];
 const userId = 1;
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -28,6 +29,7 @@ async function getProducts() {
     }));
 
     allProducts = [...apiProducts, ...customProducts];
+    originalProductsOrder = [...allProducts];
 
     const urlParams = new URLSearchParams(window.location.search);
     const searchQuery = urlParams.get("search");
@@ -185,10 +187,10 @@ function setupFavouriteButtons() {
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
 
       if (favourites.includes(productId)) {
-        favourites = favourites.filter((id) => id !== productId); // remove
+        favourites = favourites.filter((id) => id !== productId); 
         svg.classList.remove("filled");
       } else {
-        favourites.push(productId); // add
+        favourites.push(productId); 
         svg.classList.add("filled");
 
         gsap.fromTo(svg, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
@@ -196,6 +198,42 @@ function setupFavouriteButtons() {
 
       localStorage.setItem("favourites", JSON.stringify(favourites));
     });
+  });
+}
+
+const sortDropdown = document.getElementById("sort-products");
+
+if (sortDropdown) {
+  sortDropdown.addEventListener("change", (e) => {
+    const sortValue = e.target.value;
+    let productsToDisplay = allProducts;
+
+    if (currentCategory.toLowerCase() !== "all") {
+      productsToDisplay = allProducts.filter((p) => p.category.toLowerCase() === currentCategory.toLowerCase());
+    }
+
+    switch (sortValue) {
+      case "price-low-high":
+        productsToDisplay.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high-low":
+        productsToDisplay.sort((a, b) => b.price - a.price);
+        break;
+      case "alpha-a-z":
+        productsToDisplay.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case "alpha-z-a":
+        productsToDisplay.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      default:
+ 
+        productsToDisplay = originalProductsOrder.filter(
+          (p) => currentCategory.toLowerCase() === "all" || p.category.toLowerCase() === currentCategory.toLowerCase()
+        );
+        break;
+    }
+
+    displayProducts(productsToDisplay);
   });
 }
 
