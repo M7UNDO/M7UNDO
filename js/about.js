@@ -1,6 +1,7 @@
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 window.addEventListener("DOMContentLoaded", () => {
+  // GSAP animations for sections
   gsap.utils.toArray(".fade-in").forEach((section) => {
     gsap.from(section, {
       opacity: 0,
@@ -55,9 +56,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Product gallery section logic
   const productGallery = document.getElementById("about-products");
   if (productGallery && typeof customProducts !== "undefined") {
-    const productsToShow = customProducts.slice(1, 4); // skipping 0 first 3 products after that
+    const productsToShow = customProducts.slice(1, 4); // show 3 products after first
 
     productGallery.innerHTML = productsToShow
       .map(
@@ -68,12 +70,12 @@ window.addEventListener("DOMContentLoaded", () => {
           <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                  viewBox="0 -960 960 960" width="24px" fill="#fff">
-              <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5
-              T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5
-              T360-160q0 33-23.5 56.5T280-80Zm400 
-              0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5
-              T680-240q33 0 56.5 23.5T760-160q0 33-23.5
-              56.5T680-80ZM40-800v-80h131l170 
+              <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80
+              q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 
+              56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 
+              0q-33 0-56.5-23.5T600-160q0-33 
+              23.5-56.5T680-240q33 0 56.5 
+              23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 
               360h280l156-280h91L692-482q-11 20-29.5 
               31T622-440H324l-44 80h480v80H280q-45 
               0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
@@ -92,6 +94,7 @@ window.addEventListener("DOMContentLoaded", () => {
       )
       .join("");
 
+    // Animate appearance
     gsap.utils.toArray("#about-products .product").forEach((prod) => {
       gsap.from(prod, {
         opacity: 0,
@@ -109,47 +112,48 @@ window.addEventListener("DOMContentLoaded", () => {
     setupAddToCartButtons();
   }
 
+  // 🛒 Unified add-to-cart logic
   function setupAddToCartButtons() {
-    const buttons = document.querySelectorAll("#about-products .add-to-cart-btn");
-    const cartCounter = document.querySelector(".header-actions span");
-    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); // cart icon
+    document.body.addEventListener("click", (event) => {
+      const btn = event.target.closest(".add-to-cart-btn");
+      if (!btn) return;
 
-    if (!cartCounter) return;
+      event.preventDefault();
+      event.stopPropagation();
 
-    cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+      const productElement = btn.closest(".product");
+      if (!productElement) return;
 
-    buttons.forEach((btn) => {
-      btn.addEventListener("click", (event) => {
-        event.stopPropagation();
-        event.preventDefault();
+      const productId = parseInt(productElement.dataset.id);
+      const existingItem = currentCart.find((item) => item.productId === productId);
 
-        const productElement = event.target.closest(".product");
-        const productId = parseInt(productElement.dataset.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        currentCart.push({ productId, quantity: 1 });
+      }
 
-        const existingItem = currentCart.find((item) => item.productId === productId);
-        if (existingItem) {
-          existingItem.quantity += 1;
-        } else {
-          currentCart.push({productId, quantity: 1});
-        }
+      localStorage.setItem("cart", JSON.stringify(currentCart));
 
+      // Update cart counter
+      const cartCounter = document.querySelector(".header-actions span");
+      if (cartCounter) {
         cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-        localStorage.setItem("cart", JSON.stringify(currentCart));
+      }
 
-        gsap.fromTo(
-          productElement,
-          {scale: 1},
-          {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
-        );
+      // Animations
+      gsap.fromTo(productElement, { scale: 1 }, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
 
-        if (cartIconSVG) {
-          gsap.fromTo(
-            cartIconSVG,
-            {scale: 1},
-            {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
-          );
-        }
-      });
+      const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
+      if (cartIconSVG) {
+        gsap.fromTo(cartIconSVG, { scale: 1 }, { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
+      }
     });
+
+    // Sync counter on load
+    const cartCounter = document.querySelector(".header-actions span");
+    if (cartCounter) {
+      cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+    }
   }
 });

@@ -1,6 +1,4 @@
 function showLoginPanel() {
-  
-
   if (document.querySelector(".login-panel")) return;
 
   const panel = document.createElement("div");
@@ -10,7 +8,6 @@ function showLoginPanel() {
     <button id="login-panel-btn">Login</button>
   `;
   document.body.appendChild(panel);
-
 
   panel.style.opacity = 0;
   panel.style.transform = "translateY(-20px)";
@@ -22,11 +19,10 @@ function showLoginPanel() {
 
   document.getElementById("login-panel-btn").addEventListener("click", () => {
     const isGithub = window.location.hostname.includes("github.io");
-  const repoName = isGithub ? "/M7UNDO" : "";
+    const repoName = isGithub ? "/M7UNDO" : "";
     window.location.href = `${repoName}/login.html`;
   });
 
- 
   setTimeout(() => {
     panel.style.opacity = 0;
     panel.style.transform = "translateY(-20px)";
@@ -62,14 +58,13 @@ async function loadCart() {
     })
   );
 
- 
   const cartDetails = products.map((product, index) => ({
     ...product,
     quantity: cart[index].quantity,
     size:
       product.category && product.category.toLowerCase().includes("clothing")
-        ? cart[index].size || "Medium" 
-        : undefined, 
+        ? cart[index].size || "Medium"
+        : undefined,
   }));
 
   cartContainer.innerHTML = cartDetails
@@ -80,7 +75,18 @@ async function loadCart() {
         <div class="cart-item-info">
           <p class="cart-item-title">${item.title}</p>
           <p class="cart-item-price">R ${item.price.toFixed(2)}</p>
-          ${item.size ? `<p class="cart-item-size">Size: ${item.size}</p>` : ""}
+          ${
+            item.size
+              ? `<label>Size: 
+                  <select class="cart-size-select" data-id="${item.id}">
+                    <option ${item.size === "Small" ? "selected" : ""}>Small</option>
+                    <option ${item.size === "Medium" ? "selected" : ""}>Medium</option>
+                    <option ${item.size === "Large" ? "selected" : ""}>Large</option>
+                    <option ${item.size === "XL" ? "selected" : ""}>XL</option>
+                  </select>
+                </label>`
+              : ""
+          }
           <div class="cart-item-quantity">
             <button class="qty-btn minus-btn" data-id="${item.id}">-</button>
             <input type="number" min="1" value="${item.quantity}" data-id="${item.id}" class="cart-quantity-input">
@@ -97,14 +103,18 @@ async function loadCart() {
     )
     .join("");
 
-  // Update total price
   function updateTotal() {
     const total = cartDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
     totalDisplay.textContent = `R ${total.toFixed(2)}`;
   }
   updateTotal();
 
+  function updateCartCounter() {
+    const counter = document.querySelector(".header-actions span");
+    if (counter) counter.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+  }
 
+  // Quantity input change
   document.querySelectorAll(".cart-quantity-input").forEach((input) => {
     input.addEventListener("input", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -112,18 +122,14 @@ async function loadCart() {
       if (isNaN(newQty) || newQty < 1) newQty = 1;
       e.target.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
-      cartDetails.forEach((item) => {
-        if (item.id === productId) item.quantity = newQty;
-      });
-
+      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
 
-
+  // Plus button
   document.querySelectorAll(".plus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -131,13 +137,14 @@ async function loadCart() {
       let newQty = parseInt(input.value) + 1;
       input.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
+      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
 
+  // Minus button
   document.querySelectorAll(".minus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -146,13 +153,14 @@ async function loadCart() {
       if (newQty < 1) newQty = 1;
       input.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
+      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
 
+  // Remove button
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.closest(".remove-btn").dataset.id);
@@ -162,19 +170,54 @@ async function loadCart() {
       updateCartCounter();
     });
   });
+
+  // Size select change
+  document.querySelectorAll(".cart-size-select").forEach((select) => {
+    select.addEventListener("change", (e) => {
+      const productId = parseInt(e.target.dataset.id);
+      const newSize = e.target.value;
+
+      // Update size
+      cart = cart.map((item) =>
+        item.productId === productId ? { ...item, size: newSize } : item
+      );
+
+      // Merge duplicates (same productId + size)
+      const mergedCart = [];
+      cart.forEach((item) => {
+        const existing = mergedCart.find(
+          (i) => i.productId === item.productId && i.size === item.size
+        );
+        if (existing) {
+          existing.quantity += item.quantity;
+        } else {
+          mergedCart.push({ ...item });
+        }
+      });
+
+      cart = mergedCart;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+      updateCartCounter();
+    });
+  });
+
+  updateCartCounter();
 }
 
-document.getElementById("clear-cart-btn").addEventListener("click", () => {
+// Clear cart
+document.getElementById("clear-cart-btn")?.addEventListener("click", () => {
   localStorage.removeItem("cart");
   loadCart();
-  updateCartCounter();
+  const counter = document.querySelector(".header-actions span");
+  if (counter) counter.textContent = 0;
 });
 
-document.getElementById("checkout-btn").addEventListener("click", () => {
+// Checkout
+document.getElementById("checkout-btn")?.addEventListener("click", () => {
   const user = JSON.parse(localStorage.getItem("activeUser"));
-
   if (!user) {
-    showLoginPanel(); 
+    showLoginPanel();
     return;
   }
 
@@ -190,10 +233,10 @@ document.getElementById("checkout-btn").addEventListener("click", () => {
 
   localStorage.removeItem("cart");
   loadCart();
-  updateCartCounter();
+  const counter = document.querySelector(".header-actions span");
+  if (counter) counter.textContent = 0;
 });
 
 window.addEventListener("DOMContentLoaded", () => {
   loadCart();
-  updateCartCounter();
 });

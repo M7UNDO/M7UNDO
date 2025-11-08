@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const dots = document.querySelectorAll(".dot");
   let current = 0;
 
-
   if (user && showGreeting) {
     const userGreeting = document.getElementById("user-greeting");
     if (userGreeting) {
@@ -17,8 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const tl = gsap.timeline({
         onComplete: () => (userGreeting.style.display = "none"),
       });
-      tl.from(userGreeting, {opacity: 0, y: 20, duration: 1, ease: "power2.out"})
-        .to(userGreeting, {opacity: 0, y: 20, duration: 0.5, ease: "power2.in"}, "2");
+      tl.from(userGreeting, {opacity: 0, y: 20, duration: 1, ease: "power2.out"}).to(
+        userGreeting,
+        {opacity: 0, y: 20, duration: 0.5, ease: "power2.in"},
+        "2"
+      );
       localStorage.removeItem("showGreeting");
     }
   }
@@ -35,11 +37,15 @@ document.addEventListener("DOMContentLoaded", () => {
     current = (current + 1) % slides.length;
     showSlide(current);
   }
-  dots.forEach((dot, i) => dot.addEventListener("click", () => {current = i; showSlide(current);}));
+  dots.forEach((dot, i) =>
+    dot.addEventListener("click", () => {
+      current = i;
+      showSlide(current);
+    })
+  );
   setInterval(nextSlide, 6000);
   showSlide(current);
 
-  
   const featuredContainer = document.getElementById("featured-product-list");
   if (featuredContainer) loadFeaturedProducts();
 
@@ -48,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const response = await fetch("https://fakestoreapi.com/products");
       if (!response.ok) throw new Error(`Error ${response.status}`);
       const data = await response.json();
-      const featured = data.slice(0, 4).map(p => ({
+      const featured = data.slice(0, 4).map((p) => ({
         ...p,
         category: mapCategory(p),
         price: parseFloat((p.price * EXCHANGE_RATE).toFixed(2)),
@@ -59,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  
   const latestArrivalsContainer = document.getElementById("latest-arrivals");
   if (latestArrivalsContainer) loadLatestProducts();
 
@@ -69,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!response.ok) throw new Error(`Error ${response.status}`);
       const apiProducts = await response.json();
 
-      const allProducts = apiProducts.map(p => ({
+      const allProducts = apiProducts.map((p) => ({
         ...p,
         category: mapCategory(p),
         price: parseFloat((p.price * EXCHANGE_RATE).toFixed(2)),
@@ -91,14 +96,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return product.category;
   }
 
-
   function displayProducts(products, container) {
     const isGithub = window.location.hostname.includes("github.io");
     const repoName = isGithub ? "/M7UNDO" : "";
 
-    container.innerHTML = products.map(product => `
+    container.innerHTML = products
+      .map(
+        (product) => `
       <div class="product" data-id="${product.id}">
-        <button class="add-to-cart-btn">
+        <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
+          <img src="${product.image}" alt="${product.title}">
+          <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                  viewBox="0 -960 960 960" width="24px" fill="#000000">
               <path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5
@@ -111,16 +119,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 31T622-440H324l-44 80h480v80H280q-45 
                 0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
             </svg>
-        </button>
-        <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
-          <img src="${product.image}" alt="${product.title}">
+          </button>
         </a>
         <p class="product-title">${product.title}</p>
         <span class="product-price">
-          R ${product.price.toLocaleString("en-ZA",{minimumFractionDigits: 2, maximumFractionDigits: 2})}
+          R ${product.price.toLocaleString("en-ZA", {minimumFractionDigits: 2, maximumFractionDigits: 2})}
         </span>
       </div>
-    `).join("");
+    `
+      )
+      .join("");
 
     setupAddToCartButtons();
   }
@@ -135,32 +143,35 @@ document.addEventListener("DOMContentLoaded", () => {
     rightBtn.addEventListener("click", () => container.scrollBy({left: 400, behavior: "smooth"}));
   }
 
-  function setupAddToCartButtons() {
-    const buttons = document.querySelectorAll(".add-to-cart-btn");
+
+  document.body.addEventListener("click", (event) => {
+    const btn = event.target.closest(".add-to-cart-btn");
+    if (!btn) return; 
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const productElement = btn.closest(".product");
+    const productId = parseInt(productElement.dataset.id);
+
+
+    const sizeSelect = productElement.querySelector(".product-size-select");
+    const selectedSize = sizeSelect ? sizeSelect.value : undefined;
+
+    const existingItem = currentCart.find((i) => i.productId === productId && i.size === selectedSize);
+    if (existingItem) existingItem.quantity += 1;
+    else currentCart.push({productId, quantity: 1, size: selectedSize});
+
+  
     const cartCounter = document.querySelector(".header-actions span");
+    if (cartCounter) {
+      cartCounter.textContent = currentCart.reduce((sum, i) => sum + i.quantity, 0);
+    }
+    localStorage.setItem("cart", JSON.stringify(currentCart));
+
+    gsap.fromTo(productElement, {scale: 1}, {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
     const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
-    if (!cartCounter) return;
-
-    cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-
-    buttons.forEach(btn => {
-      btn.addEventListener("click", event => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        const productElement = event.target.closest(".product");
-        const productId = parseInt(productElement.dataset.id);
-
-        const existingItem = currentCart.find(i => i.productId === productId);
-        if (existingItem) existingItem.quantity += 1;
-        else currentCart.push({productId, quantity: 1});
-
-        cartCounter.textContent = currentCart.reduce((sum, i) => sum + i.quantity, 0);
-        localStorage.setItem("cart", JSON.stringify(currentCart));
-
-        gsap.fromTo(productElement, {scale: 1}, {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
-        if (cartIconSVG) gsap.fromTo(cartIconSVG, {scale:1}, {scale:1.3, duration:0.2, yoyo:true, repeat:1, ease:"power1.inOut"});
-      });
-    });
-  }
+    if (cartIconSVG)
+      gsap.fromTo(cartIconSVG, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+  });
 });

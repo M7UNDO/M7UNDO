@@ -30,9 +30,60 @@ async function getProductDetails() {
   displayProductDetails(product);
 
   const wishlistBtn = document.querySelector(".fav-btn");
+  const favSvg = wishlistBtn.querySelector("svg path");
+  const pathLength = favSvg.getTotalLength();
 
-  wishlistBtn.addEventListener("click", () => {
-    gsap.fromTo(wishlistBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+  favSvg.style.stroke = "#000";
+  favSvg.style.strokeLinecap = "round";
+  favSvg.style.strokeLinejoin = "round";
+  favSvg.style.strokeDasharray = pathLength;
+  favSvg.style.transition = "fill 0.3s ease";
+
+  wishlistBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    const id = product.id;
+    const isFav = favourites.includes(id);
+
+    gsap.fromTo(wishlistBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
+
+    if (isFav) {
+      // remove from favourites
+      favourites = favourites.filter((f) => f !== id);
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+
+      gsap.fromTo(
+        favSvg,
+        {strokeDashoffset: 0},
+        {
+          strokeDashoffset: pathLength,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            favSvg.style.fill = "none";
+            favSvg.style.stroke = "#000";
+            favSvg.style.strokeDashoffset = 0;
+          },
+        }
+      );
+    } else {
+      // add to favourites
+      favourites.push(id);
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+
+      favSvg.style.fill = "none";
+      favSvg.style.stroke = "#000";
+      favSvg.style.strokeDashoffset = pathLength;
+
+      gsap.to(favSvg, {
+        strokeDashoffset: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: () => gsap.to(favSvg, {fill: "red", duration: 0.3}),
+      });
+    }
   });
 }
 
@@ -42,7 +93,6 @@ function displayProductDetails(product) {
 
   const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
   const isFav = favourites.includes(product.id);
-
 
   const isClothing = product.category?.toLowerCase().includes("clothing");
   const sizeOptions = isClothing
@@ -159,7 +209,7 @@ function setupProductCartLogic(product, isClothing) {
 
   addToCartBtn.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
-    const selectedSize = isClothing && sizeSelect ? sizeSelect.value : "Medium"; 
+    const selectedSize = isClothing && sizeSelect ? sizeSelect.value : "Medium";
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     const existingItem = cart.find((item) => item.productId === product.id && item.size === selectedSize);

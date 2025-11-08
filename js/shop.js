@@ -112,50 +112,44 @@ function displayProducts(products, query = "") {
 }
 
 function setupAddToCartButtons() {
-  const buttons = document.querySelectorAll(".add-to-cart-btn");
-  const cartCounter = document.querySelector(".header-actions span");
-  const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); // cart icon
+  document.body.addEventListener("click", (event) => {
+    const btn = event.target.closest(".add-to-cart-btn");
+    if (!btn) return;
 
-  if (!cartCounter) return;
+    event.preventDefault();
+    event.stopPropagation();
 
-  cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
+    const productElement = btn.closest(".product");
+    if (!productElement) return;
 
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      event.stopPropagation();
-      event.preventDefault();
+    const productId = parseInt(productElement.dataset.id);
 
-      const productElement = event.target.closest(".product");
-      const productId = parseInt(productElement.dataset.id);
+    const sizeSelect = productElement.querySelector(".product-size-select");
+    const selectedSize = sizeSelect ? sizeSelect.value : undefined;
 
-      const existingItem = currentCart.find((item) => item.productId === productId);
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        currentCart.push({ productId, quantity: 1 });
-      }
+    const existingItem = currentCart.find((item) => item.productId === productId && item.size === selectedSize);
 
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      currentCart.push({productId, quantity: 1, size: selectedSize});
+    }
 
+    const cartCounter = document.querySelector(".header-actions span");
+    if (cartCounter) {
       cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
-      localStorage.setItem("cart", JSON.stringify(currentCart));
+    }
 
-      gsap.fromTo(
-        productElement,
-        { scale: 1 },
-        { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }
-      );
+    localStorage.setItem("cart", JSON.stringify(currentCart));
 
-      if (cartIconSVG) {
-        gsap.fromTo(
-          cartIconSVG,
-          { scale: 1 },
-          { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }
-        );
-      }
-    });
+    gsap.fromTo(productElement, {scale: 1}, {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+
+    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
+    if (cartIconSVG) {
+      gsap.fromTo(cartIconSVG, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+    }
   });
 }
-
 
 function clearCart() {
   currentCart = [];
@@ -204,25 +198,23 @@ function setupFavouriteButtons() {
 
     favBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      e.stopPropagation();
+      e.stopPropagation(); // prevent product link navigation
 
       const favSvg = favBtn.querySelector("svg path");
+      const id = productId; // fixed ID reference
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-      const id = product.id;
       const isFav = favourites.includes(id);
       const pathLength = favSvg.getTotalLength();
 
-      // Base stroke setup
       favSvg.style.strokeDasharray = pathLength;
       favSvg.style.strokeLinecap = "round";
       favSvg.style.strokeLinejoin = "round";
       favSvg.style.transition = "fill 0.3s ease";
 
-      // Pop feedback
       gsap.fromTo(favBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
 
       if (isFav) {
-        // --- Remove favourite ---
+        // Remove from favourites
         favourites = favourites.filter((f) => f !== id);
         localStorage.setItem("favourites", JSON.stringify(favourites));
 
@@ -236,12 +228,12 @@ function setupFavouriteButtons() {
             onComplete: () => {
               favSvg.style.fill = "none";
               favSvg.style.stroke = "#000";
-              favSvg.style.strokeDashoffset = 0; // ✅ keeps the line visible
+              favSvg.style.strokeDashoffset = 0;
             },
           }
         );
       } else {
-        // --- Add favourite ---
+        // Add to favourites
         favourites.push(id);
         localStorage.setItem("favourites", JSON.stringify(favourites));
 

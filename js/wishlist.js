@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
     .join("");
 
-  -document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+  document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.currentTarget.dataset.id);
       const product = favouritesData.find((p) => p.id === id);
