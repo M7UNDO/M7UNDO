@@ -130,24 +130,110 @@ section img:not(.product-item img) {
   color: white;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .container {
+    padding: 2rem 5rem;
+  }
+
+  .about-hero {
+    height: auto;
+    padding: 5rem 2rem;
+    flex-direction: column;
+    text-align: center;
+  }
+
   .about-hero h1 {
-    font-size: 2.4rem;
+    font-size: 4rem;
+  }
+
+  section h2 {
+    margin: 3rem;
   }
 
   .about-hero p {
     font-size: 1.6rem;
+    max-width: 80%;
+    margin: 1rem auto;
+  }
+
+  .product-gallery {
+    gap: 1.6rem;
+  }
+
+  .product-gallery .product {
+    width: 24rem;
+  }
+
+  section p,
+  section ul {
+    max-width: 80rem;
+  }
+}
+
+/* Mobile screens */
+@media (max-width: 600px) {
+  .container {
+    padding: 1.5rem 4rem;
+  }
+
+  .about-hero {
+    padding: 4rem 0;
+    height: auto;
+    text-align: center;
+  }
+
+  .about-hero h1 {
+    font-size: 3.6rem;
+  }
+
+  .about-hero p {
+    font-size: 1.6rem;
+    margin: 0;
   }
 
   section h2 {
+    margin: 3rem;
+    font-size: 2.5rem;
+  }
+
+  section p,
+  section ul {
+    font-size: 1.6rem;
+  }
+
+  .content {
+    width: 100%;
+  }
+
+  .product-gallery {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .product-gallery .product {
+    width: 90%;
+    max-width: 32rem;
+  }
+
+  section img:not(.product-item img) {
+    max-width: 100%;
+  }
+
+  #cta {
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  #cta h2 {
     font-size: 2rem;
   }
 
-  .cta-section h2 {
-    font-size: 2.2rem;
-  }
-
-  .cta-section p {
-    font-size: 1.6rem;
+  .btn-primary {
+    width: 100%;
+    max-width: 20rem;
+    height: auto;
+    padding: 1rem;
+    font-size: 1.2rem;
   }
 }

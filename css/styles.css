@@ -627,7 +627,7 @@ footer p {
 }
 
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1024px) {
   main {
     display: flex;
     flex-direction: column;
@@ -832,5 +832,8 @@ footer p {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
+  .theme-btn{
+    top: 8rem;
+  }
 }

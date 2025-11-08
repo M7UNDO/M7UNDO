@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const EXCHANGE_RATE = 17;
   const favouritesData = products.filter((p) => favourites.includes(p.id));
+  const isGithub = window.location.hostname.includes("github.io");
+  const repoName = isGithub ? "/M7UNDO" : "";
 
 
   productList.innerHTML = favouritesData
@@ -28,24 +30,23 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       return `
         <div class="product" data-id="${product.id}">
-          <div class="image-holder">
+          <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
             <button class="fav-btn" data-id="${product.id}">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                    viewBox="0 -960 960 960" width="24px"
                    class="${isFav ? 'filled' : ''}">
-                <path d="m480-120-58-52q-101-91-167-157T150-447.5
-                Q111-500 95.5-544T80-634q0-94 63-157t157-63
-                q52 0 99 22t81 62q34-40 81-62t99-22q94 0 
-                157 63t63 157q0 46-15.5 90T810-447.5
-                Q771-395 705-329T538-172l-58 52Z"/>
+                  <path d="m480-120-58-52q-101-91-167-157T150-447.5
+                   Q111-500 95.5-544T80-634q0-94 63-157t157-63
+                   q52 0 99 22t81 62q34-40 81-62t99-22q94 0 
+                  157 63t63 157q0 46-15.5 90T810-447.5
+                  Q771-395 705-329T538-172l-58 52Z"/>
               </svg>
             </button>
-
             <img src="${product.image}" alt="${product.title}">
             <button class="add-to-cart-btn" data-id="${product.id}">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M440-600v-120H320v-80h120v-120h80v120h120v80H520v120h-80ZM280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM40-800v-80h131l170 360h280l156-280h91L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68.5-39t-1.5-79l54-98-144-304H40Z"/></svg>
             </button>
-          </div>
+          </a>
           <h3 class="product-title">${product.title}</h3>
           <p class="product-price">
             R ${product.price.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}
