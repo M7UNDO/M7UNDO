@@ -142,16 +142,11 @@ body {
   transition: opacity 0.3s ease;
 }
 
-.fav-btn svg {
-  stroke: #000;      /* solid black outline */
-  stroke-width: 80;   /* make the outline thicker */
-  fill: none;        /* ensure it’s empty */
-  transition: fill 0.2s ease, stroke 0.2s ease;
-}
-
-.fav-btn svg.filled {
-  fill: red;
-  stroke: none;
+.fav-btn svg path {
+  transition: fill 0.3s ease;
+  stroke-width: 70;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 

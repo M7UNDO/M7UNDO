@@ -143,6 +143,14 @@ h1{
   width: 3rem;
 }
 
+.fav-btn svg path {
+  transition: fill 0.3s ease;
+  stroke-width: 70;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
 @media (max-width: 1024px) {
   .product-detail {
     flex-direction: column;

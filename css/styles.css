@@ -363,7 +363,7 @@ li.dropdown a:hover #dropdown {
   left: -1.1rem;
   background-color: var(--background-colour);
   list-style: none;
-  padding: 1rem 0.5rem;
+  padding: 1rem 1rem;
   min-width: 15rem;
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.34);
@@ -546,6 +546,8 @@ footer p {
 
 .login-container svg {
   fill: var(--typography-colour);
+  height: 3rem;
+  width: 3rem;
 }
 
 .login-container a:hover ~ svg path {

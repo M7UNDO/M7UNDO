@@ -22,7 +22,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const isGithub = window.location.hostname.includes("github.io");
   const repoName = isGithub ? "/M7UNDO" : "";
 
-
   productList.innerHTML = favouritesData
     .map((product) => {
       product.price = parseFloat((product.price * EXCHANGE_RATE).toFixed(2));
@@ -33,13 +32,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
             <button class="fav-btn" data-id="${product.id}">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px"
-                   viewBox="0 -960 960 960" width="24px"
-                   class="${isFav ? 'filled' : ''}">
-                  <path d="m480-120-58-52q-101-91-167-157T150-447.5
-                   Q111-500 95.5-544T80-634q0-94 63-157t157-63
-                   q52 0 99 22t81 62q34-40 81-62t99-22q94 0 
-                  157 63t63 157q0 46-15.5 90T810-447.5
-                  Q771-395 705-329T538-172l-58 52Z"/>
+                viewBox="0 -960 960 960" width="24px"
+                class="${isFav ? "filled" : ""}"
+                fill="none" stroke="#000">
+                <path d="m480-120-58-52q-101-91-167-157T150-447.5
+                Q111-500 95.5-544T80-634q0-94 63-157t157-63
+                q52 0 99 22t81 62q34-40 81-62t99-22q94 0 
+                157 63t63 157q0 46-15.5 90T810-447.5
+                Q771-395 705-329T538-172l-58 52Z"/>
               </svg>
             </button>
             <img src="${product.image}" alt="${product.title}">
@@ -49,15 +49,14 @@ document.addEventListener("DOMContentLoaded", async () => {
           </a>
           <h3 class="product-title">${product.title}</h3>
           <p class="product-price">
-            R ${product.price.toLocaleString("en-ZA", { minimumFractionDigits: 2 })}
+            R ${product.price.toLocaleString("en-ZA", {minimumFractionDigits: 2})}
           </p>
         </div>
       `;
     })
     .join("");
 
--
-  document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
+  -document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const id = parseInt(e.currentTarget.dataset.id);
       const product = favouritesData.find((p) => p.id === id);
@@ -81,39 +80,85 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       gsap.fromTo(
         e.currentTarget,
-        { scale: 1 },
-        { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }
+        {scale: 1},
+        {scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
       );
     });
   });
 
-
   document.querySelectorAll(".fav-btn").forEach((btn) => {
+    const svgPath = btn.querySelector("path");
+    const id = parseInt(btn.dataset.id);
+
+    // Initialize heart style
+    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    const isFav = favourites.includes(id);
+    if (isFav) {
+      svgPath.style.fill = "red";
+      svgPath.style.stroke = "none";
+    } else {
+      svgPath.style.fill = "none";
+      svgPath.style.stroke = "#000";
+    }
+
+    const pathLength = svgPath.getTotalLength();
+    svgPath.style.strokeDasharray = pathLength;
+    svgPath.style.strokeLinecap = "round";
+    svgPath.style.strokeLinejoin = "round";
+    svgPath.style.strokeDashoffset = isFav ? 0 : pathLength;
+
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
 
-      const id = parseInt(btn.dataset.id);
-      let favs = JSON.parse(localStorage.getItem("favourites")) || [];
-      const svg = btn.querySelector("svg");
+      let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+      const isFav = favourites.includes(id);
 
-      if (favs.includes(id)) {
-     
-        favs = favs.filter((favId) => favId !== id);
-        svg.classList.remove("filled");
-        e.currentTarget.closest(".product").remove();
+      gsap.fromTo(btn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
+
+      if (isFav) {
+        // Remove from favourites
+        favourites = favourites.filter((f) => f !== id);
+        localStorage.setItem("favourites", JSON.stringify(favourites));
+
+        // Animate reverse draw + then remove from DOM
+        svgPath.style.fill = "none";
+        svgPath.style.stroke = "#000";
+
+        gsap.fromTo(
+          svgPath,
+          {strokeDashoffset: 0},
+          {
+            strokeDashoffset: pathLength,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onComplete: () => {
+              btn.closest(".product").remove();
+
+              // If no more favourites, show empty message
+              if (document.querySelectorAll(".product").length === 0) {
+                document.getElementById(
+                  "product-list"
+                ).innerHTML = `<p style="grid-column: 1 / -1;">You have no favourite items yet 💔</p>`;
+              }
+            },
+          }
+        );
       } else {
+        // Add to favourites
+        favourites.push(id);
+        localStorage.setItem("favourites", JSON.stringify(favourites));
 
-        favs.push(id);
-        svg.classList.add("filled");
-        gsap.fromTo(svg, { scale: 1 }, { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1 });
-      }
+        svgPath.style.fill = "none";
+        svgPath.style.stroke = "#000";
+        svgPath.style.strokeDashoffset = pathLength;
 
-      localStorage.setItem("favourites", JSON.stringify(favs));
-
-
-      if (favs.length === 0) {
-        productList.innerHTML = `<p style="grid-column: 1 / -1;">You have no favourite items yet 💔</p>`;
+        gsap.to(svgPath, {
+          strokeDashoffset: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => gsap.to(svgPath, {fill: "red", duration: 0.3}),
+        });
       }
     });
   });

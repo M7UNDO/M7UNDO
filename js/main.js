@@ -1,19 +1,18 @@
-gsap.registerPlugin(ScrollTrigger);gsap.registerPlugin(DrawSVGPlugin);
+gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(DrawSVGPlugin);
 
 window.addEventListener("load", () => {
   const progressCircle = document.querySelector(".progress-circle");
   const loaderText = document.querySelector(".loader-text");
   const loader = document.querySelector(".loader");
 
-
-  gsap.set(progressCircle, { drawSVG: "0% 0%" });
+  gsap.set(progressCircle, {drawSVG: "0% 0%"});
 
   gsap.to(progressCircle, {
     duration: 1,
     drawSVG: "0% 100%",
     ease: "power2.inOut",
     onUpdate: function () {
-
       const progress = Math.round(this.progress() * 100);
       loaderText.textContent = `${progress}%`;
     },
@@ -26,7 +25,6 @@ window.addEventListener("load", () => {
     },
   });
 });
-
 
 const categories = [
   {name: "Clothing", slug: "clothing"},
@@ -145,26 +143,24 @@ function loadNav() {
     });
   });
 
-  const categoryParent = document.getElementById("category-parent")
-  const backToNavBtn = document.getElementById("back-to-nav")
+  const categoryParent = document.getElementById("category-parent");
+  const backToNavBtn = document.getElementById("back-to-nav");
 
-  categoryParent.addEventListener("click", ()=>{
-    const categoryMenu = document.querySelector(".nav-menu.sub")
-    const mainNav = document.getElementById("main-nav")
+  categoryParent.addEventListener("click", () => {
+    const categoryMenu = document.querySelector(".nav-menu.sub");
+    const mainNav = document.getElementById("main-nav");
 
-    mainNav.style.display = "none"
+    mainNav.style.display = "none";
     categoryMenu.style.display = "flex";
+  });
 
-  })
+  backToNavBtn.addEventListener("click", () => {
+    const categoryMenu = document.querySelector(".nav-menu.sub");
+    const mainNav = document.getElementById("main-nav");
 
-  backToNavBtn.addEventListener("click", ()=>{
-    const categoryMenu = document.querySelector(".nav-menu.sub")
-    const mainNav = document.getElementById("main-nav")
-
-    mainNav.style.display = "flex"
+    mainNav.style.display = "flex";
     categoryMenu.style.display = "none";
-
-  })
+  });
 
   const navlinks = navContainer.querySelectorAll(".navlinks a");
   navlinks.forEach((link) => {
@@ -175,7 +171,7 @@ function loadNav() {
   navlinks.forEach((link) => {
     link.addEventListener("mouseenter", () => {
       gsap.to(link, {
-        //scale: 1.1,
+        scale: 1.1,
         color: accentColour,
         duration: 0.1,
         fontWeight: "bold",
@@ -184,7 +180,7 @@ function loadNav() {
     });
     link.addEventListener("mouseleave", () => {
       gsap.to(link, {
-        //scale: 1,
+        scale: 1,
         color: "",
         duration: 0.1,
         fontWeight: "",
@@ -258,7 +254,6 @@ function loadSearch() {
     const isShopPage = window.location.pathname.includes("shop.html");
 
     if (isShopPage) {
-     
       const filteredProducts = allProducts.filter(
         (product) =>
           product.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -373,26 +368,62 @@ function updateCartCounter() {
 }
 
 function openNav() {
-  document.getElementsByClassName("nav-container")[0].style.display = "flex";
-  document.querySelector(".overlay").style.display = "block";
+  const nav = document.querySelector(".nav-container");
+  const overlay = document.querySelector(".overlay");
+  const burger = document.querySelector(".burger-container");
+  const navActions = document.querySelector(".nav-actions");
+  const header = document.querySelector("header");
+
+  if (!nav || !overlay) return;
+
+  gsap.set(nav, {x: "-100%", display: "flex"});
+  gsap.set(overlay, {opacity: 0, display: "block"});
+
+
+  gsap.to(nav, {x: "0%", duration: 0.5, ease: "power3.out"});
+  gsap.to(overlay, {opacity: 1, duration: 0.5, ease: "power2.out"});
+
+  
   document.body.style.overflow = "hidden";
-  document.querySelector("header").style.backgroundColor = transparentColour;
-  document.querySelector("header").style.boxShadow = "none";
-  document.querySelector(".burger-container").style.display = "none";
-  document.querySelector(".nav-actions").style.display = "none";
+  header.style.backgroundColor = transparentColour;
+  header.style.boxShadow = "none";
+
+  if (burger) burger.style.display = "none";
+  if (navActions) navActions.style.display = "none";
 }
 
 function closeNav() {
-  document.getElementsByClassName("nav-container")[0].style.display = "none";
-  document.querySelector(".overlay").style.display = "none";
+  const nav = document.querySelector(".nav-container");
+  const overlay = document.querySelector(".overlay");
+  const burger = document.querySelector(".burger-container");
+  const navActions = document.querySelector(".nav-actions");
+  const header = document.querySelector("header");
+
+  if (!nav || !overlay) return;
+
+  gsap.to(nav, {
+    x: "-100%",
+    duration: 0.5,
+    ease: "power3.in",
+    onComplete: () => (nav.style.display = "none"),
+  });
+  gsap.to(overlay, {
+    opacity: 0,
+    duration: 0.5,
+    ease: "power2.in",
+    onComplete: () => (overlay.style.display = "none"),
+  });
+
+
   document.body.style.overflow = "";
-  document.querySelector("header").style.backgroundColor = "";
-  document.querySelector("header").style.boxShadow = "";
-  document.querySelector(".burger-container").style.display = "block";
-  document.querySelector(".nav-actions").style.display = "flex";
+  header.style.backgroundColor = "";
+  header.style.boxShadow = "";
+
+  if (burger) burger.style.display = "block";
+  if (navActions) navActions.style.display = "flex";
 }
 
-//Back to top button logic
+
 const backToTopBtn = document.querySelector(".back-to-top");
 
 function scrollFunction() {

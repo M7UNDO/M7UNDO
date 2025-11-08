@@ -194,6 +194,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupAddToCartButtons() {
     const buttons = document.querySelectorAll(".add-to-cart-btn");
     const cartCounter = document.querySelector(".header-actions span");
+    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); 
+
     if (!cartCounter) return;
 
     cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -216,11 +218,20 @@ document.addEventListener("DOMContentLoaded", () => {
         cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
         localStorage.setItem("cart", JSON.stringify(currentCart));
 
+        
         gsap.fromTo(
           productElement,
           {scale: 1},
           {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
         );
+
+        if (cartIconSVG) {
+          gsap.fromTo(
+            cartIconSVG,
+            {scale: 1},
+            {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
+          );
+        }
       });
     });
   }

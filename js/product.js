@@ -29,33 +29,19 @@ async function getProductDetails() {
 
   displayProductDetails(product);
 
-  const wishlistBtn = document.querySelector('.fav-btn')
+  const wishlistBtn = document.querySelector(".fav-btn");
 
-  wishlistBtn.addEventListener("mouseenter", ()=>{
-    gsap.to(wishlistBtn, {
-      duration: 0.5,
-      scale: 1.1,
-    })
-  })
-
-  wishlistBtn.addEventListener("mouseleave", ()=>{
-    gsap.to(wishlistBtn, {
-      duration: 0.5,
-      scale: 1,
-    })
-  })
-  
-  wishlistBtn.addEventListener("click", ()=>{
+  wishlistBtn.addEventListener("click", () => {
     gsap.fromTo(wishlistBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
-
-  })
-  
-
+  });
 }
 
 function displayProductDetails(product) {
   const container = document.getElementById("product-details");
   container.classList.remove("loading");
+
+  const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+  const isFav = favourites.includes(product.id);
 
   container.innerHTML = `
     <div class="product-detail">
@@ -94,9 +80,18 @@ function displayProductDetails(product) {
               0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
             </svg>
           </button>
-          <button class="fav-btn">
-            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Zm0-108q96-86 158-147.5t98-107q36-45.5 50-81t14-70.5q0-60-40-100t-100-40q-47 0-87 26.5T518-680h-76q-15-41-55-67.5T300-774q-60 0-100 40t-40 100q0 35 14 70.5t50 81q36 45.5 98 107T480-228Zm0-273Z"/></svg>
-         </button>
+          <button class="fav-btn" data-id="${product.id}">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+                 viewBox="0 -960 960 960" width="24px"
+                 class="${isFav ? "filled" : ""}"
+                 fill="${isFav ? "red" : "none"}" stroke="${isFav ? "none" : "#000"}">
+              <path d="m480-120-58-52q-101-91-167-157T150-447.5
+                       Q111-500 95.5-544T80-634q0-94 63-157t157-63
+                       q52 0 99 22t81 62q34-40 81-62t99-22
+                       q94 0 157 63t63 157q0 46-15.5 90T810-447.5
+                       Q771-395 705-329T538-172l-58 52Z"/>
+            </svg>
+          </button>
 
         </div>
       </div>
@@ -116,7 +111,7 @@ function setupProductCartLogic(product) {
   // --- PRICE UPDATE ---
   const updateButtonPrice = () => {
     const quantity = parseInt(quantityInput.value);
-    const totalPrice = (product.price * quantity).toLocaleString("en-ZA", { minimumFractionDigits: 2 });
+    const totalPrice = (product.price * quantity).toLocaleString("en-ZA", {minimumFractionDigits: 2});
     addToCartBtn.innerHTML = `
       Add to Cart - R ${totalPrice} 
       <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000">
@@ -136,7 +131,6 @@ function setupProductCartLogic(product) {
 
   updateButtonPrice();
 
-
   increaseBtn.addEventListener("click", () => {
     quantityInput.stepUp();
     updateButtonPrice();
@@ -149,7 +143,6 @@ function setupProductCartLogic(product) {
 
   quantityInput.addEventListener("input", updateButtonPrice);
 
- 
   addToCartBtn.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -170,20 +163,70 @@ function setupProductCartLogic(product) {
     localStorage.setItem("cart", JSON.stringify(cart));
     updateCartCounter();
 
-    gsap.fromTo(addToCartBtn, { scale: 1 }, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
+    gsap.fromTo(addToCartBtn, {scale: 1}, {scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
   });
 
-  favBtn.addEventListener("click", () => {
+  favBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const favSvg = favBtn.querySelector("svg path");
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    if (favourites.includes(product.id)) {
-      favourites = favourites.filter((id) => id !== product.id);
+    const id = product.id;
+    const isFav = favourites.includes(id);
+    const pathLength = favSvg.getTotalLength();
+
+    // Setup the stroke style
+    favSvg.style.strokeDasharray = pathLength;
+    favSvg.style.strokeLinecap = "round";
+    favSvg.style.strokeLinejoin = "round";
+    favSvg.style.transition = "fill 0.3s ease";
+
+    // Pop animation for feedback
+    gsap.fromTo(favBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
+
+    if (isFav) {
+      // --- Remove from favourites ---
+      favourites = favourites.filter((f) => f !== id);
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+
+      // Animate stroke back (reverse draw)
+      gsap.fromTo(
+        favSvg,
+        {strokeDashoffset: 0},
+        {
+          strokeDashoffset: pathLength,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => {
+            // Reset style after reverse
+            favSvg.style.fill = "none";
+            favSvg.style.stroke = "#000";
+            favSvg.style.strokeDashoffset = 0; // ensures outline remains visible
+          },
+        }
+      );
     } else {
-      favourites.push(product.id);
+      // --- Add to favourites ---
+      favourites.push(id);
+      localStorage.setItem("favourites", JSON.stringify(favourites));
+
+      // Draw animation (outline appears)
+      favSvg.style.fill = "none";
+      favSvg.style.stroke = "#000";
+      favSvg.style.strokeDashoffset = pathLength;
+
+      gsap.to(favSvg, {
+        strokeDashoffset: 0,
+        duration: 0.5,
+        ease: "power2.inOut",
+        onComplete: () => {
+          // Fill heart after the draw animation
+          gsap.to(favSvg, {fill: "red", duration: 0.3});
+        },
+      });
     }
-    localStorage.setItem("favourites", JSON.stringify(favourites));
-    favBtn.querySelector("svg").setAttribute("fill", favourites.includes(product.id) ? "red" : "none");
   });
 }
-
 
 getProductDetails();

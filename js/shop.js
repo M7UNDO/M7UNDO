@@ -62,10 +62,9 @@ function displayProducts(products, query = "") {
         products.length !== 1 ? "s" : ""
       } found for "${query}"`;
     } else {
-      resultsParagraph.textContent = ""; 
+      resultsParagraph.textContent = "";
     }
   }
-
 
   productList.innerHTML = "";
   productList.classList.remove("loading");
@@ -112,21 +111,11 @@ function displayProducts(products, query = "") {
   setupFavouriteButtons();
 }
 
-/*const searchInput_ = document.querySelector("[data-search]");
-
-if (searchInput_) {
-  searchInput_.addEventListener("input", (e) => {
-    const value = e.target.value.toLowerCase().trim();
-    const filteredProducts = allProducts.filter(
-      (product) => product.title.toLowerCase().includes(value) || product.description.toLowerCase().includes(value)
-    );
-    displayProducts(filteredProducts);
-  });
-}*/
-
 function setupAddToCartButtons() {
   const buttons = document.querySelectorAll(".add-to-cart-btn");
   const cartCounter = document.querySelector(".header-actions span");
+  const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); // cart icon
+
   if (!cartCounter) return;
 
   cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -143,20 +132,30 @@ function setupAddToCartButtons() {
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        currentCart.push({productId, quantity: 1});
+        currentCart.push({ productId, quantity: 1 });
       }
+
 
       cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
       localStorage.setItem("cart", JSON.stringify(currentCart));
 
       gsap.fromTo(
         productElement,
-        {scale: 1},
-        {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
+        { scale: 1 },
+        { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }
       );
+
+      if (cartIconSVG) {
+        gsap.fromTo(
+          cartIconSVG,
+          { scale: 1 },
+          { scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" }
+        );
+      }
     });
   });
 }
+
 
 function clearCart() {
   currentCart = [];
@@ -170,45 +169,93 @@ function setupFavouriteButtons() {
 
   products.forEach((product) => {
     const productId = parseInt(product.dataset.id);
-
     let favBtn = product.querySelector(".fav-btn");
+
     if (!favBtn) {
       favBtn = document.createElement("button");
       favBtn.classList.add("fav-btn");
       favBtn.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="none" stroke="#000">
-          <path d="m480-120-58-52q-101-91-167-157T150-447.5Q111-500 95.5-544T80-634q0-94 63-157t157-63q52 0 99 22t81 62q34-40 81-62t99-22q94 0 157 63t63 157q0 46-15.5 90T810-447.5Q771-395 705-329T538-172l-58 52Z"/>
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px"
+             viewBox="0 -960 960 960" width="24px" fill="none" stroke="#000">
+          <path d="m480-120-58-52q-101-91-167-157T150-447.5
+           Q111-500 95.5-544T80-634q0-94 63-157t157-63
+           q52 0 99 22t81 62q34-40 81-62t99-22
+           q94 0 157 63t63 157q0 46-15.5 90T810-447.5
+           Q771-395 705-329T538-172l-58 52Z"/>
         </svg>
       `;
       product.querySelector(".image-holder").appendChild(favBtn);
     }
 
-    const svg = favBtn.querySelector("svg");
+    const path = favBtn.querySelector("path");
+    const pathLength = path.getTotalLength();
+    path.style.strokeDasharray = pathLength;
+    path.style.strokeDashoffset = 0;
+    path.style.transition = "stroke-dashoffset 0.5s ease, fill 0.3s ease";
 
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    if (favourites.includes(productId)) {
-      svg.classList.add("filled");
+    const isFav = favourites.includes(productId);
+
+    if (isFav) {
+      path.style.fill = "red";
     } else {
-      svg.classList.remove("filled");
+      path.style.fill = "none";
     }
 
     favBtn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
 
+      const favSvg = favBtn.querySelector("svg path");
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
+      const id = product.id;
+      const isFav = favourites.includes(id);
+      const pathLength = favSvg.getTotalLength();
 
-      if (favourites.includes(productId)) {
-        favourites = favourites.filter((id) => id !== productId);
-        svg.classList.remove("filled");
+      // Base stroke setup
+      favSvg.style.strokeDasharray = pathLength;
+      favSvg.style.strokeLinecap = "round";
+      favSvg.style.strokeLinejoin = "round";
+      favSvg.style.transition = "fill 0.3s ease";
+
+      // Pop feedback
+      gsap.fromTo(favBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
+
+      if (isFav) {
+        // --- Remove favourite ---
+        favourites = favourites.filter((f) => f !== id);
+        localStorage.setItem("favourites", JSON.stringify(favourites));
+
+        gsap.fromTo(
+          favSvg,
+          {strokeDashoffset: 0},
+          {
+            strokeDashoffset: pathLength,
+            duration: 0.5,
+            ease: "power2.inOut",
+            onComplete: () => {
+              favSvg.style.fill = "none";
+              favSvg.style.stroke = "#000";
+              favSvg.style.strokeDashoffset = 0; // ✅ keeps the line visible
+            },
+          }
+        );
       } else {
-        favourites.push(productId);
-        svg.classList.add("filled");
+        // --- Add favourite ---
+        favourites.push(id);
+        localStorage.setItem("favourites", JSON.stringify(favourites));
 
-        gsap.fromTo(svg, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+        favSvg.style.fill = "none";
+        favSvg.style.stroke = "#000";
+        favSvg.style.strokeDashoffset = pathLength;
+
+        gsap.to(favSvg, {
+          strokeDashoffset: 0,
+          duration: 0.5,
+          ease: "power2.inOut",
+          onComplete: () => gsap.to(favSvg, {fill: "red", duration: 0.3}),
+        });
       }
-
-      localStorage.setItem("favourites", JSON.stringify(favourites));
     });
   });
 }

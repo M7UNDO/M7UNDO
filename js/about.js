@@ -1,12 +1,11 @@
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 window.addEventListener("DOMContentLoaded", () => {
-
   gsap.utils.toArray(".fade-in").forEach((section) => {
     gsap.from(section, {
       opacity: 0,
       y: 40,
-      duration: 1,
+      duration: 0.5,
       ease: "power2.out",
       scrollTrigger: {
         trigger: section,
@@ -113,6 +112,8 @@ window.addEventListener("DOMContentLoaded", () => {
   function setupAddToCartButtons() {
     const buttons = document.querySelectorAll("#about-products .add-to-cart-btn");
     const cartCounter = document.querySelector(".header-actions span");
+    const cartIconSVG = document.querySelector(".header-actions .cart-holder svg"); // cart icon
+
     if (!cartCounter) return;
 
     cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
@@ -140,6 +141,14 @@ window.addEventListener("DOMContentLoaded", () => {
           {scale: 1},
           {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
         );
+
+        if (cartIconSVG) {
+          gsap.fromTo(
+            cartIconSVG,
+            {scale: 1},
+            {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
+          );
+        }
       });
     });
   }
