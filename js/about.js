@@ -59,9 +59,34 @@ window.addEventListener("DOMContentLoaded", () => {
   const repoName = isGithub ? "/M7UNDO" : "";
 
   const productGallery = document.getElementById("about-products");
-  if (productGallery && typeof customProducts !== "undefined") {
-    const productsToShow = customProducts.slice(1, 4);
+  const EXCHANGE_RATE = 17;
+  let allProducts = [];
 
+  async function loadProductsForAbout() {
+    try {
+      const response = await fetch("https://fakestoreapi.com/products");
+      if (!response.ok) throw new Error("Failed to load products");
+
+      const products = await response.json();
+
+      const apiProducts = products.map((p) => ({
+        ...p,
+        category: p.category.toLowerCase(),
+        price: parseFloat((p.price * EXCHANGE_RATE).toFixed(2)),
+      }));
+
+      allProducts = [...apiProducts, ...customProducts];
+      displayAboutProducts();
+    } catch (err) {
+      console.error("Error loading products for About:", err);
+    }
+  }
+
+  function displayAboutProducts() {
+    const productGallery = document.getElementById("about-products");
+    if (!productGallery) return;
+
+    const productsToShow = allProducts.slice(21, 24);
     productGallery.innerHTML = productsToShow
       .map(
         (product) => `
@@ -95,22 +120,10 @@ window.addEventListener("DOMContentLoaded", () => {
       )
       .join("");
 
-    gsap.utils.toArray("#about-products .product").forEach((prod) => {
-      gsap.from(prod, {
-        opacity: 0,
-        y: 40,
-        duration: 1,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: prod,
-          start: "top 85%",
-          toggleActions: "play none none reverse",
-        },
-      });
-    });
-
     setupAddToCartButtons();
   }
+
+  loadProductsForAbout();
 
   function setupAddToCartButtons() {
     document.body.addEventListener("click", (event) => {
