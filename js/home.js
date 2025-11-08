@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const latestArrivalsContainer = document.getElementById("latest-arrivals");
   if (latestArrivalsContainer) loadLatestProducts();
+  setupScrollButtons();
 
   async function loadLatestProducts() {
     try {
