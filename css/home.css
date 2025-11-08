@@ -416,7 +416,7 @@ section p {
   object-fit: contain;
   border-radius: 10px;
   transition: transform 0.3s ease;
-  background-color: var(--product-card-bg-light);
+  background-color: var(--product-card-bg);
 }
 .scroll-container .product:hover img {
   transform: scale(1.08);
