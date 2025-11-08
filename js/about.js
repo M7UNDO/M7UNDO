@@ -1,7 +1,6 @@
 let currentCart = JSON.parse(localStorage.getItem("cart")) || [];
 
 window.addEventListener("DOMContentLoaded", () => {
-  // GSAP animations for sections
   gsap.utils.toArray(".fade-in").forEach((section) => {
     gsap.from(section, {
       opacity: 0,
@@ -56,10 +55,10 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Product gallery section logic
+
   const productGallery = document.getElementById("about-products");
   if (productGallery && typeof customProducts !== "undefined") {
-    const productsToShow = customProducts.slice(1, 4); // show 3 products after first
+    const productsToShow = customProducts.slice(1, 4); 
 
     productGallery.innerHTML = productsToShow
       .map(
@@ -94,7 +93,7 @@ window.addEventListener("DOMContentLoaded", () => {
       )
       .join("");
 
-    // Animate appearance
+
     gsap.utils.toArray("#about-products .product").forEach((prod) => {
       gsap.from(prod, {
         opacity: 0,
@@ -112,7 +111,6 @@ window.addEventListener("DOMContentLoaded", () => {
     setupAddToCartButtons();
   }
 
-  // 🛒 Unified add-to-cart logic
   function setupAddToCartButtons() {
     document.body.addEventListener("click", (event) => {
       const btn = event.target.closest(".add-to-cart-btn");
@@ -135,13 +133,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
       localStorage.setItem("cart", JSON.stringify(currentCart));
 
-      // Update cart counter
       const cartCounter = document.querySelector(".header-actions span");
       if (cartCounter) {
         cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);
       }
 
-      // Animations
+     
       gsap.fromTo(productElement, { scale: 1 }, { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut" });
 
       const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
@@ -150,7 +147,7 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Sync counter on load
+    
     const cartCounter = document.querySelector(".header-actions span");
     if (cartCounter) {
       cartCounter.textContent = currentCart.reduce((sum, item) => sum + item.quantity, 0);

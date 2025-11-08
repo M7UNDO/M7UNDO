@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
 
   if (favourites.length === 0) {
-    productList.innerHTML = `<p style="grid-column: 1 / -1;">You have no favourite items yet 💔</p>`;
+    productList.innerHTML = `<p style="grid-column: 1 / -1;">You have no favourite items yet</p>`;
     return;
   }
 
@@ -56,41 +56,69 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
     .join("");
 
-  document.querySelectorAll(".add-to-cart-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = parseInt(e.currentTarget.dataset.id);
-      const product = favouritesData.find((p) => p.id === id);
+    setupWishlistAddToCartButtons();
+
+  function setupWishlistAddToCartButtons() {
+    document.body.addEventListener("click", (event) => {
+      const btn = event.target.closest(".add-to-cart-btn");
+      if (!btn) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const productElement = btn.closest(".product");
+      if (!productElement) return;
+
+      const productId = parseInt(productElement.dataset.id);
+      const sizeSelect = productElement.querySelector(".product-size-select");
+      const selectedSize = sizeSelect ? sizeSelect.value : undefined;
+
+
+      if (sizeSelect && !selectedSize) {
+        alert("Please select a size before adding to cart.");
+        return;
+      }
+
       let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      const existingItem = cart.find((item) => item.productId === product.id);
+      const existingItem = cart.find((item) => item.productId === productId && item.size === selectedSize);
 
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
         cart.push({
-          productId: product.id,
-          title: product.title,
-          price: product.price,
-          image: product.image,
+          productId,
+          title: productElement.querySelector(".product-title").textContent,
+          price: parseFloat(productElement.querySelector(".product-price").textContent.replace(/[^\d.]/g, "")),
+          image: productElement.querySelector("img").src,
           quantity: 1,
+          size: selectedSize,
         });
       }
 
       localStorage.setItem("cart", JSON.stringify(cart));
-      if (typeof updateCartCounter === "function") updateCartCounter();
+
+      const cartCounter = document.querySelector(".header-actions span");
+      if (cartCounter) {
+        cartCounter.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+      }
 
       gsap.fromTo(
-        e.currentTarget,
+        productElement,
         {scale: 1},
-        {scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
+        {scale: 1.05, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"}
       );
+
+      const cartIconSVG = document.querySelector(".header-actions .cart-holder svg");
+      if (cartIconSVG) {
+        gsap.fromTo(cartIconSVG, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
+      }
     });
-  });
+  }
 
   document.querySelectorAll(".fav-btn").forEach((btn) => {
     const svgPath = btn.querySelector("path");
     const id = parseInt(btn.dataset.id);
 
-    // Initialize heart style
     let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
     const isFav = favourites.includes(id);
     if (isFav) {
@@ -117,11 +145,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       gsap.fromTo(btn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
 
       if (isFav) {
-        // Remove from favourites
+
         favourites = favourites.filter((f) => f !== id);
         localStorage.setItem("favourites", JSON.stringify(favourites));
 
-        // Animate reverse draw + then remove from DOM
         svgPath.style.fill = "none";
         svgPath.style.stroke = "#000";
 
@@ -135,7 +162,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             onComplete: () => {
               btn.closest(".product").remove();
 
-              // If no more favourites, show empty message
               if (document.querySelectorAll(".product").length === 0) {
                 document.getElementById(
                   "product-list"
@@ -145,7 +171,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
         );
       } else {
-        // Add to favourites
         favourites.push(id);
         localStorage.setItem("favourites", JSON.stringify(favourites));
 

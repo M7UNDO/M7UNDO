@@ -114,7 +114,7 @@ async function loadCart() {
     if (counter) counter.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
   }
 
-  // Quantity input change
+
   document.querySelectorAll(".cart-quantity-input").forEach((input) => {
     input.addEventListener("input", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -129,7 +129,7 @@ async function loadCart() {
     });
   });
 
-  // Plus button
+
   document.querySelectorAll(".plus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -144,7 +144,7 @@ async function loadCart() {
     });
   });
 
-  // Minus button
+ 
   document.querySelectorAll(".minus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -160,7 +160,7 @@ async function loadCart() {
     });
   });
 
-  // Remove button
+
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.closest(".remove-btn").dataset.id);
@@ -171,18 +171,18 @@ async function loadCart() {
     });
   });
 
-  // Size select change
+
   document.querySelectorAll(".cart-size-select").forEach((select) => {
     select.addEventListener("change", (e) => {
       const productId = parseInt(e.target.dataset.id);
       const newSize = e.target.value;
 
-      // Update size
+     
       cart = cart.map((item) =>
         item.productId === productId ? { ...item, size: newSize } : item
       );
 
-      // Merge duplicates (same productId + size)
+      
       const mergedCart = [];
       cart.forEach((item) => {
         const existing = mergedCart.find(
@@ -205,7 +205,7 @@ async function loadCart() {
   updateCartCounter();
 }
 
-// Clear cart
+
 document.getElementById("clear-cart-btn")?.addEventListener("click", () => {
   localStorage.removeItem("cart");
   loadCart();
@@ -213,7 +213,7 @@ document.getElementById("clear-cart-btn")?.addEventListener("click", () => {
   if (counter) counter.textContent = 0;
 });
 
-// Checkout
+
 document.getElementById("checkout-btn")?.addEventListener("click", () => {
   const user = JSON.parse(localStorage.getItem("activeUser"));
   if (!user) {
