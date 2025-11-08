@@ -215,17 +215,16 @@ h1 {
   background-color: var(--accent-colour-light);
 }
 
+
+
 .cart-size-select {
   padding: 0.5rem 1rem;
   font-family: var(--secondary-font);
   font-size: 1.4rem;
   border-radius: 0.5rem;
   border: 1px solid #ccc;
-  background-color: #fff;
-  color: black;
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  text-align: center;
+  background-color: #fff;
 }
 
 

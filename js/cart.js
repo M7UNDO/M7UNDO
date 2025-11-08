@@ -104,7 +104,13 @@ async function loadCart() {
     .join("");
 
   function updateTotal() {
-    const total = cartDetails.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    let total = 0;
+    document.querySelectorAll(".cart-item").forEach((itemEl) => {
+      const priceText = itemEl.querySelector(".cart-item-price").textContent.replace("R", "").trim();
+      const price = parseFloat(priceText);
+      const quantity = parseInt(itemEl.querySelector(".cart-quantity-input").value);
+      total += price * quantity;
+    });
     totalDisplay.textContent = `R ${total.toFixed(2)}`;
   }
   updateTotal();
@@ -114,7 +120,6 @@ async function loadCart() {
     if (counter) counter.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
   }
 
-
   document.querySelectorAll(".cart-quantity-input").forEach((input) => {
     input.addEventListener("input", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -122,13 +127,12 @@ async function loadCart() {
       if (isNaN(newQty) || newQty < 1) newQty = 1;
       e.target.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
+      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
-
 
   document.querySelectorAll(".plus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -137,14 +141,13 @@ async function loadCart() {
       let newQty = parseInt(input.value) + 1;
       input.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
+      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
 
- 
   document.querySelectorAll(".minus-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       const productId = parseInt(e.target.dataset.id);
@@ -153,13 +156,12 @@ async function loadCart() {
       if (newQty < 1) newQty = 1;
       input.value = newQty;
 
-      cart = cart.map((item) => (item.productId === productId ? { ...item, quantity: newQty } : item));
+      cart = cart.map((item) => (item.productId === productId ? {...item, quantity: newQty} : item));
       localStorage.setItem("cart", JSON.stringify(cart));
       updateTotal();
       updateCartCounter();
     });
   });
-
 
   document.querySelectorAll(".remove-btn").forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -171,27 +173,20 @@ async function loadCart() {
     });
   });
 
-
   document.querySelectorAll(".cart-size-select").forEach((select) => {
     select.addEventListener("change", (e) => {
       const productId = parseInt(e.target.dataset.id);
       const newSize = e.target.value;
 
-     
-      cart = cart.map((item) =>
-        item.productId === productId ? { ...item, size: newSize } : item
-      );
+      cart = cart.map((item) => (item.productId === productId ? {...item, size: newSize} : item));
 
-      
       const mergedCart = [];
       cart.forEach((item) => {
-        const existing = mergedCart.find(
-          (i) => i.productId === item.productId && i.size === item.size
-        );
+        const existing = mergedCart.find((i) => i.productId === item.productId && i.size === item.size);
         if (existing) {
           existing.quantity += item.quantity;
         } else {
-          mergedCart.push({ ...item });
+          mergedCart.push({...item});
         }
       });
 
@@ -205,14 +200,12 @@ async function loadCart() {
   updateCartCounter();
 }
 
-
 document.getElementById("clear-cart-btn")?.addEventListener("click", () => {
   localStorage.removeItem("cart");
   loadCart();
   const counter = document.querySelector(".header-actions span");
   if (counter) counter.textContent = 0;
 });
-
 
 document.getElementById("checkout-btn")?.addEventListener("click", () => {
   const user = JSON.parse(localStorage.getItem("activeUser"));
