@@ -354,6 +354,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+//Udate all of my cart counters
 function updateCartCounter() {
   const cartCounter = document.querySelector(".header-actions span");
   const cartCounterMobile = document.querySelector(".mobile-cart-container span");
@@ -366,6 +367,7 @@ function updateCartCounter() {
   cartCounter.textContent = totalItems;
   cartCounterMobile.textContent = totalItems;
 }
+
 
 function openNav() {
   const nav = document.querySelector(".nav-container");
@@ -436,6 +438,7 @@ function scrollFunction() {
   }
 }
 
+//Scroll to top of the page
 window.onscroll = function () {
   scrollFunction();
 };
