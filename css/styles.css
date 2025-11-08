@@ -56,9 +56,8 @@ main {
   min-height: 100vh;
 }
 
-h1,
-h2 {
-  font-family: s "PP Neue Montreal", sans-serif; /* Heading font */
+h1,h2 {
+  font-family: var(se); /* Heading font */
 }
 
 header {

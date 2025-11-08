@@ -125,11 +125,23 @@ document.getElementById("clear-cart-btn").addEventListener("click", () => {
 });
 
 document.getElementById("checkout-btn").addEventListener("click", () => {
-  alert("Checkout simulated! Your order would now be processed.");
+  const cartMessage = document.createElement("div");
+  cartMessage.classList.add("cart-message");
+  cartMessage.textContent = "Thank you! Your order has been placed.";
+
+  document.body.appendChild(cartMessage);
+
+  setTimeout(() => {
+    cartMessage.classList.add("fade-out");
+    cartMessage.addEventListener("transitionend", () => cartMessage.remove());
+  }, 4000);
+
+  
   localStorage.removeItem("cart");
   loadCart();
   updateCartCounter();
 });
+
 
 window.addEventListener("DOMContentLoaded", ()=>{
   loadCart()
