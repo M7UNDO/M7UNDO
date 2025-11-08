@@ -6,7 +6,7 @@ const customProducts = [
     description:
       "Stay connected in style with the Aether Smart Watch, a minimalist timepiece blending matte black elegance with intelligent features. Track your fitness, control music, and receive notifications seamlessly on your wrist.",
     category: "electronics",
-    image: "../images/products/SmartWatch1.png"
+    image: "${repoName}/images/products/SmartWatch1.png"
   },
   {
     id: 102,

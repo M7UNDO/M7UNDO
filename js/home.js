@@ -144,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
         (product) => `
       <div class="product" data-id="${product.id}">
         <a class="image-holder" href="${repoName}/product/product.html?id=${product.id}">
-          <img src="${repoName}/${product.image}" alt="${product.title}">
+          <img src="${product.image}" alt="${product.title}">
 
           <button class="add-to-cart-btn">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
