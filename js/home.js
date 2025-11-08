@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const showGreeting = localStorage.getItem("showGreeting");
   const slides = document.querySelectorAll(".hero-slide");
   const dots = document.querySelectorAll(".dot");
-  let current = 0;
+  let current = 0; //CurrentSlideIndex
 
   if (user && showGreeting) {
     const userGreeting = document.getElementById("user-greeting");
