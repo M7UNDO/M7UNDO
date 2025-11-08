@@ -258,15 +258,14 @@ function loadSearch() {
     const isShopPage = window.location.pathname.includes("shop.html");
 
     if (isShopPage) {
-      //Direct filter
+     
       const filteredProducts = allProducts.filter(
         (product) =>
           product.title.toLowerCase().includes(query.toLowerCase()) ||
           product.description.toLowerCase().includes(query.toLowerCase())
       );
-      displayProducts(filteredProducts);
+      displayProducts(filteredProducts, query);
     } else {
-      // Redirect to shop page with a query
       const isGithub = window.location.hostname.includes("github.io");
       const repoName = isGithub ? "/M7UNDO" : "";
       window.location.href = `${repoName}/shop/shop.html?search=${encodeURIComponent(query)}`;

@@ -51,9 +51,21 @@ async function getProducts() {
   }
 }
 
-function displayProducts(products) {
+function displayProducts(products, query = "") {
   const productList = document.getElementById("product-list");
+  const resultsParagraph = document.getElementById("search-results");
   if (!productList) return;
+
+  if (resultsParagraph) {
+    if (query) {
+      resultsParagraph.textContent = `${products.length} result${
+        products.length !== 1 ? "s" : ""
+      } found for "${query}"`;
+    } else {
+      resultsParagraph.textContent = ""; 
+    }
+  }
+
 
   productList.innerHTML = "";
   productList.classList.remove("loading");
@@ -187,10 +199,10 @@ function setupFavouriteButtons() {
       let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
 
       if (favourites.includes(productId)) {
-        favourites = favourites.filter((id) => id !== productId); 
+        favourites = favourites.filter((id) => id !== productId);
         svg.classList.remove("filled");
       } else {
-        favourites.push(productId); 
+        favourites.push(productId);
         svg.classList.add("filled");
 
         gsap.fromTo(svg, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
@@ -226,7 +238,6 @@ if (sortDropdown) {
         productsToDisplay.sort((a, b) => b.title.localeCompare(a.title));
         break;
       default:
- 
         productsToDisplay = originalProductsOrder.filter(
           (p) => currentCategory.toLowerCase() === "all" || p.category.toLowerCase() === currentCategory.toLowerCase()
         );
