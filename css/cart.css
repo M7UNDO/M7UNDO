@@ -185,6 +185,35 @@ h1 {
   opacity: 0;
 }
 
+.login-panel {
+  position: fixed;
+  top: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--product-card-bg);
+  color: var(--typography-colour);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 9999;
+  font-family: var(--secondary-font);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.login-panel button {
+  background-color: var(--accent-colour);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.login-panel button:hover {
+  background-color: var(--accent-colour-light);
+}
 
 
 @media (max-width: 768px) {

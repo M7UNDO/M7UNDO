@@ -43,6 +43,19 @@ function displayProductDetails(product) {
   const favourites = JSON.parse(localStorage.getItem("favourites")) || [];
   const isFav = favourites.includes(product.id);
 
+
+  const isClothing = product.category?.toLowerCase().includes("clothing");
+  const sizeOptions = isClothing
+    ? `<div class="size-selector">
+         <label for="size">Size:</label>
+         <select id="size" class="size-select">
+           <option value="Small">Small</option>
+           <option value="Medium" selected>Medium</option>
+           <option value="Large">Large</option>
+         </select>
+       </div>`
+    : "";
+
   container.innerHTML = `
     <div class="product-detail">
       <div class="image-holder"><img src="${product.image}" alt="${product.title}" /></div>
@@ -53,6 +66,8 @@ function displayProductDetails(product) {
         </div>
         <p class="description">${product.description}</p>
 
+        ${sizeOptions}
+
         <div class="quantity-controls">
           <label for="quantity">Quantity:</label>
           <div class="quantity-wrapper">
@@ -62,7 +77,7 @@ function displayProductDetails(product) {
           </div>
         </div>
 
-        <div id= "product-actions">
+        <div id="product-actions">
           <button class="add-to-cart-btn">Add to Cart - R ${product.price.toLocaleString("en-ZA", {
             minimumFractionDigits: 2,
           })} 
@@ -80,6 +95,7 @@ function displayProductDetails(product) {
               0-68.5-39t-1.5-79l54-98-144-304H40Z"/>
             </svg>
           </button>
+
           <button class="fav-btn" data-id="${product.id}">
             <svg xmlns="http://www.w3.org/2000/svg" height="24px"
                  viewBox="0 -960 960 960" width="24px"
@@ -92,23 +108,23 @@ function displayProductDetails(product) {
                        Q771-395 705-329T538-172l-58 52Z"/>
             </svg>
           </button>
-
         </div>
       </div>
     </div>
   `;
 
-  setupProductCartLogic(product);
+  setupProductCartLogic(product, isClothing);
 }
 
-function setupProductCartLogic(product) {
+function setupProductCartLogic(product, isClothing) {
   const addToCartBtn = document.querySelector(".add-to-cart-btn");
   const quantityInput = document.getElementById("quantity");
   const increaseBtn = document.getElementById("increase-btn");
   const decreaseBtn = document.getElementById("decrease-btn");
-  const favBtn = document.querySelector(".fav-btn"); // ✅ moved outside
+  const favBtn = document.querySelector(".fav-btn");
 
-  // --- PRICE UPDATE ---
+  const sizeSelect = isClothing ? document.getElementById("size") : null;
+
   const updateButtonPrice = () => {
     const quantity = parseInt(quantityInput.value);
     const totalPrice = (product.price * quantity).toLocaleString("en-ZA", {minimumFractionDigits: 2});
@@ -135,18 +151,18 @@ function setupProductCartLogic(product) {
     quantityInput.stepUp();
     updateButtonPrice();
   });
-
   decreaseBtn.addEventListener("click", () => {
     quantityInput.stepDown();
     updateButtonPrice();
   });
-
   quantityInput.addEventListener("input", updateButtonPrice);
 
   addToCartBtn.addEventListener("click", () => {
     const quantity = parseInt(quantityInput.value);
+    const selectedSize = isClothing && sizeSelect ? sizeSelect.value : "Medium"; 
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const existingItem = cart.find((item) => item.productId === product.id);
+    const existingItem = cart.find((item) => item.productId === product.id && item.size === selectedSize);
 
     if (existingItem) {
       existingItem.quantity += quantity;
@@ -157,6 +173,7 @@ function setupProductCartLogic(product) {
         price: product.price,
         image: product.image,
         quantity,
+        size: selectedSize, // store size
       });
     }
 
@@ -164,68 +181,6 @@ function setupProductCartLogic(product) {
     updateCartCounter();
 
     gsap.fromTo(addToCartBtn, {scale: 1}, {scale: 1.1, duration: 0.2, yoyo: true, repeat: 1, ease: "power1.inOut"});
-  });
-
-  favBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const favSvg = favBtn.querySelector("svg path");
-    let favourites = JSON.parse(localStorage.getItem("favourites")) || [];
-    const id = product.id;
-    const isFav = favourites.includes(id);
-    const pathLength = favSvg.getTotalLength();
-
-    // Setup the stroke style
-    favSvg.style.strokeDasharray = pathLength;
-    favSvg.style.strokeLinecap = "round";
-    favSvg.style.strokeLinejoin = "round";
-    favSvg.style.transition = "fill 0.3s ease";
-
-    // Pop animation for feedback
-    gsap.fromTo(favBtn, {scale: 1}, {scale: 1.3, duration: 0.2, yoyo: true, repeat: 1});
-
-    if (isFav) {
-      // --- Remove from favourites ---
-      favourites = favourites.filter((f) => f !== id);
-      localStorage.setItem("favourites", JSON.stringify(favourites));
-
-      // Animate stroke back (reverse draw)
-      gsap.fromTo(
-        favSvg,
-        {strokeDashoffset: 0},
-        {
-          strokeDashoffset: pathLength,
-          duration: 0.5,
-          ease: "power2.inOut",
-          onComplete: () => {
-            // Reset style after reverse
-            favSvg.style.fill = "none";
-            favSvg.style.stroke = "#000";
-            favSvg.style.strokeDashoffset = 0; // ensures outline remains visible
-          },
-        }
-      );
-    } else {
-      // --- Add to favourites ---
-      favourites.push(id);
-      localStorage.setItem("favourites", JSON.stringify(favourites));
-
-      // Draw animation (outline appears)
-      favSvg.style.fill = "none";
-      favSvg.style.stroke = "#000";
-      favSvg.style.strokeDashoffset = pathLength;
-
-      gsap.to(favSvg, {
-        strokeDashoffset: 0,
-        duration: 0.5,
-        ease: "power2.inOut",
-        onComplete: () => {
-          // Fill heart after the draw animation
-          gsap.to(favSvg, {fill: "red", duration: 0.3});
-        },
-      });
-    }
   });
 }
 
