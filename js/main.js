@@ -9,7 +9,7 @@ window.addEventListener("load", () => {
   gsap.set(progressCircle, {opacity: 1, visibility: "visible", drawSVG: "0% 0%"});
 
   gsap.to(progressCircle, {
-    duration: 1,
+    duration: 0.2,
     drawSVG: "0% 100%",
     ease: "power2.inOut",
     onUpdate: function () {
